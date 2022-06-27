@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 using AngleSharp.Dom;
 
@@ -12,9 +11,6 @@ namespace NewsWaffle.Converter
 {
     public class LinkExtractor
     {
-        //used to collapse runs of whitespace
-        private static readonly Regex whitespace = new Regex(@"\s+", RegexOptions.Compiled);
-
         string NormalizedHost;
         Uri BaselUrl;
 
