@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="SmartReader" />
+    <None Remove="AngleSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="SmartReader" Version="0.8.0" />
+    <PackageReference Include="AngleSharp" Version="0.17.1" />
+  </ItemGroup>
+</Project>
