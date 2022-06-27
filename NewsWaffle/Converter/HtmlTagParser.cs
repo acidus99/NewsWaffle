@@ -59,7 +59,7 @@ namespace NewsWaffle.Converter
                 buffer.EnsureAtLineStart();
                 foreach(var link in linkBuffer)
                 {
-                    buffer.AppendLine($"=> {link.Url.AbsoluteUri} [{link.Number}] {link.Text}");
+                    buffer.AppendLine($"=> {link.Url.AbsoluteUri} [{link.OrderDetected}] {link.Text}");
                 }
                 linkBuffer.Clear();
             }
@@ -98,13 +98,14 @@ namespace NewsWaffle.Converter
                 //if its not only whitespace add it.
                 if (textNode.TextContent.Trim().Length > 0)
                 {
+                    var text = NewlineStripper.RemoveNewlines(textNode.TextContent);
                     if (buffer.AtLineStart)
                     {
-                        buffer.Append(textNode.TextContent.TrimStart());
+                        buffer.Append(text.TrimStart());
                     }
                     else
                     {
-                        buffer.Append(textNode.TextContent);
+                        buffer.Append(text);
                     }
                 }
                 //if its whitepsace, but doesn't have a newline
@@ -303,7 +304,7 @@ namespace NewsWaffle.Converter
                 var link = CreateLink(anchor);
                 if (link != null)
                 {
-                    buffer.Append($"[{link.Number}]");
+                    buffer.Append($"[{link.OrderDetected}]");
                     linkBuffer.Add(link);
                 }
             }
@@ -443,7 +444,7 @@ namespace NewsWaffle.Converter
             linkCounter++;
             return new HyperLink
             {
-                Number = linkCounter,
+                OrderDetected = linkCounter,
                 Text = a.TextContent.Trim(),
                 Url = url
             };
