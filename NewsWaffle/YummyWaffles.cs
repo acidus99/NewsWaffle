@@ -13,7 +13,7 @@ namespace NewsWaffle
 
         public string ErrorMessage { get; internal set; } = "";
 
-        public bool GetPage(string url)
+        public bool GetPage(string url, bool forceArticle = false)
         {
             try
             {
@@ -23,7 +23,14 @@ namespace NewsWaffle
 
                 //========= Step 2: Parse it to a type
                 var converter = new HtmlConverter();
-                Page = converter.ParseHtmlPage(url, html);
+                if (forceArticle)
+                {
+                    Page = converter.ForceArticle(url, html);
+                }
+                else
+                {
+                    Page = converter.ParseHtmlPage(url, html);
+                }
 
                 //========= Step 3: Render it
                 if (Page == null)
