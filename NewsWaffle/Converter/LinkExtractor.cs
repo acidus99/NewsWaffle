@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using AngleSharp.Dom;
 
 using NewsWaffle.Models;
+using NewsWaffle.Converter.Special;
 
 namespace NewsWaffle.Converter
 {
@@ -15,9 +17,9 @@ namespace NewsWaffle.Converter
 
         string NormalizedHost;
         Uri BaselUrl;
-        int LinkNumber;
-        Dictionary<Uri, bool> AlreadyAddedUrls;
-        Dictionary<string, bool> AlreadyAddedLinkText;
+
+        public List<HyperLink> ContentLinks { get; internal set; }
+        public List<HyperLink> NavigationLinks { get; internal set; }
 
         public LinkExtractor(string htmlUrl)
         {
@@ -27,16 +29,38 @@ namespace NewsWaffle.Converter
             {
                 NormalizedHost = NormalizedHost.Substring(4);
             }
-            AlreadyAddedUrls = new Dictionary<Uri, bool>();
-            AlreadyAddedLinkText = new Dictionary<string, bool>();
+
+            ContentLinks = new List<HyperLink>();
+            NavigationLinks = new List<HyperLink>();
+
         }
 
-        public List<HyperLink> GetLinks(IElement content)
+        public void FindLinks(IElement content)
         {
-            List<HyperLink> ret = new List<HyperLink>();
-            AlreadyAddedUrls.Clear();
-            AlreadyAddedLinkText.Clear();
-            LinkNumber = 0;
+            //first, get all the links
+            var allLinks = GetLinks(content);
+            //now, remove all the navigation stuff
+            Preparer.RemoveMatchingTags(content, "header");
+            Preparer.RemoveMatchingTags(content, "footer");
+            Preparer.RemoveMatchingTags(content, "nav");
+            Preparer.RemoveMatchingTags(content, "menu");
+
+            //nav menus are often hidden
+            Preparer.RemoveMatchingTags(content, "[aria-hidden='true']");
+
+            var justContent = GetLinks(content);
+
+            ContentLinks = justContent.GetLinks();
+
+            //now remove any content links from all links, to just get the navigation links
+            allLinks.RemoveLinks(ContentLinks);
+            NavigationLinks = allLinks.GetLinks();
+        }
+
+
+        private LinkCollection GetLinks(IElement content)
+        {
+            var ret = new LinkCollection();
 
             foreach (var link in content.QuerySelectorAll("a[href]"))
             {
@@ -71,21 +95,7 @@ namespace NewsWaffle.Converter
 
                 //TODO: other validation? Protocol checking? etc
 
-                var normalized = linkText.ToLower();
-                //ensure the URL and linktext are unique
-                if(!AlreadyAddedUrls.ContainsKey(resolvedUrl) &&
-                    !AlreadyAddedLinkText.ContainsKey(normalized))
-                {
-                    AlreadyAddedLinkText.Add(normalized, true);
-                    AlreadyAddedUrls.Add(resolvedUrl, true);
-                    LinkNumber++;
-                    ret.Add(new HyperLink
-                    {
-                        Number = LinkNumber,
-                        Text = linkText,
-                        Url = resolvedUrl
-                    });
-                }
+                ret.AddLink(resolvedUrl, linkText);
             }
             return ret;
         }
@@ -93,13 +103,10 @@ namespace NewsWaffle.Converter
         private bool IsInternalLink(Uri link)
             => link.Host.EndsWith(NormalizedHost);
 
+        //
         private string SanitizeLinkText(string text)
-        {
-            text = text.Replace("\r", " ");
-            text = text.Replace("\n", " ");
-            text = whitespace.Replace(text, " ");
-            return text.Trim();
-        }
+            //remove newliens inside the text, and ensure its trimmed on both sides
+            => NewlineStripper.RemoveNewlines(text).Trim();
 
         private Uri ResolveUrl(string href)
         {
@@ -113,5 +120,59 @@ namespace NewsWaffle.Converter
             return null;
         }
 
+        /// <summary>
+        /// Smart collection to handle links
+        /// - Only adds a Url if we haven't seen it before
+        /// - Only adds a Url if we haven't seen the link text before
+        /// - To improve quality of link text, if 2 links point to the same URL, uses the link text which is longer 
+        /// </summary>
+        private class LinkCollection
+        {
+            Dictionary<Uri, HyperLink> links = new Dictionary<Uri, HyperLink>();
+
+            Dictionary<string, bool> seenText = new Dictionary<string, bool>();
+
+            int counter = 0;
+
+            public void AddLink(Uri url, string linkText) 
+            {
+                string normalized = linkText.ToLower();
+
+                //does this Url already exist?
+                if (!links.ContainsKey(url))
+                {
+                    //has this link text already been used?
+                    if (!seenText.ContainsKey(normalized))
+                    {
+
+                        seenText.Add(normalized, true);
+                        //add it
+                        counter++;
+                        links.Add(url, new HyperLink
+                        {
+                            Text = linkText,
+                            Url = url,
+                            OrderDetected = counter
+                        });
+                    }
+                }
+                else if (!seenText.ContainsKey(normalized))
+                {
+                    //URL already exists, but link text doesn't.
+                    //so is this link text "better" that what we are using?
+                    if (links[url].Text.Length < linkText.Length)
+                    {
+                        links[url].Text = linkText;
+                        seenText.Add(normalized, true);
+                    }
+                }
+            }
+
+            public void RemoveLinks(List<HyperLink> linksToRemove)
+                => linksToRemove.ForEach(x => links.Remove(x.Url));
+
+            public List<HyperLink> GetLinks()
+                => links.Values.OrderBy(x => x.OrderDetected).ToList();
+        }
     }
 }
