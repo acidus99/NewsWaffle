@@ -10,7 +10,8 @@ namespace NewsWaffle.Converter
 {
     public class LinkExtractor
     {
-        public Uri BaselUrl;
+        Uri BaselUrl;
+        int LinkNumber;
 
         public LinkExtractor(string htmlUrl)
         {
@@ -21,6 +22,8 @@ namespace NewsWaffle.Converter
         {
             List<HyperLink> ret = new List<HyperLink>();
             Dictionary<Uri, bool> alreadyAdded = new Dictionary<Uri, bool>();
+            LinkNumber = 0;
+
             foreach (var link in content.QuerySelectorAll("a[href]"))
             {
                 var href = link.GetAttribute("href");
@@ -51,8 +54,10 @@ namespace NewsWaffle.Converter
                 if(!alreadyAdded.ContainsKey(resolvedUrl))
                 {
                     alreadyAdded.Add(resolvedUrl, true);
+                    LinkNumber++;
                     ret.Add(new HyperLink
                     {
+                        Number = LinkNumber,
                         Text = text,
                         Url = resolvedUrl
                     });
