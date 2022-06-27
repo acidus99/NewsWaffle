@@ -7,9 +7,13 @@
   <ItemGroup>
     <None Remove="SmartReader" />
     <None Remove="AngleSharp" />
+    <None Remove="Net\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SmartReader" Version="0.8.0" />
     <PackageReference Include="AngleSharp" Version="0.17.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Net\" />
   </ItemGroup>
 </Project>
