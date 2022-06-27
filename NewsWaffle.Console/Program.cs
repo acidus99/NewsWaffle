@@ -15,31 +15,63 @@ namespace NewsWaffle.Console
 
             var url = args[0];
 
-            //Step 1: Get HTML
+            //========= Step 1: Get HTML
             var fetcher = new HttpFetcher();
             var html = fetcher.GetHtml(url);
 
 
-            //step 2: Parse it to a type
-            HtmlConverter converter = new HtmlConverter();
+            //========= Step 2: Parse it to a type
+            var converter = new HtmlConverter();
             var page = converter.ParseHtmlPage(url, html);
 
-            
-            //step 3: render it
-            if(page is HomePage)
+            //========= Step 3: Render it
+            if (page == null)
             {
-                var homePage = ((HomePage)page);
+                System.Console.WriteLine($"Could not parse HTML from '{url}'");
+                return;
+            }
+            SaveHtml(page);
 
-                System.Console.WriteLine("Homepage");
-                System.Console.WriteLine($"Title: {homePage.Name}");
-                foreach(var link in homePage.Links)
-                {
-                    System.Console.WriteLine($"'{link.Text}' => '{link.Url}'");
-                }
+            if (page is HomePage)
+            {
+                RenderHomePage((HomePage)page);
+            }
+            else if (page is ArticlePage)
+            {
+                RenderArticle((ArticlePage)page);
+            }
+        }
+
+        private static void RenderHomePage(HomePage homePage)
+        {
+            System.Console.WriteLine("Home Page");
+            System.Console.WriteLine($"Title: {homePage.Name}");
+            foreach (var link in homePage.Links)
+            {
+                System.Console.WriteLine($"'{link.Text}' => '{link.Url}'");
+            }
+        }
+
+        private static void SaveHtml(AbstractPage page)
+        {
+            var html = (page is ArticlePage) ? ((ArticlePage)page).SimplifiedHtml : "";
+            File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/tmp/out.html", html);
+        }
+
+        private static void RenderArticle(ArticlePage articlePage)
+        {
+            System.Console.WriteLine("Article Page");
+            System.Console.WriteLine($"Title: {articlePage.Title}");
+            if (articlePage.FeaturedImage != null)
+            {
+                System.Console.WriteLine($"=> {articlePage.FeaturedImage} Featured Image");
             }
 
-            int x = 4;
-
+            foreach (var item in articlePage.Content)
+            {
+                System.Console.Write(item.Content);
+            }
         }
+
     }
 }

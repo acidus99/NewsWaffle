@@ -18,5 +18,9 @@ namespace NewsWaffle.Models
         public List<ContentItem> Content = new List<ContentItem>();
 
         public List<MediaItem> Images = new List<MediaItem>();
+
+        //For debugging
+        public string SimplifiedHtml { get; set; }
+
     }
 }

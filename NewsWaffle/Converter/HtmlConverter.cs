@@ -43,7 +43,8 @@ namespace NewsWaffle.Converter
                 Title = article.Title,
                 FeaturedImage = article.FeaturedImage,
                 SourceUrl = url,
-                Content = parser.GetItems()
+                Content = parser.GetItems(),
+                SimplifiedHtml = article.Content
             };
 
             return parsedPage;
