@@ -10,27 +10,47 @@ namespace NewsWaffle.Converter
 {
     public class LinkExtractor
     {
+        public Uri BaselUrl;
 
-        public List<HyperLink> GetLinks(string htmlUrl, IElement content)
+        public LinkExtractor(string htmlUrl)
+        {
+            BaselUrl = new Uri(htmlUrl);
+        }
+
+        public List<HyperLink> GetLinks(IElement content)
         {
             List<HyperLink> ret = new List<HyperLink>();
-            foreach(var link in content.QuerySelectorAll("a[href]"))
+            Dictionary<Uri, bool> alreadyAdded = new Dictionary<Uri, bool>();
+            foreach (var link in content.QuerySelectorAll("a[href]"))
             {
                 var href = link.GetAttribute("href");
                 var text = link.TextContent.Trim();
 
-                if (text.Length > 0)
+                //we want to skip navigation hyperlinks that are just to other sections on the page
+                if (href.StartsWith('#'))
                 {
-                    Uri resolvedUrl = null;
-                    try
-                    {
-                        Uri baseUrl = new Uri(htmlUrl);
-                        resolvedUrl = new Uri(baseUrl, href);
-                    }
-                    catch (Exception)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
+
+                //we want to skip links without any text
+                if (text.Length == 0)
+                {
+                    continue;
+                }
+
+                var resolvedUrl = ResolveUrl(href);
+                //if it doesn't resolve, its not good
+                if(resolvedUrl == null)
+                {
+                    continue;
+                }
+
+                //TODO: other validation? Protocol checking? etc
+
+                //ensure its unique
+                if(!alreadyAdded.ContainsKey(resolvedUrl))
+                {
+                    alreadyAdded.Add(resolvedUrl, true);
                     ret.Add(new HyperLink
                     {
                         Text = text,
@@ -40,5 +60,18 @@ namespace NewsWaffle.Converter
             }
             return ret;
         }
+
+        private Uri ResolveUrl(string href)
+        {
+            try
+            {
+                return new Uri(BaselUrl, href);
+            }
+            catch (Exception)
+            {
+            }
+            return null;
+        }
+
     }
 }
