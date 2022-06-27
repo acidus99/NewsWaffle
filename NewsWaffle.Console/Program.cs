@@ -17,7 +17,7 @@ namespace NewsWaffle.Console
             var url = args[0];
 
             var waffles = new YummyWaffles();
-            if(!waffles.GetPage(url))
+            if(!waffles.GetPage(url, true))
             {
                 System.Console.WriteLine($"Error: '{waffles.ErrorMessage}'");
                 return;
@@ -38,12 +38,28 @@ namespace NewsWaffle.Console
 
         private static void RenderHomePage(HomePage homePage)
         {
-            System.Console.WriteLine("Home Page");
-            System.Console.WriteLine($"Title: {homePage.Name}");
-            foreach (var link in homePage.Links)
+            System.Console.WriteLine($"## Title: {homePage.Title}");
+            if (homePage.FeaturedImage != null)
+            {
+                System.Console.WriteLine($"=> {homePage.FeaturedImage} Featured Image");
+            }
+            if (homePage.Description.Length > 0)
+            {
+                System.Console.WriteLine($">{homePage.Description}");
+            }
+            System.Console.WriteLine($"Content Links: {homePage.ContentLinks.Count}");
+            foreach (var link in homePage.ContentLinks)
             {
                 System.Console.WriteLine($"'{link.Text}' => '{link.Url}'");
             }
+
+            System.Console.WriteLine($"Navigation Links: {homePage.NavigationLinks.Count}");
+            foreach (var link in homePage.NavigationLinks)
+            {
+                System.Console.WriteLine($"'{link.Text}' => '{link.Url}'");
+            }
+
+
         }
 
         private static void SaveHtml(AbstractPage page)
@@ -54,8 +70,7 @@ namespace NewsWaffle.Console
 
         private static void RenderArticle(ArticlePage articlePage)
         {
-            System.Console.WriteLine("Article Page");
-            System.Console.WriteLine($"Title: {articlePage.Title}");
+            System.Console.WriteLine($"## {articlePage.Title}");
             if (articlePage.FeaturedImage != null)
             {
                 System.Console.WriteLine($"=> {articlePage.FeaturedImage} Featured Image");

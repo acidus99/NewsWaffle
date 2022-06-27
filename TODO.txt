@@ -21,7 +21,6 @@ from navigational/header/footer links
     - Reading time?
     - by line/author
 
-
 - "Gemipedia"-ify the article view some more
     - have an image gallery?
     - add a proxy for images?
