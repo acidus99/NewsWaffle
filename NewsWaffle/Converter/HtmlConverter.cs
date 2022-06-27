@@ -1,5 +1,6 @@
 ﻿using System;
-using System.IO;
+using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 
 using OpenGraphNet;
@@ -16,19 +17,41 @@ namespace NewsWaffle.Converter
         {
         }
 
+        private void AssignMetadata(AbstractPage page, OpenGraph metadata, string url, string html)
+        {
+            page.FeaturedImage = metadata.Image?.AbsoluteUri;
+            page.OriginalSize = html.Length;
+            page.Title = metadata.Title;
+            page.SourceUrl = url;
+        }
+
+        private int CountWords(ContentItem content)
+        {
+            return content.Content.Split("\n").Where(x => !x.StartsWith("=> ")).Sum(x => CountWords(x));
+        }
+        private int CountWords(string s)
+            => s.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Length;
+
+
         public AbstractPage ParseHtmlPage(string url, string html)
         {
-            var og = OpenGraph.ParseHtml(html);
+            var metadata = OpenGraph.ParseHtml(html);
 
-            if (og.Type == "website")
+            if (metadata.Type == "website")
             {
-                return ParseWebsite(url, html, og);
+                return ParseWebsite(url, html, metadata);
             }
-            else if (og.Type == "article")
+            else if (metadata.Type == "article")
             {
-                return ParseArticle(url, html, og);
+                return ParseArticle(url, html, metadata);
             }
-            return null;
+            return ParseWebsite(url, html, metadata);
+        }
+
+        public AbstractPage ForceArticle(string url, string html)
+        {
+            var metadata = OpenGraph.ParseHtml(html);
+            return ParseArticle(url, html, metadata);
         }
 
         private ArticlePage ParseArticle(string url, string html, OpenGraph og)
@@ -42,32 +65,41 @@ namespace NewsWaffle.Converter
             };
             parser.Parse(contentRoot);
 
+            var contentItems = parser.GetItems();
+
             var parsedPage = new ArticlePage
             {
                 Title = Sanitize(article.Title),
                 FeaturedImage = article.FeaturedImage,
                 SourceUrl = url,
-                Content = parser.GetItems(),
+                Content = contentItems,
                 SimplifiedHtml = article.Content,
-                OriginalSize = html.Length
+                Images = parser.Images,
+                TimeToRead = article.TimeToRead,
+                WordCount = CountWords(contentItems[0])
             };
+
+            AssignMetadata(parsedPage, og, url, html);
 
             return parsedPage;
         }
 
         private string Sanitize(string s)
-            => Regex.Replace(s,@"<[^>]*>", "");
+            => Regex.Replace(WebUtility.HtmlDecode(s),@"<[^>]*>", "");
 
         private HomePage ParseWebsite(string url, string html, OpenGraph og)
         {
             var contentRoot = Preparer.PrepareHtml(html);
             LinkExtractor extractor = new LinkExtractor(url);
-            return new HomePage
+            extractor.FindLinks(contentRoot);
+            var homePage = new HomePage
             {
-                Name = og.Title,
-                Links = extractor.GetLinks(contentRoot),
-                OriginalSize = html.Length
+                Description = Sanitize(og.Metadata["og:description"].FirstOrDefault()?.Value ?? ""),
+                ContentLinks = extractor.ContentLinks,
+                NavigationLinks = extractor.NavigationLinks,
             };
+            AssignMetadata(homePage, og, url, html);
+            return homePage;
         }
     }
 }
