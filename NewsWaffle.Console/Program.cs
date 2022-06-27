@@ -1,4 +1,5 @@
-﻿using NewsWaffle.Converter;
+﻿using NewsWaffle;
+using NewsWaffle.Converter;
 using NewsWaffle.Models;
 using NewsWaffle.Net;
 
@@ -15,21 +16,14 @@ namespace NewsWaffle.Console
 
             var url = args[0];
 
-            //========= Step 1: Get HTML
-            var fetcher = new HttpFetcher();
-            var html = fetcher.GetHtml(url);
-
-
-            //========= Step 2: Parse it to a type
-            var converter = new HtmlConverter();
-            var page = converter.ParseHtmlPage(url, html);
-
-            //========= Step 3: Render it
-            if (page == null)
+            var waffles = new YummyWaffles();
+            if(!waffles.GetPage(url))
             {
-                System.Console.WriteLine($"Could not parse HTML from '{url}'");
+                System.Console.WriteLine($"Error: '{waffles.ErrorMessage}'");
                 return;
             }
+            var page = waffles.Page;
+            //========= Step 3: Render it
             SaveHtml(page);
 
             if (page is HomePage)
@@ -72,6 +66,5 @@ namespace NewsWaffle.Console
                 System.Console.Write(item.Content);
             }
         }
-
     }
 }
