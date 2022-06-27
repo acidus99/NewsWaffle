@@ -1,4 +1,5 @@
 ﻿using NewsWaffle.Converter;
+using NewsWaffle.Models;
 using NewsWaffle.Net;
 
 namespace NewsWaffle.Console
@@ -23,8 +24,21 @@ namespace NewsWaffle.Console
             HtmlConverter converter = new HtmlConverter();
             var page = converter.ParseHtmlPage(url, html);
 
-            int x = 4;
+            
             //step 3: render it
+            if(page is HomePage)
+            {
+                var homePage = ((HomePage)page);
+
+                System.Console.WriteLine("Homepage");
+                System.Console.WriteLine($"Title: {homePage.Name}");
+                foreach(var link in homePage.Links)
+                {
+                    System.Console.WriteLine($"'{link.Text}' => '{link.Url}'");
+                }
+            }
+
+            int x = 4;
 
         }
     }

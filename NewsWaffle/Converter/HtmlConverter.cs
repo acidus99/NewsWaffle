@@ -52,11 +52,11 @@ namespace NewsWaffle.Converter
         private HomePage ParseWebsite(string url, string html, OpenGraph og)
         {
             var contentRoot = Preparer.PrepareHtml(html);
-            LinkExtractor extractor = new LinkExtractor();
+            LinkExtractor extractor = new LinkExtractor(url);
             return new HomePage
             {
                 Name = og.Title,
-                Links = extractor.GetLinks(url, contentRoot)
+                Links = extractor.GetLinks(contentRoot)
             };
         }
     }
