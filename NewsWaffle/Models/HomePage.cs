@@ -6,10 +6,11 @@ namespace NewsWaffle.Models
 {
     public class HomePage : AbstractPage
     {
-        public string Name;
-        public List<HyperLink> Links;
+        public String Description { get; internal set; }
 
-        
+        public List<HyperLink> ContentLinks { get; internal set; }
+
+        public List<HyperLink> NavigationLinks { get; internal set; }
     }
 }
 

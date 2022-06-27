@@ -6,13 +6,8 @@ namespace NewsWaffle.Models
 {
     public class ArticlePage : AbstractPage
     {
-        public String Title { get; internal set; }
-
-        public string SourceUrl { get; internal set; }
-
-        public TimeSpan? TimeToRead { get; internal set; }
-
-        public string FeaturedImage { get; internal set; }
+        public int WordCount { get; internal set; }
+        public TimeSpan TimeToRead { get; internal set; }
 
         //content and images
         public List<ContentItem> Content = new List<ContentItem>();
