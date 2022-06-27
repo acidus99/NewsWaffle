@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using AngleSharp.Html.Dom;
+using System.Text.RegularExpressions;
+
 using AngleSharp.Dom;
 
 using NewsWaffle.Models;
@@ -10,6 +10,9 @@ namespace NewsWaffle.Converter
 {
     public class LinkExtractor
     {
+        //used to collapse runs of whitespace
+        private static readonly Regex whitespace = new Regex(@"\s+", RegexOptions.Compiled);
+
         string NormalizedHost;
         Uri BaselUrl;
         int LinkNumber;
@@ -38,7 +41,7 @@ namespace NewsWaffle.Converter
             foreach (var link in content.QuerySelectorAll("a[href]"))
             {
                 var href = link.GetAttribute("href");
-                var linkText = link.TextContent.Trim();
+                var linkText = SanitizeLinkText(link.TextContent);
 
                 //we want to skip navigation hyperlinks that are just to other sections on the page
                 //we want to skip links without any text
@@ -68,7 +71,7 @@ namespace NewsWaffle.Converter
 
                 //TODO: other validation? Protocol checking? etc
 
-                var normalized = NormalizeLinkText(linkText);
+                var normalized = linkText.ToLower();
                 //ensure the URL and linktext are unique
                 if(!AlreadyAddedUrls.ContainsKey(resolvedUrl) &&
                     !AlreadyAddedLinkText.ContainsKey(normalized))
@@ -90,8 +93,13 @@ namespace NewsWaffle.Converter
         private bool IsInternalLink(Uri link)
             => link.Host.EndsWith(NormalizedHost);
 
-        private string NormalizeLinkText(string text)
-            => text.ToLower();
+        private string SanitizeLinkText(string text)
+        {
+            text = text.Replace("\r", " ");
+            text = text.Replace("\n", " ");
+            text = whitespace.Replace(text, " ");
+            return text.Trim();
+        }
 
         private Uri ResolveUrl(string href)
         {
