@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 using OpenGraphNet;
 using SmartReader;
@@ -43,7 +44,7 @@ namespace NewsWaffle.Converter
 
             var parsedPage = new ArticlePage
             {
-                Title = article.Title,
+                Title = Sanitize(article.Title),
                 FeaturedImage = article.FeaturedImage,
                 SourceUrl = url,
                 Content = parser.GetItems(),
@@ -53,6 +54,9 @@ namespace NewsWaffle.Converter
 
             return parsedPage;
         }
+
+        private string Sanitize(string s)
+            => Regex.Replace(s,@"<[^>]*>", "");
 
         private HomePage ParseWebsite(string url, string html, OpenGraph og)
         {
