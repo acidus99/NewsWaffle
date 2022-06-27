@@ -75,7 +75,7 @@ namespace NewsWaffle.Cgi
             cgi.Writer.WriteLine($"Links: {homePage.Links.Count}");
             foreach (var link in homePage.Links)
             {
-                System.Console.WriteLine($"=> /cgi-bin/waffle.cgi/article?{WebUtility.UrlEncode(link.Url.AbsoluteUri)} {link.Number}. {link.Text}");
+                cgi.Writer.WriteLine($"=> /cgi-bin/waffle.cgi/article?{WebUtility.UrlEncode(link.Url.AbsoluteUri)} {link.Number}. {link.Text}");
             }
             Footer(cgi);
         }
