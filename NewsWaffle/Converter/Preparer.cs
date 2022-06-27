@@ -42,7 +42,7 @@ namespace NewsWaffle.Converter
             RemoveMatchingTags(contentRoot, "iframe");
         }
 
-        private static void RemoveMatchingTags(IElement element, string selector)
+        public static void RemoveMatchingTags(IElement element, string selector)
             => element.QuerySelectorAll(selector).ToList().ForEach(x => x.Remove());
 
     }
