@@ -23,10 +23,10 @@ namespace NewsWaffle
 
                 //========= Step 2: Parse it to a type
                 var converter = new HtmlConverter();
-                var page = converter.ParseHtmlPage(url, html);
+                Page = converter.ParseHtmlPage(url, html);
 
                 //========= Step 3: Render it
-                if (page == null)
+                if (Page == null)
                 {
                     ErrorMessage = $"Could not parse HTML from '{url}'";
                     return false;
