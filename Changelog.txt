@@ -1,0 +1,1 @@
+﻿- Fixed: - HTML tags not getting filtered in extracted title from Readability

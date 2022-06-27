@@ -43,8 +43,6 @@ from navigational/header/footer links
     https://sixcolors.com/post/2022/06/13-inch-m2-macbook-pro-review-the-future-wrapped-in-the-past/
     track in the buffer the last image typed, and then don't print it?
 
-- HTML tags not getting filtered in OpenGraph data
-    gemini://localhost/cgi-bin/waffle.cgi/article?https%3A%2F%2Fwww.esquire.com%2Fnews-politics%2Fa40408496%2Froe-v-wade-overturned-twitter-reactions%2F
 
 - Extra blank lines:
 https://www.esquire.com/uk/culture/a40351034/blade-runner-at-40/
