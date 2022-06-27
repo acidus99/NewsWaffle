@@ -84,6 +84,9 @@ namespace NewsWaffle.Cgi
         {
             cgi.Success();
             cgi.Writer.WriteLine("# 🧇 NewsWaffle");
+
+            cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/portal View news site");
+            cgi.Writer.WriteLine("## Examples:");
             cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/portal?https%3A%2F%2Fwww.wired.com%2F Wired");
             cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/portal?https%3A%2F%2Fwww.ajc.com%2F Atlanta Journal-Constitution");
             cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/portal?https%3A%2F%2Fwww.sixcolors.com%2F Six Colors");
