@@ -43,7 +43,7 @@ namespace NewsWaffle.Converter
         }
 
         private static void RemoveMatchingTags(IElement element, string selector)
-            => element.QuerySelectorAll(selector).ToList().ForEach(x => x.Remove())
+            => element.QuerySelectorAll(selector).ToList().ForEach(x => x.Remove());
 
     }
 }
