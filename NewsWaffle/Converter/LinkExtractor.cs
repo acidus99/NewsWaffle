@@ -10,6 +10,7 @@ namespace NewsWaffle.Converter
 {
     public class LinkExtractor
     {
+        string NormalizedHost;
         Uri BaselUrl;
         int LinkNumber;
         Dictionary<Uri, bool> AlreadyAddedUrls;
@@ -18,6 +19,11 @@ namespace NewsWaffle.Converter
         public LinkExtractor(string htmlUrl)
         {
             BaselUrl = new Uri(htmlUrl);
+            NormalizedHost = BaselUrl.Host;
+            if(NormalizedHost.StartsWith("www."))
+            {
+                NormalizedHost = NormalizedHost.Substring(4);
+            }
             AlreadyAddedUrls = new Dictionary<Uri, bool>();
             AlreadyAddedLinkText = new Dictionary<string, bool>();
         }
@@ -51,6 +57,14 @@ namespace NewsWaffle.Converter
                 {
                     continue;
                 }
+                if(!resolvedUrl.Scheme.StartsWith("http"))
+                {
+                    continue;
+                }
+                if(!IsInternalLink(resolvedUrl))
+                {
+                    continue;
+                }
 
                 //TODO: other validation? Protocol checking? etc
 
@@ -72,6 +86,9 @@ namespace NewsWaffle.Converter
             }
             return ret;
         }
+
+        private bool IsInternalLink(Uri link)
+            => link.Host.EndsWith(NormalizedHost);
 
         private string NormalizeLinkText(string text)
             => text.ToLower();
