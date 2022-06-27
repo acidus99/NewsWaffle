@@ -1,0 +1,64 @@
+﻿
+# Features
+- Better organize links by using HTML5 tags to separate tags in content
+from navigational/header/footer links
+
+    - Maybe don't show links from those section by default, and make people click a "show more"
+
+- Handle link pages that don't have og:type=website (daring fireball, Irish times, etc)
+
+- options to change Article rendering?
+    - include links in articles?
+
+- More OG metadata for Links view
+    - Description of site
+    - Last Modified? from HTTP header?
+    - Image of site
+
+- More OG metadata for article view
+    - Excerpt?
+    - Number of words?
+    - Reading time?
+    - by line/author
+
+
+- "Gemipedia"-ify the article view some more
+    - have an image gallery?
+    - add a proxy for images?
+
+- better tracking of how much savings there is
+    - create a wrapper on the CGI stream that tracks how many bytes have been written?
+    - show a percentage smaller (smoler)
+
+- Don't have seperate "portal" and "article" routes. Just a single route that changes its rendering bsed on the page
+
+- Add a caching layer
+    - for the articles?
+    need to use a short TTL
+
+# Bugs
+- Duplicate image captions
+
+- Feature image and smae image as an article image displayed right next to each other
+    https://sixcolors.com/post/2022/06/13-inch-m2-macbook-pro-review-the-future-wrapped-in-the-past/
+    track in the buffer the last image typed, and then don't print it?
+
+- HTML tags not getting filtered in OpenGraph data
+    gemini://localhost/cgi-bin/waffle.cgi/article?https%3A%2F%2Fwww.esquire.com%2Fnews-politics%2Fa40408496%2Froe-v-wade-overturned-twitter-reactions%2F
+
+- Extra blank lines:
+https://www.esquire.com/uk/culture/a40351034/blade-runner-at-40/
+
+
+- Sometimes alt text is kind of meaningless. Can I use some fuzzy logic to deterimine for valid a caption is?
+gemini://localhost/cgi-bin/waffle.cgi/article?https%3A%2F%2Fwww.esquire.com%2Fnews-politics%2Fa37416285%2Fwhat-its-like-to-work-for-page-six%2F
+
+# Musings
+
+"Shrink ray" would be a great name for a general HTML -> Gemini proxy
+
+https://www.esquire.com/uk/culture/a40351034/blade-runner-at-40/
+odd metadata: "sailthru"?
+sailthru.tags
+
+great long form content to test with:
