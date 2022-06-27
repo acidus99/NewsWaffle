@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NewsWaffle.Models
 {
-    public class ParsedPage
+    public class ArticlePage : AbstractPage
     {
         public String Title { get; internal set; }
 

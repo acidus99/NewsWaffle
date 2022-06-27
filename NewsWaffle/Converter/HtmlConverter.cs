@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
+
+using OpenGraphNet;
 using SmartReader;
+
 
 using NewsWaffle.Models;
 
@@ -8,43 +11,53 @@ namespace NewsWaffle.Converter
 {
     public class HtmlConverter
     {
-        private string RawHtml;
-        private string SourceUrl;
-
         public HtmlConverter()
         {
         }
 
-        public ParsedPage ParseHtmlPage(string url, string html)
+        public AbstractPage ParseHtmlPage(string url, string html)
         {
-            RawHtml = html;
-            SourceUrl = url;
+            var og = OpenGraph.ParseHtml(html);
 
-            var article = SimplifyHtml(SourceUrl, RawHtml);
-            return ParseArticle(article);
+            if (og.Type == "website")
+            {
+                return ParseWebsite(url, html, og);
+            }
+            else if (og.Type == "article")
+            {
+                return ParseArticle(url, html, og);
+            }
+            return null;
         }
 
-        private Article SimplifyHtml(string url, string html)
-            => Reader.ParseArticle(url, html, null);
-
-        private ParsedPage ParseArticle(Article article)
+        private ArticlePage ParseArticle(string url, string html, OpenGraph og)
         {
-            File.WriteAllText("/Users/billy/tmp/out.html", article.Content);
-
+            var article = Reader.ParseArticle(url, html, null);
             var contentRoot = Preparer.PrepareHtml(article.Content);
 
             HtmlTagParser parser = new HtmlTagParser();
             parser.Parse(contentRoot);
 
-            var parsedPage = new ParsedPage
+            var parsedPage = new ArticlePage
             {
                 Title = article.Title,
                 FeaturedImage = article.FeaturedImage,
-                SourceUrl = this.SourceUrl,
+                SourceUrl = url,
                 Content = parser.GetItems()
             };
 
             return parsedPage;
+        }
+
+        private HomePage ParseWebsite(string url, string html, OpenGraph og)
+        {
+            var contentRoot = Preparer.PrepareHtml(html);
+            LinkExtractor extractor = new LinkExtractor();
+            return new HomePage
+            {
+                Name = og.Title,
+                Links = extractor.GetLinks(url, contentRoot)
+            };
         }
     }
 }
