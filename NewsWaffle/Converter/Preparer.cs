@@ -35,16 +35,15 @@ namespace NewsWaffle.Converter
             return document.FirstElementChild;
         }
 
-        //Removes tags we no we want need, and which make rendering harder
-        //often we want to complete remove tags instead of skipping them later
-        ////with the Filter, since InfoBox parser won't already visit every element
+        //Removes tags we know we won't need
         private static void RemoveTags(IElement contentRoot)
         {
             RemoveMatchingTags(contentRoot, "style");
+            RemoveMatchingTags(contentRoot, "iframe");
         }
 
         private static void RemoveMatchingTags(IElement element, string selector)
-            => element.QuerySelectorAll(selector).ToList().ForEach(x => x.Remove());
+            => element.QuerySelectorAll(selector).ToList().ForEach(x => x.Remove())
 
     }
 }
