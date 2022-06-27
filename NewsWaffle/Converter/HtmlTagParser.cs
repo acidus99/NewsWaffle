@@ -29,6 +29,8 @@ namespace NewsWaffle.Converter
 
         private int linkCounter = 0;
 
+        public bool ShouldRenderHyperlinks { get; set; } = true;
+
         public void Parse(INode current)
         {
             ParseHelper(current);
@@ -295,13 +297,15 @@ namespace NewsWaffle.Converter
 
         private void ProcessAnchor(HtmlElement anchor)
         {
-            //TODO support links?
             ParseChildern(anchor);
-            var link = CreateLink(anchor);
-            if(link != null)
+            if (ShouldRenderHyperlinks)
             {
-                buffer.Append($"[{link.Number}]");
-                linkBuffer.Add(link);
+                var link = CreateLink(anchor);
+                if (link != null)
+                {
+                    buffer.Append($"[{link.Number}]");
+                    linkBuffer.Add(link);
+                }
             }
         }
 

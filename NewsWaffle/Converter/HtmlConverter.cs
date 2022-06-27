@@ -35,7 +35,10 @@ namespace NewsWaffle.Converter
             var article = Reader.ParseArticle(url, html, null);
             var contentRoot = Preparer.PrepareHtml(article.Content);
 
-            HtmlTagParser parser = new HtmlTagParser();
+            HtmlTagParser parser = new HtmlTagParser
+            {
+                ShouldRenderHyperlinks = false
+            };
             parser.Parse(contentRoot);
 
             var parsedPage = new ArticlePage
