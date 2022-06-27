@@ -1,11 +1,10 @@
 ﻿using System;
 namespace NewsWaffle.Models
 {
-    public class AbstractPage
+    public abstract class AbstractPage
     {
-        public AbstractPage()
-        {
-        }
+        public int OriginalSize { get; set; }
+
     }
 }
 

@@ -19,6 +19,9 @@ namespace NewsWaffle.Models
 
         public List<MediaItem> Images = new List<MediaItem>();
 
+        public int Size
+            => Content.Sum(x => x.Content.Length);
+
         //For debugging
         public string SimplifiedHtml { get; set; }
 

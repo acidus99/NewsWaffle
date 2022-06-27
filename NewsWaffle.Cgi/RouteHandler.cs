@@ -42,6 +42,8 @@ namespace NewsWaffle.Cgi
             {
                 cgi.Writer.Write(item.Content);
             }
+            cgi.Writer.WriteLine();
+            cgi.Writer.WriteLine($"🤏 Size {articlePage.Size}. Original HTML was {articlePage.OriginalSize} 🤮");
             Footer(cgi);
         }
 

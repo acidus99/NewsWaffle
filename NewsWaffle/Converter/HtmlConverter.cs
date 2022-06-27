@@ -47,7 +47,8 @@ namespace NewsWaffle.Converter
                 FeaturedImage = article.FeaturedImage,
                 SourceUrl = url,
                 Content = parser.GetItems(),
-                SimplifiedHtml = article.Content
+                SimplifiedHtml = article.Content,
+                OriginalSize = html.Length
             };
 
             return parsedPage;
@@ -60,7 +61,8 @@ namespace NewsWaffle.Converter
             return new HomePage
             {
                 Name = og.Title,
-                Links = extractor.GetLinks(contentRoot)
+                Links = extractor.GetLinks(contentRoot),
+                OriginalSize = html.Length
             };
         }
     }
