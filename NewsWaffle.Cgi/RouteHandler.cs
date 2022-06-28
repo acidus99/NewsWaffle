@@ -68,6 +68,7 @@ namespace NewsWaffle.Cgi
             cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.wired.com%2F Wired");
             cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.ajc.com%2F Atlanta Journal-Constitution");
             cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.sixcolors.com%2F Six Colors");
+            cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.theverge.com%2F The Verge");
             Footer(cgi);
         }
 
