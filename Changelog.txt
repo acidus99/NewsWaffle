@@ -1,2 +1,5 @@
 ﻿- Fixed: - HTML tags not getting filtered in extracted title from Readability
 - Feature: Separate Body links from Navigation/header/menu/footer links
+- Feature: Add caching layer
+- Fixed: <script type="template"> can cause markup to appear in Link text
+- Feature: Word Count and Reading Time displayed for articles
