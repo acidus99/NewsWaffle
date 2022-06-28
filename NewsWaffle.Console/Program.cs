@@ -17,7 +17,7 @@ namespace NewsWaffle.Console
             var url = args[0];
 
             var waffles = new YummyWaffles();
-            if(!waffles.GetPage(url, true))
+            if(!waffles.GetPage(url))
             {
                 System.Console.WriteLine($"Error: '{waffles.ErrorMessage}'");
                 return;
