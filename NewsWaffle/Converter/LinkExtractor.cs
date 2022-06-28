@@ -41,8 +41,9 @@ namespace NewsWaffle.Converter
             Preparer.RemoveMatchingTags(content, "nav");
             Preparer.RemoveMatchingTags(content, "menu");
 
-            //nav menus are often hidden
+            //nav/menus are often hidden
             Preparer.RemoveMatchingTags(content, "[aria-hidden='true']");
+            Preparer.RemoveMatchingTags(content, ".hidden");
 
             var justContent = GetLinks(content);
 
