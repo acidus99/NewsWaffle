@@ -11,8 +11,6 @@
 
 - More OG metadata for article view
     - Excerpt?
-    - Number of words?
-    - Reading time?
     - by line/author
 
 - "Gemipedia"-ify the article view some more
@@ -35,6 +33,9 @@
 - Feature image and smae image as an article image displayed right next to each other
     https://sixcolors.com/post/2022/06/13-inch-m2-macbook-pro-review-the-future-wrapped-in-the-past/
     track in the buffer the last image typed, and then don't print it?
+
+- handle when readability fails to extract an article on og:type=article pages
+    "https://www.ajc.com/atlanta-weather/mondays-weather-highs-in-the-mid-80s-for-rainy-week-ahead/GNZQ2JVKNZG3LBTC6FPGQTGBCY/"
 
 
 - Extra blank lines:
