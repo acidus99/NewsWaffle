@@ -40,6 +40,7 @@ namespace NewsWaffle.Converter
         {
             RemoveMatchingTags(contentRoot, "style");
             RemoveMatchingTags(contentRoot, "iframe");
+            RemoveMatchingTags(contentRoot, "script");
         }
 
         public static void RemoveMatchingTags(IElement element, string selector)
