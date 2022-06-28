@@ -1,9 +1,5 @@
 ﻿
 # Features
-- Better organize links by using HTML5 tags to separate tags in content
-from navigational/header/footer links
-
-    - Maybe don't show links from those section by default, and make people click a "show more"
 
 - Handle link pages that don't have og:type=website (daring fireball, Irish times, etc)
 
@@ -11,9 +7,7 @@ from navigational/header/footer links
     - include links in articles?
 
 - More OG metadata for Links view
-    - Description of site
     - Last Modified? from HTTP header?
-    - Image of site
 
 - More OG metadata for article view
     - Excerpt?

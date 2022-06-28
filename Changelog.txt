@@ -1,1 +1,2 @@
 ﻿- Fixed: - HTML tags not getting filtered in extracted title from Readability
+- Feature: Separate Body links from Navigation/header/menu/footer links
