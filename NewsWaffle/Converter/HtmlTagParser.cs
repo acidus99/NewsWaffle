@@ -168,16 +168,19 @@ namespace NewsWaffle.Converter
                 case "h1":
                     buffer.EnsureAtLineStart();
                     buffer.SetLineStart("# ");
+                    ParseChildern(element);
                     break;
 
                 case "h2":
                     buffer.EnsureAtLineStart();
                     buffer.SetLineStart("## ");
+                    ParseChildern(element);
                     break;
 
                 case "h3":
                     buffer.EnsureAtLineStart();
                     buffer.SetLineStart("### ");
+                    ParseChildern(element);
                     break;
                 
                 case "i":
