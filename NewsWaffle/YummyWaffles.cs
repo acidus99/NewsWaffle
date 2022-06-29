@@ -19,7 +19,7 @@ namespace NewsWaffle
             {
                 //========= Step 1: Get HTML
                 var fetcher = new HttpFetcher();
-                var html = fetcher.GetHtml(url);
+                var html = fetcher.GetAsString(url);
 
                 //========= Step 2: Parse it to a type
                 var converter = new HtmlConverter();

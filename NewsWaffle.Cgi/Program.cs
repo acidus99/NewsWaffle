@@ -6,9 +6,13 @@ namespace NewsWaffle.Cgi
     {
         static void Main(string[] args)
         {
+
+            MediaRewriter.Proxy = "/cgi-bin/waffle.cgi/media.jpg";
+
             CgiRouter router = new CgiRouter();
             router.OnRequest("/view", RouteHandler.View);
             router.OnRequest("/article", RouteHandler.Article);
+            router.OnRequest("/media.jpg", RouteHandler.ProxyMedia);
             router.OnRequest("", RouteHandler.Welcome);
             router.ProcessRequest();
         }

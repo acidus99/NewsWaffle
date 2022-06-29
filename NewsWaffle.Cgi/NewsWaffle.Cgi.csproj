@@ -11,4 +11,14 @@
     <ProjectReference Include="..\..\Gemini.Cgi\Gemini.Cgi.csproj" />
     <ProjectReference Include="..\NewsWaffle\NewsWaffle.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Media\" />
+    <None Remove="Magick.NET-Q8-AnyCPU" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Media\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="11.2.1" />
+  </ItemGroup>
 </Project>

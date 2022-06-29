@@ -21,11 +21,8 @@
     - create a wrapper on the CGI stream that tracks how many bytes have been written?
     - show a percentage smaller (smoler)
 
-- Don't have seperate "portal" and "article" routes. Just a single route that changes its rendering bsed on the page
 
-- Add a caching layer
-    - for the articles?
-    need to use a short TTL
+- Auto detect RSS Field and shift to that for parsing content?
 
 # Bugs
 - Duplicate image captions

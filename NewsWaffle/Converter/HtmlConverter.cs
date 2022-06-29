@@ -13,15 +13,15 @@ namespace NewsWaffle.Converter
 {
     public class HtmlConverter
     {
-        public HtmlConverter()
-        {
-        }
-
         private void AssignMetadata(AbstractPage page, OpenGraph metadata, string url, string html)
         {
             page.FeaturedImage = metadata.Image?.AbsoluteUri;
             page.OriginalSize = html.Length;
-            page.Title = metadata.Title;
+
+            if (string.IsNullOrEmpty(page.Title))
+            {
+                page.Title = Sanitize(metadata.Title);
+            }
             page.SourceUrl = url;
         }
 
@@ -69,13 +69,16 @@ namespace NewsWaffle.Converter
 
             var parsedPage = new ArticlePage
             {
-                Title = Sanitize(article.Title),
+                Byline = article.Byline ?? article.Author,
+                Published = article.PublicationDate,
+                
                 FeaturedImage = article.FeaturedImage,
                 SourceUrl = url,
                 Content = contentItems,
-                SimplifiedHtml = article.Content,
                 Images = parser.Images,
+                SimplifiedHtml = article.Content,
                 TimeToRead = article.TimeToRead,
+                Title = Sanitize(article.Title),
                 WordCount = CountWords(contentItems[0])
             };
 

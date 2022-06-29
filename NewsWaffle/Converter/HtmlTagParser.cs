@@ -331,7 +331,7 @@ namespace NewsWaffle.Converter
             {
                 Images.Add(media);
                 buffer.EnsureAtLineStart();
-                buffer.AppendLine($"=> {media.Url} Image: {media.Caption}");
+                buffer.AppendLine($"=> {GetMediaPath(media.Url)} Image: {media.Caption}");
             }
         }
 
@@ -449,6 +449,9 @@ namespace NewsWaffle.Converter
                 Url = url
             };
         }
+
+        private string GetMediaPath(string url)
+            => MediaRewriter.GetPath(url);
 
         private static bool IsInline(HtmlElement element)
             => element.GetAttribute("style")?.Contains("display:inline") ?? false;
