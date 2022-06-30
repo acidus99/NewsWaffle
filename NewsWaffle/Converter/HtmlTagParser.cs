@@ -261,7 +261,7 @@ namespace NewsWaffle.Converter
             }
         }
 
-        public static bool ShouldProcessElement(HtmlElement element,string normalizedTagName)
+        public bool ShouldProcessElement(HtmlElement element,string normalizedTagName)
         {
             //A MathElement is of type element, but it not an HtmlElement
             //so it will be null
@@ -276,6 +276,12 @@ namespace NewsWaffle.Converter
                 return false;
             }
 
+            //check the ARIA role
+            if(ShouldSkipRole(element.GetAttribute("role")?.ToLower()))
+            {
+                return false;
+            }
+
             //is it visible?
             if (IsInvisible(element))
             {
@@ -283,6 +289,25 @@ namespace NewsWaffle.Converter
             }
 
             return true;
+        }
+
+        private bool ShouldSkipRole(string role)
+        {
+            if(string.IsNullOrEmpty(role))
+            {
+                return false;
+            }
+            if(role is "button" or
+                "checkbox" or
+                "form" or
+                "searchbox" or
+                "search" or
+                "slider" or
+                "switch")
+            {
+                return true;
+            }
+            return false;
         }
 
         //should we use apply italic formatting around this element?
