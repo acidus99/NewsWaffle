@@ -8,10 +8,10 @@ namespace NewsWaffle.Converter.Special
 
         public static string RemoveNewlines(string text)
         {
-            if (text.Length > 0)
+            if (text.Length > 0 && (text.Contains('\n') || text.Contains('\r')))
             {
-                text = text.Replace("\r", " ");
-                text = text.Replace("\n", " ");
+                text = text.Replace('\r', ' ');
+                text = text.Replace('\n', ' ');
                 text = whitespace.Replace(text, " ");
             }
             return text;
