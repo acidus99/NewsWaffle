@@ -21,6 +21,8 @@ namespace NewsWaffle.Converter
         public List<MediaItem> Images = new List<MediaItem>();
         private List<HyperLink> linkBuffer = new List<HyperLink>();
 
+        public LinkCollection BodyLinks = new LinkCollection();
+
         private int listDepth = 0;
 
         Buffer buffer = new Buffer();
@@ -332,15 +334,16 @@ namespace NewsWaffle.Converter
         private void ProcessAnchor(HtmlElement anchor)
         {
             ParseChildern(anchor);
+            var link = CreateLink(anchor);
             if (ShouldRenderHyperlinks)
             {
-                var link = CreateLink(anchor);
                 if (link != null)
                 {
                     buffer.Append($"[{link.OrderDetected}]");
                     linkBuffer.Add(link);
                 }
             }
+            BodyLinks.AddLink(link);
         }
 
         private void ProcessGenericTag(HtmlElement element)
