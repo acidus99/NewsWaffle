@@ -165,6 +165,11 @@ namespace NewsWaffle.Converter
                     }
                     break;
 
+                case "figure":
+                    ProcessFigure(element);
+                    break;
+
+
                 case "h1":
                     buffer.EnsureAtLineStart();
                     buffer.SetLineStart("# ");
@@ -349,6 +354,17 @@ namespace NewsWaffle.Converter
             else
             {
                 ParseChildern(element);
+            }
+        }
+
+        private void ProcessFigure(HtmlElement figure)
+        {
+            var media = MediaConverter.ConvertFigure(figure);
+            if (media != null && ShouldUseImage(media))
+            {
+                Images.Add(media);
+                buffer.EnsureAtLineStart();
+                buffer.AppendLine($"=> {GetMediaPath(media.Url)} Image: {media.Caption}");
             }
         }
 
