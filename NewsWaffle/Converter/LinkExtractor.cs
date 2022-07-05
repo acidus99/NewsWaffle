@@ -21,7 +21,7 @@ namespace NewsWaffle.Converter
         {
             BaselUrl = new Uri(htmlUrl);
             NormalizedHost = BaselUrl.Host;
-            if(NormalizedHost.StartsWith("www."))
+            if (NormalizedHost.StartsWith("www."))
             {
                 NormalizedHost = NormalizedHost.Substring(4);
             }
@@ -77,15 +77,15 @@ namespace NewsWaffle.Converter
                 var resolvedUrl = ResolveUrl(href);
 
                 //if it doesn't resolve, its not good
-                if(resolvedUrl == null)
+                if (resolvedUrl == null)
                 {
                     continue;
                 }
-                if(!resolvedUrl.Scheme.StartsWith("http"))
+                if (!resolvedUrl.Scheme.StartsWith("http"))
                 {
                     continue;
                 }
-                if(!IsInternalLink(resolvedUrl))
+                if (!IsInternalLink(resolvedUrl))
                 {
                     continue;
                 }
@@ -115,61 +115,6 @@ namespace NewsWaffle.Converter
             {
             }
             return null;
-        }
-
-        /// <summary>
-        /// Smart collection to handle links
-        /// - Only adds a Url if we haven't seen it before
-        /// - Only adds a Url if we haven't seen the link text before
-        /// - To improve quality of link text, if 2 links point to the same URL, uses the link text which is longer 
-        /// </summary>
-        private class LinkCollection
-        {
-            Dictionary<Uri, HyperLink> links = new Dictionary<Uri, HyperLink>();
-
-            Dictionary<string, bool> seenText = new Dictionary<string, bool>();
-
-            int counter = 0;
-
-            public void AddLink(Uri url, string linkText) 
-            {
-                string normalized = linkText.ToLower();
-
-                //does this Url already exist?
-                if (!links.ContainsKey(url))
-                {
-                    //has this link text already been used?
-                    if (!seenText.ContainsKey(normalized))
-                    {
-
-                        seenText.Add(normalized, true);
-                        //add it
-                        counter++;
-                        links.Add(url, new HyperLink
-                        {
-                            Text = linkText,
-                            Url = url,
-                            OrderDetected = counter
-                        });
-                    }
-                }
-                else if (!seenText.ContainsKey(normalized))
-                {
-                    //URL already exists, but link text doesn't.
-                    //so is this link text "better" that what we are using?
-                    if (links[url].Text.Length < linkText.Length)
-                    {
-                        links[url].Text = linkText;
-                        seenText.Add(normalized, true);
-                    }
-                }
-            }
-
-            public void RemoveLinks(List<HyperLink> linksToRemove)
-                => linksToRemove.ForEach(x => links.Remove(x.Url));
-
-            public List<HyperLink> GetLinks()
-                => links.Values.OrderBy(x => x.OrderDetected).ToList();
         }
     }
 }
