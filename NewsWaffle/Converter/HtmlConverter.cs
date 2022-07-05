@@ -8,6 +8,7 @@ using SmartReader;
 
 
 using NewsWaffle.Models;
+using NewsWaffle.Converter.Special;
 
 namespace NewsWaffle.Converter
 {
@@ -88,7 +89,7 @@ namespace NewsWaffle.Converter
         }
 
         private string Sanitize(string s)
-            => Regex.Replace(WebUtility.HtmlDecode(s),@"<[^>]*>", "");
+            => NewlineStripper.RemoveNewlines(Regex.Replace(WebUtility.HtmlDecode(s),@"<[^>]*>", ""));
 
         private HomePage ParseWebsite(string url, string html, OpenGraph og)
         {
