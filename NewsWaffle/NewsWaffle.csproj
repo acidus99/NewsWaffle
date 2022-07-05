@@ -12,7 +12,7 @@
     <None Remove="Cache\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="SmartReader" Version="0.8.0" />
+    <PackageReference Include="SmartReader" Version="0.8.1" />
     <PackageReference Include="AngleSharp" Version="0.17.1" />
     <PackageReference Include="OpenGraph-Net" Version="3.2.8" />
   </ItemGroup>
