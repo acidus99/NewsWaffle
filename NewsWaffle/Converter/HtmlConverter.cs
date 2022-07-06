@@ -71,16 +71,14 @@ namespace NewsWaffle.Converter
             var parsedPage = new ArticlePage
             {
                 Byline = Sanitize(article.Author ?? article.Byline),
-                Published = article.PublicationDate,
-                
-                FeaturedImage = article.FeaturedImage,
-                SourceUrl = url,
                 Content = contentItems,
                 Images = parser.Images,
+                Links = parser.BodyLinks,
+                Published = article.PublicationDate,
                 SimplifiedHtml = article.Content,
                 TimeToRead = article.TimeToRead,
                 Title = Sanitize(article.Title),
-                WordCount = CountWords(contentItems[0])
+                WordCount = CountWords(contentItems[0]),
             };
 
             AssignMetadata(parsedPage, og, url, html);
