@@ -56,7 +56,7 @@ namespace NewsWaffle.Converter
 
         private void FlushLinkBuffer()
         {
-            if(linkBuffer.Count > 0)
+            if(linkBuffer.Count > 0 && !buffer.InBlockquote)
             {
                 buffer.EnsureAtLineStart();
                 foreach(var link in linkBuffer)
