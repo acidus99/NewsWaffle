@@ -155,6 +155,10 @@ namespace NewsWaffle.Cgi
             {
                 cgi.Writer.WriteLine($"Article images: {articlePage.Images.Count}");
             }
+            if (articlePage.Links.Count > 0)
+            {
+                cgi.Writer.WriteLine($"Hyperlinks in Body: {articlePage.Links.Count}");
+            }
             if (articlePage.FeaturedImage != null)
             {
                 cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(articlePage.FeaturedImage)} Featured Image");
