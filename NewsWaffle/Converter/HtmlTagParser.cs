@@ -32,6 +32,7 @@ namespace NewsWaffle.Converter
         private int linkCounter = 0;
 
         public bool ShouldRenderHyperlinks { get; set; } = true;
+        public bool AllowDuplicateLinks { get; set; } = false;
 
         public void Parse(INode current)
         {
@@ -334,16 +335,24 @@ namespace NewsWaffle.Converter
         private void ProcessAnchor(HtmlElement anchor)
         {
             ParseChildern(anchor);
-            var link = CreateLink(anchor);
-            if (ShouldRenderHyperlinks)
+            //
+            //we only care about meaningful links
+            //so we can check to see if this anchor had any non-whitespace text
+            //(note, A tags with only an IMG inside is common, but we handle that
+            //by have a link to media already. No reason to also have a hyperlink
+            if (anchor.TextContent.Trim().Length > 0)
             {
+                var link = CreateLink(anchor);
                 if (link != null)
                 {
-                    buffer.Append($"[{link.OrderDetected}]");
-                    linkBuffer.Add(link);
+                    if (ShouldRenderHyperlinks)
+                    {
+                        buffer.Append($"[{link.OrderDetected}]");
+                        linkBuffer.Add(link);
+                    }
+                    BodyLinks.AddLink(link);
                 }
             }
-            BodyLinks.AddLink(link);
         }
 
         private void ProcessGenericTag(HtmlElement element)
@@ -488,7 +497,14 @@ namespace NewsWaffle.Converter
             {
                 return null;
             }
+
+            if (!AllowDuplicateLinks && BodyLinks.ContainsUrl(url))
+            {
+                return null;
+            }
+
             linkCounter++;
+
             return new HyperLink
             {
                 OrderDetected = linkCounter,
