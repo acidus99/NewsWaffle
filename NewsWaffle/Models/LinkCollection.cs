@@ -24,7 +24,7 @@ namespace NewsWaffle.Models
             string normalized = linkText.ToLower();
 
             //does this Url already exist?
-            if (!links.ContainsKey(url))
+            if (!ContainsUrl(url))
             {
                 //has this link text already been used?
                 if (!seenText.ContainsKey(normalized))
@@ -52,6 +52,9 @@ namespace NewsWaffle.Models
                 }
             }
         }
+
+        public bool ContainsUrl(Uri url)
+            => links.ContainsKey(url);
 
         public void RemoveLinks(List<HyperLink> linksToRemove)
             => linksToRemove.ForEach(x => links.Remove(x.Url));
