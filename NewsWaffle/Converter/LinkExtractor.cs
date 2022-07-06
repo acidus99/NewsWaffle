@@ -28,7 +28,6 @@ namespace NewsWaffle.Converter
 
             ContentLinks = new List<HyperLink>();
             NavigationLinks = new List<HyperLink>();
-
         }
 
         public void FindLinks(IElement content)
@@ -53,7 +52,6 @@ namespace NewsWaffle.Converter
             allLinks.RemoveLinks(ContentLinks);
             NavigationLinks = allLinks.GetLinks();
         }
-
 
         private LinkCollection GetLinks(IElement content)
         {
