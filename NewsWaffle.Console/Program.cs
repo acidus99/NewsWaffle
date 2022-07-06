@@ -9,31 +9,40 @@ namespace NewsWaffle.Console
     {
         static void Main(string[] args)
         {
-            if(args.Length < 1)
+            var url = "";
+
+            if(args.Length > 0)
             {
-                System.Console.WriteLine("Missing URL");
+                url = args[0];
             }
 
-            var url = args[0];
+            do
+            {
 
-            var waffles = new YummyWaffles();
-            if(!waffles.GetPage(url))
-            {
-                System.Console.WriteLine($"Error: '{waffles.ErrorMessage}'");
-                return;
-            }
-            var page = waffles.Page;
-            //========= Step 3: Render it
-            SaveHtml(page);
+                if (url.StartsWith("http"))
+                {
+                    var waffles = new YummyWaffles();
+                    if (!waffles.GetPage(url))
+                    {
+                        System.Console.WriteLine($"Error: '{waffles.ErrorMessage}'");
+                        return;
+                    }
+                    var page = waffles.Page;
+                    //========= Step 3: Render it
 
-            if (page is HomePage)
-            {
-                RenderHomePage((HomePage)page);
-            }
-            else if (page is ArticlePage)
-            {
-                RenderArticle((ArticlePage)page);
-            }
+                    if (page is HomePage)
+                    {
+                        RenderHomePage((HomePage)page);
+                    }
+                    else if (page is ArticlePage)
+                    {
+                        RenderArticle((ArticlePage)page);
+                    }
+                }
+                System.Console.WriteLine("Entry URL");
+                url = System.Console.ReadLine();
+
+            } while (url != "quit");
         }
 
         private static void RenderHomePage(HomePage homePage)
@@ -58,14 +67,6 @@ namespace NewsWaffle.Console
             {
                 System.Console.WriteLine($"'{link.Text}' => '{link.Url}'");
             }
-
-
-        }
-
-        private static void SaveHtml(AbstractPage page)
-        {
-            var html = (page is ArticlePage) ? ((ArticlePage)page).SimplifiedHtml : "";
-            File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/tmp/out.html", html);
         }
 
         private static void RenderArticle(ArticlePage articlePage)
