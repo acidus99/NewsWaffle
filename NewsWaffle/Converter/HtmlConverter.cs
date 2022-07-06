@@ -70,7 +70,7 @@ namespace NewsWaffle.Converter
 
             var parsedPage = new ArticlePage
             {
-                Byline = article.Byline ?? article.Author,
+                Byline = Sanitize(article.Author ?? article.Byline),
                 Published = article.PublicationDate,
                 
                 FeaturedImage = article.FeaturedImage,
@@ -89,7 +89,17 @@ namespace NewsWaffle.Converter
         }
 
         private string Sanitize(string s)
-            => NewlineStripper.RemoveNewlines(Regex.Replace(WebUtility.HtmlDecode(s),@"<[^>]*>", ""));
+        {
+            //decode
+            s = WebUtility.HtmlDecode(s);
+            //strip tags
+            s = Regex.Replace(s, @"<[^>]*>", "");
+            if(s.Contains('\t'))
+            {
+                s.Replace('\t', ' ');
+            }
+            return NewlineStripper.RemoveNewlines(s);
+        }
 
         private HomePage ParseWebsite(string url, string html, OpenGraph og)
         {
