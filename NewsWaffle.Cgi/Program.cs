@@ -13,7 +13,7 @@ namespace NewsWaffle.Cgi
             router.OnRequest("/view", RouteHandler.View);
             router.OnRequest("/article", RouteHandler.Article);
             router.OnRequest("/media.jpg", RouteHandler.ProxyMedia);
-            router.OnRequest("", RouteHandler.Welcome);
+            router.SetStaticRoot("static/");
             router.ProcessRequest();
         }
     }

@@ -14,11 +14,19 @@
   <ItemGroup>
     <None Remove="Media\" />
     <None Remove="Magick.NET-Q8-AnyCPU" />
+    <None Remove="static\" />
+    <None Remove="static\index.gmi" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Media\" />
+    <Folder Include="static\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="11.2.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="static\index.gmi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

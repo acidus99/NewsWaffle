@@ -1,0 +1,11 @@
+﻿# 🧇 NewsWaffle
+=> /cgi-bin/waffle.cgi/view View news site
+
+## Examples:
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.wired.com%2F Wired
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.ajc.com%2F Atlanta Journal-Constitution
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.sixcolors.com%2F Six Colors
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.theverge.com%2F The Verge
+
+---
+=> mailto:acidus@gemi.dev Made with 🧇 and ❤️ by Acidus
