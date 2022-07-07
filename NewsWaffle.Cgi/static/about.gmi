@@ -1,0 +1,15 @@
+# About NewsWaffle
+
+## What?
+
+NewsWaffle is a Gemini gateway to public news websites, allowing you to get lists of current news articles, and read those news articles, all from inside Gemini.
+
+Instead of only being able to read "text only" specific or "lite" versions of news sites, NewsWaffle works with nearly any news site.
+
+## Why?
+* Modern news sites are user hostile, full of popups, nag-walls, and intrustive ads.
+* Modern news sites are BLOATED, wasting time and data. Even the HTML itself is bloated, hundreds of kilobytes in size when the actual article content is only 1-4 kilobytes.
+* Modern news sites are slow. Who has time for that nonsense?
+
+---
+=> mailto:acidus@gemi.dev Made with 🧇 and ❤️ by Acidus
