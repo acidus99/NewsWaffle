@@ -9,7 +9,6 @@ Any news site, available via Gemini
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.reuters.com/%2Fworld%2F Reuters
 
 ## Financial
-=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.wsj.com%2F Wall Street Journal
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Ffinance.yahoo.com Yahoo Finance
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.cnbc.com%2F CNBC
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.fastcompany.com%2F Fast Company
