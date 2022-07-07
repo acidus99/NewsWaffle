@@ -10,7 +10,6 @@ namespace NewsWaffle.Net
         WebClient Client;
         DiskCache Cache;
 
-
         public HttpFetcher()
         {
             Client = new WebClient();
