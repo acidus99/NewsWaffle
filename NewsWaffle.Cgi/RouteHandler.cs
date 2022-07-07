@@ -26,13 +26,13 @@ namespace NewsWaffle.Cgi
                 return;
             }
 
-            if (page is HomePage)
+            if (page is LinkPage)
             {
-                RenderHome(cgi, (HomePage)page);
+                RenderHome(cgi, (LinkPage)page);
             }
             else
             {
-                RenderArticle(cgi, (ArticlePage)page);
+                RenderArticle(cgi, (ContentPage)page);
             }
 
             Footer(cgi, page);
@@ -92,7 +92,7 @@ namespace NewsWaffle.Cgi
             cgi.Writer.WriteLine("=> mailto:acidus@gemi.dev Made with 🧇 and ❤️ by Acidus");
         }
 
-        private static void RenderHome(CgiWrapper cgi, HomePage homePage)
+        private static void RenderHome(CgiWrapper cgi, LinkPage homePage)
         {
             cgi.Writer.WriteLine($"## {homePage.Title}");
             if (homePage.FeaturedImage != null)
@@ -127,7 +127,7 @@ namespace NewsWaffle.Cgi
             }
         }
 
-        private static void RenderArticle(CgiWrapper cgi, ArticlePage articlePage)
+        private static void RenderArticle(CgiWrapper cgi, ContentPage articlePage)
         {
             cgi.Writer.WriteLine($"## {articlePage.Title}");
             if(articlePage.Published != null)

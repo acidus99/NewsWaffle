@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NewsWaffle.Models
 {
-    public class HomePage : AbstractPage
+    public class LinkPage : AbstractPage
     {
         public String Description { get; internal set; }
 

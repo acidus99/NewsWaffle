@@ -7,9 +7,9 @@ namespace NewsWaffle.Renderer
 {
     public class GemtextRenderer
     {
-        ArticlePage Page;
+        ContentPage Page;
 
-        public GemtextRenderer(ArticlePage page)
+        public GemtextRenderer(ContentPage page)
         {
             Page = page;
         }

@@ -53,7 +53,7 @@ namespace NewsWaffle
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public HomePage GetLinkPage(string url)
+        public LinkPage GetLinkPage(string url)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace NewsWaffle
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public ArticlePage GetContentPage(string url)
+        public ContentPage GetContentPage(string url)
         {
             try
             {

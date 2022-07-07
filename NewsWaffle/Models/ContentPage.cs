@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NewsWaffle.Models
 {
-    public class ArticlePage : AbstractPage
+    public class ContentPage : AbstractPage
     {
         public string Byline { get; internal set; }
         public DateTime? Published { get; internal set; }

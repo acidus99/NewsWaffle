@@ -48,12 +48,12 @@ namespace NewsWaffle.Converter
 		/// <summary>
 		/// Convert the Link Page
 		/// </summary>
-		public HomePage ConvertToLinkPage()
+		public LinkPage ConvertToLinkPage()
 		{
 			var contentRoot = Preparer.PrepareHtml(Html);
 			LinkExtractor extractor = new LinkExtractor(Url);
 			extractor.FindLinks(contentRoot);
-			var homePage = new HomePage
+			var homePage = new LinkPage
 			{
 				Description = MetaData.Description,
 				ContentLinks = extractor.ContentLinks,
@@ -67,7 +67,7 @@ namespace NewsWaffle.Converter
 		/// Convert to Content Page
 		/// </summary>
 		/// <returns></returns>
-		public ArticlePage ConvertToContentPage()
+		public ContentPage ConvertToContentPage()
 		{
 			var article = Reader.ParseArticle(Url, Html, null);
 			var contentRoot = Preparer.PrepareHtml(article.Content);
@@ -85,7 +85,7 @@ namespace NewsWaffle.Converter
 
 			var contentItems = parser.GetItems();
 
-			var articlePage = new ArticlePage
+			var articlePage = new ContentPage
 			{
 				Byline = StringUtils.Normnalize(article.Author ?? article.Byline),
 				Content = contentItems,
