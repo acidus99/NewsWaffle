@@ -1,117 +1,147 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
-
-using OpenGraphNet;
 using SmartReader;
 
-
 using NewsWaffle.Models;
-using NewsWaffle.Converter.Special;
+using NewsWaffle.Util;
 
 namespace NewsWaffle.Converter
 {
     public class HtmlConverter
     {
-        private void AssignMetadata(AbstractPage page, OpenGraph metadata, string url, string html)
-        {
-            page.FeaturedImage = metadata.Image?.AbsoluteUri;
-            page.OriginalSize = html.Length;
 
-            if (string.IsNullOrEmpty(page.Title))
+		public bool Debug { get; set; } = true;
+
+		string Url;
+		string Html;
+		PageMetaData MetaData;
+
+		public HtmlConverter(string url, string html)
+		{
+			Url = url;
+			Html = html;
+			if (Debug)
+			{
+				SaveHtml("original.html", Html);
+			}
+		}
+
+		#region public methods
+
+		/// <summary>
+		/// Convert the page, auto-detecting the type
+		/// </summary>
+		public AbstractPage Convert()
+		{
+			ParseMetadata();
+			switch (ClassifyPage())
+			{
+				case PageType.ContentPage:
+					return ConvertToContentPage();
+
+				default:
+					return ConvertToLinkPage();
+			}
+		}
+
+		/// <summary>
+		/// Convert the Link Page
+		/// </summary>
+		public HomePage ConvertToLinkPage()
+		{
+			var contentRoot = Preparer.PrepareHtml(Html);
+			LinkExtractor extractor = new LinkExtractor(Url);
+			extractor.FindLinks(contentRoot);
+			var homePage = new HomePage
+			{
+				Description = MetaData.Description,
+				ContentLinks = extractor.ContentLinks,
+				NavigationLinks = extractor.NavigationLinks,
+			};
+			AssignMetadata(homePage);
+			return homePage;
+		}
+
+		/// <summary>
+		/// Convert to Content Page
+		/// </summary>
+		/// <returns></returns>
+		public ArticlePage ConvertToContentPage()
+		{
+			var article = Reader.ParseArticle(Url, Html, null);
+			var contentRoot = Preparer.PrepareHtml(article.Content);
+
+			if(Debug)
             {
-                page.Title = Sanitize(metadata.Title);
+				SaveHtml("simplified.html", article.Content);
             }
-            page.SourceUrl = url;
-        }
 
-        private int CountWords(ContentItem content)
-        {
-            return content.Content.Split("\n").Where(x => !x.StartsWith("=> ")).Sum(x => CountWords(x));
-        }
-        private int CountWords(string s)
-            => s.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Length;
+			HtmlTagParser parser = new HtmlTagParser
+			{
+				ShouldRenderHyperlinks = false
+			};
+			parser.Parse(contentRoot);
+
+			var contentItems = parser.GetItems();
+
+			var articlePage = new ArticlePage
+			{
+				Byline = StringUtils.Normnalize(article.Author ?? article.Byline),
+				Content = contentItems,
+				Images = parser.Images,
+				Links = parser.BodyLinks,
+				Published = article.PublicationDate,
+				SimplifiedHtml = article.Content,
+				TimeToRead = article.TimeToRead,
+				Title = StringUtils.Normnalize(article.Title),
+				WordCount = CountWords(contentItems[0]),
+			};
+
+			AssignMetadata(articlePage);
+
+			return articlePage;
+		}
+
+		#endregion
 
 
-        public AbstractPage ParseHtmlPage(string url, string html)
-        {
-            var metadata = OpenGraph.ParseHtml(html);
+		#region private workings
 
-            if (metadata.Type == "website")
-            {
-                return ParseWebsite(url, html, metadata);
-            }
-            else if (metadata.Type == "article")
-            {
-                return ParseArticle(url, html, metadata);
-            }
-            return ParseWebsite(url, html, metadata);
-        }
+		private void AssignMetadata(AbstractPage page)
+		{
+			page.FeaturedImage = MetaData.FeaturedImage;
+			page.OriginalSize = Html.Length;
 
-        public AbstractPage ForceArticle(string url, string html)
-        {
-            var metadata = OpenGraph.ParseHtml(html);
-            return ParseArticle(url, html, metadata);
-        }
+			if (string.IsNullOrEmpty(page.Title))
+			{
+				page.Title = MetaData.Title;
+			}
+			page.SourceUrl = MetaData.OriginalUrl;
+		}
 
-        private ArticlePage ParseArticle(string url, string html, OpenGraph og)
-        {
-            var article = Reader.ParseArticle(url, html, null);
-            var contentRoot = Preparer.PrepareHtml(article.Content);
+		private PageType ClassifyPage()
+			=> PageClassifier.Classify(MetaData);
 
-            HtmlTagParser parser = new HtmlTagParser
-            {
-                ShouldRenderHyperlinks = false
-            };
-            parser.Parse(contentRoot);
+		private int CountWords(ContentItem content)
+			=> content.Content.Split("\n").Where(x => !x.StartsWith("=> ")).Sum(x => CountWords(x));
 
-            var contentItems = parser.GetItems();
+		private int CountWords(string s)
+			=> s.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Length;
 
-            var parsedPage = new ArticlePage
-            {
-                Byline = Sanitize(article.Author ?? article.Byline),
-                Content = contentItems,
-                Images = parser.Images,
-                Links = parser.BodyLinks,
-                Published = article.PublicationDate,
-                SimplifiedHtml = article.Content,
-                TimeToRead = article.TimeToRead,
-                Title = Sanitize(article.Title),
-                WordCount = CountWords(contentItems[0]),
-            };
 
-            AssignMetadata(parsedPage, og, url, html);
+		private void ParseMetadata()
+		{
+			MetaDataParser parser = new MetaDataParser();
+			MetaData = parser.GetMetaData(Url, Html);
+		}
 
-            return parsedPage;
-        }
+		private void SaveHtml(string filename, string html)
+			=> File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/tmp/" + filename, html);
 
-        private string Sanitize(string s)
-        {
-            //decode
-            s = WebUtility.HtmlDecode(s);
-            //strip tags
-            s = Regex.Replace(s, @"<[^>]*>", "");
-            if(s.Contains('\t'))
-            {
-                s.Replace('\t', ' ');
-            }
-            return NewlineStripper.RemoveNewlines(s);
-        }
 
-        private HomePage ParseWebsite(string url, string html, OpenGraph og)
-        {
-            var contentRoot = Preparer.PrepareHtml(html);
-            LinkExtractor extractor = new LinkExtractor(url);
-            extractor.FindLinks(contentRoot);
-            var homePage = new HomePage
-            {
-                Description = Sanitize(og.Metadata["og:description"].FirstOrDefault()?.Value ?? ""),
-                ContentLinks = extractor.ContentLinks,
-                NavigationLinks = extractor.NavigationLinks,
-            };
-            AssignMetadata(homePage, og, url, html);
-            return homePage;
-        }
-    }
+
+		#endregion
+
+	}
 }

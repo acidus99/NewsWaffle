@@ -18,23 +18,24 @@ namespace NewsWaffle.Cgi
             cgi.Writer.WriteLine("# 🧇 NewsWaffle");
 
             var waffles = new YummyWaffles();
-            if(!waffles.GetPage(cgi.Query))
+            var page = waffles.GetPage(cgi.Query);
+            if (page == null)
             {
                 cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
                 cgi.Writer.WriteLine(waffles.ErrorMessage);
                 return;
             }
 
-            if (waffles.Page is HomePage)
+            if (page is HomePage)
             {
-                RenderHome(cgi, (HomePage)waffles.Page);
+                RenderHome(cgi, (HomePage)page);
             }
             else
             {
-                RenderArticle(cgi, (ArticlePage)waffles.Page);
+                RenderArticle(cgi, (ArticlePage)page);
             }
 
-            Footer(cgi, waffles.Page);
+            Footer(cgi, page);
         }
 
         public static void Article(CgiWrapper cgi)
@@ -48,14 +49,16 @@ namespace NewsWaffle.Cgi
             cgi.Writer.WriteLine("# 🧇 NewsWaffle");
 
             var waffles = new YummyWaffles();
-            if (!waffles.GetPage(cgi.Query, true))
+            var page = waffles.GetContentPage(cgi.Query);
+
+            if (page == null)
             {
                 cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
                 cgi.Writer.WriteLine(waffles.ErrorMessage);
                 return;
             }
-            RenderArticle(cgi, (ArticlePage)waffles.Page);
-            Footer(cgi, waffles.Page);
+            RenderArticle(cgi, page);
+            Footer(cgi, page);
         }
 
         public static void ProxyMedia(CgiWrapper cgi)

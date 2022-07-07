@@ -18,18 +18,15 @@ namespace NewsWaffle.Console
 
             do
             {
-
                 if (url.StartsWith("http"))
                 {
                     var waffles = new YummyWaffles();
-                    if (!waffles.GetPage(url))
+                    var page = waffles.GetPage(url);
+                    if (page == null)
                     {
                         System.Console.WriteLine($"Error: '{waffles.ErrorMessage}'");
                         return;
                     }
-                    var page = waffles.Page;
-                    //========= Step 3: Render it
-
                     if (page is HomePage)
                     {
                         RenderHomePage((HomePage)page);

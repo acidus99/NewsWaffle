@@ -10,57 +10,130 @@ namespace NewsWaffle
     {
 
         public bool Debug { get; set; } = true;
-
-        public AbstractPage Page { get; internal set; } = null;
-
         public string ErrorMessage { get; internal set; } = "";
 
-        public bool GetPage(string url, bool forceArticle = false)
+        /// <summary>
+        /// Gets a page, auto-detect page type, and return it
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public AbstractPage GetPage(string url)
         {
             try
             {
                 //========= Step 1: Get HTML
-                var fetcher = new HttpFetcher();
-                var html = fetcher.GetAsString(url);
-
-                if(Debug)
+                var html = GetHtml(url);
+                if(string.IsNullOrEmpty(html))
                 {
-                    Save("original.html", html);
+                    return null;
                 }
 
-                //========= Step 2: Parse it to a type
-                var converter = new HtmlConverter();
-                if (forceArticle)
-                {
-                    Page = converter.ForceArticle(url, html);
-                }
-                else
-                {
-                    Page = converter.ParseHtmlPage(url, html);
-                }
+                HtmlConverter htmlConverter = new HtmlConverter(url, html);
 
-                //========= Step 3: Render it
-                if (Page == null)
+                //convert, autodetecting
+                var page = htmlConverter.Convert();
+
+                if (page == null)
                 {
                     ErrorMessage = $"Could not parse HTML from '{url}'";
-                    return false;
-                }
-                if(Debug && Page is ArticlePage)
-                {
-                    Save("simplified.html", ((ArticlePage)Page).SimplifiedHtml);
+                    return null;
                 }
 
-                return true;
+                return page;
 
             } catch(Exception ex)
             {
                 ErrorMessage = ex.Message;
-                return false;
+                return null;
             }
         }
 
-        private void Save(string filename, string html)
-            => System.IO.File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/tmp/" + filename, html);
+        /// <summary>
+        /// Gets a page, force parsing it as a LinkPage
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public HomePage GetLinkPage(string url)
+        {
+            try
+            {
+                //========= Step 1: Get HTML
+                var html = GetHtml(url);
+                if (string.IsNullOrEmpty(html))
+                {
+                    return null;
+                }
+
+                HtmlConverter htmlConverter = new HtmlConverter(url, html);
+
+                //convert, autodetecting
+                var page = htmlConverter.ConvertToLinkPage();
+
+                if (page == null)
+                {
+                    ErrorMessage = $"Could not parse HTML from '{url}'";
+                    return null;
+                }
+
+                return page;
+
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets a page, force parsing it as a LinkPage
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public ArticlePage GetContentPage(string url)
+        {
+            try
+            {
+                //========= Step 1: Get HTML
+                var html = GetHtml(url);
+                if (string.IsNullOrEmpty(html))
+                {
+                    return null;
+                }
+
+                HtmlConverter htmlConverter = new HtmlConverter(url, html);
+
+                //convert, autodetecting
+                var page = htmlConverter.ConvertToContentPage();
+
+                if (page == null)
+                {
+                    ErrorMessage = $"Could not parse HTML from '{url}'";
+                    return null;
+                }
+
+                return page;
+
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                return null;
+            }
+        }
+
+
+        private string GetHtml(string url)
+        {
+            var fetcher = new HttpFetcher();
+            var html = fetcher.GetAsString(url);
+            if (string.IsNullOrEmpty(html))
+            {
+                ErrorMessage = $"Could not download HTML for '{url}'";
+                return null;
+            }
+            return html;
+        }
 
 
     }
