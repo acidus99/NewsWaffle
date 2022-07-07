@@ -10,6 +10,7 @@
     <None Remove="Net\" />
     <None Remove="OpenGraph-Net" />
     <None Remove="Cache\" />
+    <None Remove="Util\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SmartReader" Version="0.8.1" />
@@ -19,5 +20,6 @@
   <ItemGroup>
     <Folder Include="Net\" />
     <Folder Include="Cache\" />
+    <Folder Include="Util\" />
   </ItemGroup>
 </Project>
