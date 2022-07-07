@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using AngleSharp.Dom;
 
 using NewsWaffle.Models;
-using NewsWaffle.Converter.Special;
+using NewsWaffle.Util;
 
 namespace NewsWaffle.Converter
 {
@@ -101,7 +101,8 @@ namespace NewsWaffle.Converter
         //
         private string SanitizeLinkText(string text)
             //remove newliens inside the text, and ensure its trimmed on both sides
-            => NewlineStripper.RemoveNewlines(text).Trim();
+            //TODO: should this just use the sanitize function to handle HTML encoding?
+            => StringUtils.RemoveNewlines(text).Trim();
 
         private Uri ResolveUrl(string href)
         {

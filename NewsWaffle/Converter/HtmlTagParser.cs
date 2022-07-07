@@ -7,6 +7,7 @@ using AngleSharp.Dom;
 using NewsWaffle.Converter.Filter;
 using NewsWaffle.Converter.Special;
 using NewsWaffle.Models;
+using NewsWaffle.Util;
 
 namespace NewsWaffle.Converter
 {
@@ -101,7 +102,7 @@ namespace NewsWaffle.Converter
                 //if its not only whitespace add it.
                 if (textNode.TextContent.Trim().Length > 0)
                 {
-                    var text = NewlineStripper.RemoveNewlines(textNode.TextContent);
+                    var text = StringUtils.RemoveNewlines(textNode.TextContent);
                     if (buffer.AtLineStart)
                     {
                         buffer.Append(text.TrimStart());

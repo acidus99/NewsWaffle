@@ -4,6 +4,7 @@ using AngleSharp.Html.Dom;
 using AngleSharp.Dom;
 
 using NewsWaffle.Models;
+using NewsWaffle.Util;
 
 namespace NewsWaffle.Converter.Special
 {
@@ -73,7 +74,9 @@ namespace NewsWaffle.Converter.Special
         }
 
         private static string GetFigCaption(IElement figure)
-            => NewlineStripper.RemoveNewlines(figure.QuerySelector("figcaption")?.TextContent ?? "");
+            //TODO: I think this should handle the HTNL decoding as well?
+            //maybe "textContent" already does that
+            => StringUtils.RemoveNewlines(figure.QuerySelector("figcaption")?.TextContent ?? "");
 
         private static string GetUrl(IElement img)
         {
