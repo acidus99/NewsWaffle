@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using Gemini.Cgi;
 using NewsWaffle.Models;
 using NewsWaffle.Cgi.Media;
@@ -75,20 +74,6 @@ namespace NewsWaffle.Cgi
             }
             cgi.Success("image/jpeg");
             cgi.Out.Write(optimizedImage);
-        }
-
-        public static void Welcome(CgiWrapper cgi)
-        {
-            cgi.Success();
-            cgi.Writer.WriteLine("# 🧇 NewsWaffle");
-
-            cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/view View news site");
-            cgi.Writer.WriteLine("## Examples:");
-            cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.wired.com%2F Wired");
-            cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.ajc.com%2F Atlanta Journal-Constitution");
-            cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.sixcolors.com%2F Six Colors");
-            cgi.Writer.WriteLine("=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.theverge.com%2F The Verge");
-            Footer(cgi);
         }
 
         private static void Footer(CgiWrapper cgi, AbstractPage page = null)
