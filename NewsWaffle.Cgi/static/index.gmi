@@ -4,27 +4,27 @@ Any news site, available via Gemini
 
 => /cgi-bin/waffle.cgi/view Access custom news site
 
-
 ## World News:
-
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.bbc.com%2Fnews BBC News
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.reuters.com/%2Fworld%2F Reuters
 
 ## Financial
-
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.wsj.com%2F Wall Street Journal
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Ffinance.yahoo.com Yahoo Finance
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.cnbc.com%2F CNBC
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.fastcompany.com%2F Fast Company
 
 ## Tech
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.wired.com%2F Wired
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.theverge.com%2F The Verge
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fappleinsider.com%2F Apple Insider
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.engadget.com%2F Engadget
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Farstechnica.com%2F Ars Technica
 
-## Sites Acidus Likes
+## New Sites Acidus Likes
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.anandtech.com AnandTech
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.sixcolors.com%2F Six Colors
-
-
-
-
-## Examples:
-=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.ajc.com%2F Atlanta Journal-Constitution
-
-
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.thedrive.com%2Fthe-war-zone The War Zone
 
 ---
 => mailto:acidus@gemi.dev Made with 🧇 and ❤️ by Acidus
