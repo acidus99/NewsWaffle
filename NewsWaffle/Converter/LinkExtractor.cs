@@ -17,6 +17,8 @@ namespace NewsWaffle.Converter
         public List<HyperLink> ContentLinks { get; internal set; }
         public List<HyperLink> NavigationLinks { get; internal set; }
 
+        public string FeedUrl { get; internal set; }
+
         public LinkExtractor(string htmlUrl)
         {
             BaselUrl = new Uri(htmlUrl);
@@ -32,6 +34,9 @@ namespace NewsWaffle.Converter
 
         public void FindLinks(IElement content)
         {
+
+            FindFeeds(content);
+
             //first, get all the links
             var allLinks = GetLinks(content);
             //now, remove all the navigation stuff
@@ -114,6 +119,26 @@ namespace NewsWaffle.Converter
             {
             }
             return null;
+        }
+
+        private bool FindFeeds(IElement content)
+        {
+            var link = content.QuerySelectorAll("link")
+                .Where(x => (x.GetAttribute("rel") == "alternate") &&
+                            x.HasAttribute("href") &&
+                            (x.GetAttribute("type") == "application/rss+xml" ||
+                             x.GetAttribute("type") == "application/atom+xml"))
+                .FirstOrDefault();
+            if (link != null)
+            {
+                var url = ResolveUrl(link.GetAttribute("href"));
+                if (url != null)
+                {
+                    FeedUrl = url.AbsoluteUri;
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
