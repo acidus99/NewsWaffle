@@ -56,7 +56,7 @@ namespace NewsWaffle.Converter
 		}
 
 		private string GetTitle()
-			=> StringUtils.Normnalize(openGraph.Title ?? head.Value.Title);
+			=> StringUtils.Normnalize(openGraph.Title is "" ? head.Value.Title : openGraph.Title);
 
 		private string GetOpenGraphType()
 			=> openGraph.Type;
