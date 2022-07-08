@@ -90,7 +90,7 @@ namespace NewsWaffle.Converter
 
 			public bool HasArticleProperties
 				=> Head.QuerySelectorAll("meta")
-					.Where(x => (x.GetAttribute("property")?.StartsWith("article:") ?? false )).Count() >= 2;
+					.Where(x => (x.GetAttribute("property")?.StartsWith("article:") ?? false )).Count() >= 4;
 
 		}
 
