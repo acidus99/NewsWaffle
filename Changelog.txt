@@ -5,3 +5,6 @@
 - Feature: Word Count and Reading Time displayed for articles
 - Feature: Add size savings in footer
 - Feature: Add copyright notice driven by site owner
+- Feature: Better detection of article-style pages use META tags
+- Feature: Detect RSS/Atom feeds and use those for making list of links
+- Feature: Add TABLE tag support
