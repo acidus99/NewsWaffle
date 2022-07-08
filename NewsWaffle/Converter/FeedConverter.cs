@@ -26,7 +26,10 @@ namespace NewsWaffle.Converter
                 Title = StringUtils.Normnalize(feed.Title),
                 SiteName = StringUtils.Normnalize(feed.Copyright),
             };
-            var ret = new FeedPage(metaData);
+            var ret = new FeedPage(metaData)
+            {
+                RootUrl = GetRootUrl(url)
+            };
             ret.Links.AddRange(feed.Items.Where(x => TimeOk(x.PublishingDate)).Take(ItemLimit).Select(x => new FeedLink
             {
                 Url = new Uri(x.Link),
@@ -36,6 +39,23 @@ namespace NewsWaffle.Converter
 
             return ret;
         }
+
+        private static string GetRootUrl(string url)
+        {
+            try
+            {
+                Uri tmp = new Uri(url);
+                if (tmp.IsAbsoluteUri)
+                {
+                    return $"{tmp.Scheme}://{tmp.Host}/";
+                }
+                
+            } catch(Exception)
+            {
+            }
+            return "";
+        }
+            
 
         private static bool TimeOk(DateTime? published)
             => (published == null) ? true :

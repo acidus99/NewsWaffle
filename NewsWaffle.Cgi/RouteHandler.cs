@@ -196,6 +196,10 @@ namespace NewsWaffle.Cgi
             {
                 cgi.Writer.WriteLine($">{feedPage.Meta.Description}");
             }
+            if (feedPage.RootUrl.Length > 0)
+            {
+                cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(feedPage.RootUrl)} View site homepage");
+            }
             cgi.Writer.WriteLine();
             int counter = 0;
             cgi.Writer.WriteLine($"### Feed Links: {feedPage.Links.Count}");
@@ -263,7 +267,7 @@ namespace NewsWaffle.Cgi
                 cgi.Writer.WriteLine($">{articlePage.Excerpt}");
             }
 
-            cgi.Writer.WriteLine("Unfortunately this full article could not be properly parsed.");
+            cgi.Writer.WriteLine("Based on meta data, we thought this was a article, But we were unable to extract one. This might be a page of primarily links, like a home page or category page. this full article could not be properly parsed.");
             cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.OriginalUrl)} Try in Link View");
         }
 

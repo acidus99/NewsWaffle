@@ -7,6 +7,7 @@ namespace NewsWaffle.Models
 	public class FeedPage : AbstractPage
 	{
 		public List<FeedLink> Links = new List<FeedLink>();
+        public string RootUrl { get; internal set; }
 
         public FeedPage(PageMetaData metaData)
             : base(metaData)
