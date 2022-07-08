@@ -25,9 +25,6 @@ namespace NewsWaffle.Converter
 			openGraph = OpenGraph.ParseHtml(html);
 			head = new Lazy<HtmlHead>(() => new HtmlHead(html));
 
-			var TMP = new HtmlHead(html);
-
-
 			return new PageMetaData
 			{
 				Description = GetDescription(),
