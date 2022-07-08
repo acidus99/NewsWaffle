@@ -6,9 +6,9 @@ namespace NewsWaffle.Models
 		public string Description { get; internal set; }
 		public string FeaturedImage { get; internal set; }
 		public string OriginalUrl { get; internal set; }
+		public string SiteName { get; internal set; }
 		public string Title { get; internal set; }
 		public string Type { get; internal set; }
-
 	}
 }
 

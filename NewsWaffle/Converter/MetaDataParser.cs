@@ -22,6 +22,7 @@ namespace NewsWaffle.Converter
 				Description = GetDescription(),
 				FeaturedImage = GetFeatureImage(),
 				OriginalUrl = url,
+				SiteName = GetSiteName(),
 				Title = GetTitle(),
 				Type = GetOpenGraphType()
 			};
@@ -32,6 +33,9 @@ namespace NewsWaffle.Converter
 
 		private string GetFeatureImage()
 			=> openGraph.Image?.AbsoluteUri ?? null;
+
+		private string GetSiteName()
+			=> StringUtils.Normnalize(openGraph.Metadata["og:site_name"].FirstOrDefault()?.Value ?? "");
 
 		private string GetTitle()
 			//TODO use HTML as well
