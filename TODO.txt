@@ -1,4 +1,12 @@
-﻿
+﻿For launch:
+    - Add copyright to content pages
+    - handle readability fails
+    - handle HTTP/DNS fails
+
+Nice to haves
+    - Toggle to see content links?
+
+
 # Features
 
 - Handle link pages that don't have og:type=website (daring fireball, Irish times, etc)
@@ -31,9 +39,13 @@
     https://sixcolors.com/post/2022/06/13-inch-m2-macbook-pro-review-the-future-wrapped-in-the-past/
     track in the buffer the last image typed, and then don't print it?
 
-- handle when readability fails to extract an article on og:type=article pages
-    "https://www.ajc.com/atlanta-weather/mondays-weather-highs-in-the-mid-80s-for-rainy-week-ahead/GNZQ2JVKNZG3LBTC6FPGQTGBCY/"
+- SmartReader not finding BBC article images
+https://www.bbc.com/news/entertainment-arts-62051317
+- SmartReader not extracting this article, when Safari's reader mode does
+https://www.ajc.com/atlanta-weather/mondays-weather-highs-in-the-mid-80s-for-rainy-week-ahead/GNZQ2JVKNZG3LBTC6FPGQTGBCY/
 
+
+- Apple insider doesn't use open grapb type for article, but it does have JSON-LD, which does have a @Type of newsarticle. Perhaps JSON-LD can be used too
 
 - Extra blank lines:
 https://www.esquire.com/uk/culture/a40351034/blade-runner-at-40/
