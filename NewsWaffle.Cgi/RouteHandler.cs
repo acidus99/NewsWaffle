@@ -235,14 +235,14 @@ namespace NewsWaffle.Cgi
                 cgi.Writer.WriteLine($"Byline: {articlePage.Byline}");
             }
             cgi.Writer.WriteLine($"Length: {articlePage.WordCount} words (~{articlePage.TimeToRead.Minutes} minutes)");
-            if (articlePage.Images.Count > 0)
-            {
-                cgi.Writer.WriteLine($"Article images: {articlePage.Images.Count}");
-            }
-            if (articlePage.Links.Count > 0)
-            {
-                cgi.Writer.WriteLine($"Hyperlinks in Body: {articlePage.Links.Count}");
-            }
+            //if (articlePage.Images.Count > 0)
+            //{
+            //    cgi.Writer.WriteLine($"Article images: {articlePage.Images.Count}");
+            //}
+            //if (articlePage.Links.Count > 0)
+            //{
+            //    cgi.Writer.WriteLine($"Hyperlinks in Body: {articlePage.Links.Count}");
+            //}
             if (articlePage.Meta.FeaturedImage != null)
             {
                 cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(articlePage.Meta.FeaturedImage)} Featured Image");
