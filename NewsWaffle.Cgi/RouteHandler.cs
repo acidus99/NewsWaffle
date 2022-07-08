@@ -85,8 +85,8 @@ namespace NewsWaffle.Cgi
             cgi.Writer.WriteLine("---");
             if (page != null)
             {
-                cgi.Writer.WriteLine($"Size: {ReadableFileSize(page.Size)}. {page.Savings} smaller than original HTML: {ReadableFileSize(page.OriginalSize)} 🤮");
-                cgi.Writer.WriteLine($"=> {page.SourceUrl} Link to Source");
+                cgi.Writer.WriteLine($"Size: {ReadableFileSize(page.Size)}. {page.Savings} smaller than original HTML: {ReadableFileSize(page.Meta.OriginalSize)} 🤮");
+                cgi.Writer.WriteLine($"=> {page.Meta.OriginalUrl} Link to Source");
                 cgi.Writer.WriteLine("---");
             }
             cgi.Writer.WriteLine("=> mailto:acidus@gemi.dev Made with 🧇 and ❤️ by Acidus");
@@ -94,14 +94,14 @@ namespace NewsWaffle.Cgi
 
         private static void RenderHome(CgiWrapper cgi, LinkPage homePage)
         {
-            cgi.Writer.WriteLine($"## {homePage.Title}");
-            if (homePage.FeaturedImage != null)
+            cgi.Writer.WriteLine($"## {homePage.Meta.Title}");
+            if (homePage.Meta.FeaturedImage != null)
             {
-                cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(homePage.FeaturedImage)} Featured Image");
+                cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(homePage.Meta.FeaturedImage)} Featured Image");
             }
-            if(homePage.Description.Length > 0)
+            if(homePage.Meta.Description.Length > 0)
             {
-                cgi.Writer.WriteLine($">{homePage.Description}");
+                cgi.Writer.WriteLine($">{homePage.Meta.Description}");
             }
             cgi.Writer.WriteLine();
             int counter = 0;
@@ -129,8 +129,19 @@ namespace NewsWaffle.Cgi
 
         private static void RenderArticle(CgiWrapper cgi, ContentPage articlePage)
         {
-            cgi.Writer.WriteLine($"## {articlePage.Title}");
-            if(articlePage.Published != null)
+            if(articlePage.IsReadability)
+            {
+                RenderArticleSuccess(cgi, articlePage);
+            } else
+            {
+                RenderArticleFailed(cgi, articlePage);
+            }
+        }
+
+        private static void RenderArticleSuccess(CgiWrapper cgi, ContentPage articlePage)
+        {
+            cgi.Writer.WriteLine($"## {articlePage.Meta.Title}");
+            if (articlePage.Published != null)
             {
                 cgi.Writer.WriteLine($"Published: {articlePage.Published.Value.ToString("yyyy-MM-dd HH:mm")} GMT");
             }
@@ -139,7 +150,7 @@ namespace NewsWaffle.Cgi
                 cgi.Writer.WriteLine($"Byline: {articlePage.Byline}");
             }
             cgi.Writer.WriteLine($"Length: {articlePage.WordCount} words (~{articlePage.TimeToRead.Minutes} minutes)");
-            if(articlePage.Images.Count > 0)
+            if (articlePage.Images.Count > 0)
             {
                 cgi.Writer.WriteLine($"Article images: {articlePage.Images.Count}");
             }
@@ -147,15 +158,31 @@ namespace NewsWaffle.Cgi
             {
                 cgi.Writer.WriteLine($"Hyperlinks in Body: {articlePage.Links.Count}");
             }
-            if (articlePage.FeaturedImage != null)
+            if (articlePage.Meta.FeaturedImage != null)
             {
-                cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(articlePage.FeaturedImage)} Featured Image");
+                cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(articlePage.Meta.FeaturedImage)} Featured Image");
             }
 
             foreach (var item in articlePage.Content)
             {
                 cgi.Writer.Write(item.Content);
             }
+        }
+
+        private static void RenderArticleFailed(CgiWrapper cgi, ContentPage articlePage)
+        {
+            cgi.Writer.WriteLine($"## {articlePage.Meta.Title}");
+            if (articlePage.Meta.FeaturedImage != null)
+            {
+                cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(articlePage.Meta.FeaturedImage)} Featured Image");
+            }
+            if(!string.IsNullOrEmpty(articlePage.Excerpt))
+            {
+                cgi.Writer.WriteLine("Excerpt:");
+                cgi.Writer.WriteLine($">{articlePage.Excerpt}");
+            }
+
+            cgi.Writer.WriteLine("Unfortunately this full article could not be properly parsed.");
         }
 
         static string ReadableFileSize(double size, int unit = 0)
@@ -170,7 +197,5 @@ namespace NewsWaffle.Cgi
 
             return String.Format("{0:0.0#} {1}", size, units[unit]);
         }
-
     }
 }
-

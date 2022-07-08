@@ -44,14 +44,14 @@ namespace NewsWaffle.Console
 
         private static void RenderHomePage(LinkPage homePage)
         {
-            System.Console.WriteLine($"## Title: {homePage.Title}");
-            if (homePage.FeaturedImage != null)
+            System.Console.WriteLine($"## Title: {homePage.Meta.Title}");
+            if (homePage.Meta.FeaturedImage != null)
             {
-                System.Console.WriteLine($"=> {homePage.FeaturedImage} Featured Image");
+                System.Console.WriteLine($"=> {homePage.Meta.FeaturedImage} Featured Image");
             }
-            if (homePage.Description.Length > 0)
+            if (homePage.Meta.Description.Length > 0)
             {
-                System.Console.WriteLine($">{homePage.Description}");
+                System.Console.WriteLine($">{homePage.Meta.Description}");
             }
             System.Console.WriteLine($"Content Links: {homePage.ContentLinks.Count}");
             foreach (var link in homePage.ContentLinks)
@@ -68,10 +68,10 @@ namespace NewsWaffle.Console
 
         private static void RenderArticle(ContentPage articlePage)
         {
-            System.Console.WriteLine($"## {articlePage.Title}");
-            if (articlePage.FeaturedImage != null)
+            System.Console.WriteLine($"## {articlePage.Meta.Title}");
+            if (articlePage.Meta.FeaturedImage != null)
             {
-                System.Console.WriteLine($"=> {articlePage.FeaturedImage} Featured Image");
+                System.Console.WriteLine($"=> {articlePage.Meta.FeaturedImage} Featured Image");
             }
 
             foreach (var item in articlePage.Content)

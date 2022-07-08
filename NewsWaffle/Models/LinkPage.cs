@@ -7,7 +7,10 @@ namespace NewsWaffle.Models
 {
     public class LinkPage : AbstractPage
     {
-        public String Description { get; internal set; }
+        public LinkPage(PageMetaData metaData)
+            : base(metaData)
+        {
+        }
 
         public List<HyperLink> ContentLinks { get; internal set; }
 
@@ -16,8 +19,8 @@ namespace NewsWaffle.Models
         public override int Size
             => ContentLinks.Sum(x => x.Size) +
                 NavigationLinks.Sum(x => x.Size) +
-                Description.Length +
-                Title.Length + 30;
+                Meta.Description.Length +
+                Meta.Title.Length + 30;
     }
 }
 

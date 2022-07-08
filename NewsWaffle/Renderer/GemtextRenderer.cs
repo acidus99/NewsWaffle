@@ -21,10 +21,10 @@ namespace NewsWaffle.Renderer
             fout.WriteLine(">Converted by GemiWebProxy");
             fout.WriteLine();
 
-            fout.WriteLine($"# {Page.Title}");
-            if(Page.FeaturedImage != null)
+            fout.WriteLine($"# {Page.Meta.Title}");
+            if(Page.Meta.FeaturedImage != null)
             {
-                fout.WriteLine($"=> {Page.FeaturedImage} Featured Image");
+                fout.WriteLine($"=> {Page.Meta.FeaturedImage} Featured Image");
             }
 
             foreach(var item in Page.Content)

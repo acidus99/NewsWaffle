@@ -53,13 +53,11 @@ namespace NewsWaffle.Converter
 			var contentRoot = Preparer.PrepareHtml(Html);
 			LinkExtractor extractor = new LinkExtractor(Url);
 			extractor.FindLinks(contentRoot);
-			var homePage = new LinkPage
+			var homePage = new LinkPage(MetaData)
 			{
-				Description = MetaData.Description,
 				ContentLinks = extractor.ContentLinks,
 				NavigationLinks = extractor.NavigationLinks,
 			};
-			AssignMetadata(homePage);
 			return homePage;
 		}
 
@@ -70,55 +68,55 @@ namespace NewsWaffle.Converter
 		public ContentPage ConvertToContentPage()
 		{
 			var article = Reader.ParseArticle(Url, Html, null);
-			var contentRoot = Preparer.PrepareHtml(article.Content);
 
-			if(Debug)
-            {
-				SaveHtml("simplified.html", article.Content);
-            }
-
-			HtmlTagParser parser = new HtmlTagParser
+			if (article.IsReadable)
 			{
-				ShouldRenderHyperlinks = false
-			};
-			parser.Parse(contentRoot);
 
-			var contentItems = parser.GetItems();
+				var contentRoot = Preparer.PrepareHtml(article.Content);
 
-			var articlePage = new ContentPage
+				if (Debug)
+				{
+					SaveHtml("simplified.html", article.Content);
+				}
+
+				HtmlTagParser parser = new HtmlTagParser
+				{
+					ShouldRenderHyperlinks = false
+				};
+				parser.Parse(contentRoot);
+
+				var contentItems = parser.GetItems();
+
+				var articlePage = new ContentPage(MetaData)
+				{
+					IsReadability = true,
+					Byline = StringUtils.Normnalize(article.Author ?? article.Byline),
+					Content = contentItems,
+					Images = parser.Images,
+					Links = parser.BodyLinks,
+					Published = article.PublicationDate,
+					TimeToRead = article.TimeToRead,
+					WordCount = CountWords(contentItems[0]),
+				};
+
+				articlePage.Meta.Title = StringUtils.Normnalize(article.Title);
+
+				return articlePage;
+			}
+			else
 			{
-				Byline = StringUtils.Normnalize(article.Author ?? article.Byline),
-				Content = contentItems,
-				Images = parser.Images,
-				Links = parser.BodyLinks,
-				Published = article.PublicationDate,
-				SimplifiedHtml = article.Content,
-				TimeToRead = article.TimeToRead,
-				Title = StringUtils.Normnalize(article.Title),
-				WordCount = CountWords(contentItems[0]),
-			};
-
-			AssignMetadata(articlePage);
-
-			return articlePage;
+				return new ContentPage(MetaData)
+				{
+					IsReadability = false,
+					Excerpt = StringUtils.Normnalize(article.Excerpt)
+				};
+			}
 		}
 
 		#endregion
 
 
 		#region private workings
-
-		private void AssignMetadata(AbstractPage page)
-		{
-			page.FeaturedImage = MetaData.FeaturedImage;
-			page.OriginalSize = Html.Length;
-
-			if (string.IsNullOrEmpty(page.Title))
-			{
-				page.Title = MetaData.Title;
-			}
-			page.SourceUrl = MetaData.OriginalUrl;
-		}
 
 		private PageType ClassifyPage()
 			=> PageClassifier.Classify(MetaData);

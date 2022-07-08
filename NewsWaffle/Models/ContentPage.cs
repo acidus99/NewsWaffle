@@ -12,11 +12,17 @@ namespace NewsWaffle.Models
         //content and images
         public List<ContentItem> Content = new List<ContentItem>();
         public List<MediaItem> Images = new List<MediaItem>();
-
         public LinkCollection Links = new LinkCollection();
 
-        //For debugging
-        public string SimplifiedHtml { get; set; }
+        public bool IsReadability { get; internal set; }
+
+        //we only populate excerpt if we couldn't extract body a failure
+        public string Excerpt { get; internal set; }
+
+        public ContentPage(PageMetaData metaData)
+            : base(metaData)
+        {
+        }
 
         public TimeSpan TimeToRead { get; internal set; }
 
