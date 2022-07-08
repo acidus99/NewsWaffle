@@ -19,6 +19,11 @@ namespace NewsWaffle.Util
         /// <returns></returns>
         public static string Normnalize(string s)
         {
+            if(s == null)
+            {
+                return "";
+            }
+
             //decode
             s = WebUtility.HtmlDecode(s);
             //strip tags
