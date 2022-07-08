@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
 
-using System;
 using AngleSharp;
 using AngleSharp.Html.Parser;
-using AngleSharp.Html.Dom;
 using AngleSharp.Dom;
 using OpenGraphNet;
 
@@ -27,15 +25,18 @@ namespace NewsWaffle.Converter
 			openGraph = OpenGraph.ParseHtml(html);
 			head = new Lazy<HtmlHead>(() => new HtmlHead(html));
 
+			var TMP = new HtmlHead(html);
+
+
 			return new PageMetaData
 			{
 				Description = GetDescription(),
 				FeaturedImage = GetFeatureImage(),
 				OriginalSize = html.Length,
 				OriginalUrl = url,
+				ProbablyType = ClassifyPageType(),
 				SiteName = GetSiteName(),
-				Title = GetTitle(),
-				Type = GetOpenGraphType()
+				Title = GetTitle(),				
 			};
 		}
 
@@ -58,8 +59,14 @@ namespace NewsWaffle.Converter
 		private string GetTitle()
 			=> StringUtils.Normnalize(openGraph.Title is "" ? head.Value.Title : openGraph.Title);
 
-		private string GetOpenGraphType()
-			=> openGraph.Type;
+		private PageType ClassifyPageType()
+        {
+			if(openGraph.Type == "article" || head.Value.HasArticleProperties)
+            {
+				return PageType.ContentPage;
+            }
+			return PageType.LinkPage;
+        }
 
 		private class HtmlHead
 		{
@@ -80,6 +87,10 @@ namespace NewsWaffle.Converter
 				=> Head.QuerySelectorAll("meta")
 					.Where(x => (x.GetAttribute("name") == "application-name"))
 					.FirstOrDefault()?.GetAttribute("content") ?? "";
+
+			public bool HasArticleProperties
+				=> Head.QuerySelectorAll("meta")
+					.Where(x => (x.GetAttribute("property")?.StartsWith("article:") ?? false )).FirstOrDefault() != null;
 
 		}
 

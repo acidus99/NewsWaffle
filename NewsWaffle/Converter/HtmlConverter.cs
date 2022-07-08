@@ -35,7 +35,7 @@ namespace NewsWaffle.Converter
 		public AbstractPage Convert()
 		{
 			ParseMetadata();
-			switch (ClassifyPage())
+			switch (MetaData.ProbablyType)
 			{
 				case PageType.ContentPage:
 					return ConvertToContentPage();
@@ -50,6 +50,10 @@ namespace NewsWaffle.Converter
 		/// </summary>
 		public LinkPage ConvertToLinkPage()
 		{
+			if (MetaData == null)
+			{
+				ParseMetadata();
+			}
 			var contentRoot = Preparer.PrepareHtml(Html);
 			LinkExtractor extractor = new LinkExtractor(Url);
 			extractor.FindLinks(contentRoot);
@@ -57,6 +61,7 @@ namespace NewsWaffle.Converter
 			{
 				ContentLinks = extractor.ContentLinks,
 				NavigationLinks = extractor.NavigationLinks,
+				FeedUrl = extractor.FeedUrl,
 			};
 			return homePage;
 		}
@@ -67,6 +72,10 @@ namespace NewsWaffle.Converter
 		/// <returns></returns>
 		public ContentPage ConvertToContentPage()
 		{
+			if(MetaData == null)
+            {
+				ParseMetadata();
+            }
 			var article = Reader.ParseArticle(Url, Html, null);
 
 			if (article.IsReadable)
@@ -118,9 +127,6 @@ namespace NewsWaffle.Converter
 
 		#region private workings
 
-		private PageType ClassifyPage()
-			=> PageClassifier.Classify(MetaData);
-
 		private int CountWords(ContentItem content)
 			=> content.Content.Split("\n").Where(x => !x.StartsWith("=> ")).Sum(x => CountWords(x));
 
@@ -137,9 +143,6 @@ namespace NewsWaffle.Converter
 		private void SaveHtml(string filename, string html)
 			=> File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/tmp/" + filename, html);
 
-
-
 		#endregion
-
 	}
 }
