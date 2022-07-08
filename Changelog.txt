@@ -3,3 +3,5 @@
 - Feature: Add caching layer
 - Fixed: <script type="template"> can cause markup to appear in Link text
 - Feature: Word Count and Reading Time displayed for articles
+- Feature: Add size savings in footer
+- Feature: Add copyright notice driven by site owner

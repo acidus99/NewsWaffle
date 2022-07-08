@@ -82,6 +82,10 @@ namespace NewsWaffle.Cgi
         private static void Footer(CgiWrapper cgi, AbstractPage page = null)
         {
             cgi.Writer.WriteLine();
+            if (!string.IsNullOrEmpty(page.Meta.SiteName))
+            {
+                cgi.Writer.WriteLine($"All content © {DateTime.Now.Year} {page.Meta.SiteName}");
+            }
             cgi.Writer.WriteLine("---");
             if (page != null)
             {
