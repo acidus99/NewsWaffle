@@ -61,6 +61,30 @@ namespace NewsWaffle.Cgi
             Footer(cgi, page);
         }
 
+        public static void Feed(CgiWrapper cgi)
+        {
+            if (!cgi.HasQuery)
+            {
+                cgi.BadRequest("missing url");
+                return;
+            }
+            cgi.Success();
+            cgi.Writer.WriteLine("# 🧇 NewsWaffle");
+
+            var waffles = new YummyWaffles();
+            var feedPage = waffles.GetFeedPage(cgi.Query);
+
+            if (feedPage == null)
+            {
+                cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
+                cgi.Writer.WriteLine(waffles.ErrorMessage);
+                return;
+            }
+            RenderFeed(cgi, feedPage);
+            Footer(cgi, feedPage);
+        }
+
+
         public static void ProxyMedia(CgiWrapper cgi)
         {
             if(!cgi.HasQuery)
@@ -108,6 +132,10 @@ namespace NewsWaffle.Cgi
                 cgi.Writer.WriteLine($">{homePage.Meta.Description}");
             }
             cgi.Writer.WriteLine();
+            if(homePage.HasFeed)
+            {
+                cgi.Writer.WriteLine($"=> /cgi-bin/waffle.cgi/feed?{WebUtility.UrlEncode(homePage.FeedUrl)} Feed URL detected. Click here for more accurate list of links");
+            }
             int counter = 0;
             if (homePage.ContentLinks.Count > 0)
             {
@@ -116,7 +144,7 @@ namespace NewsWaffle.Cgi
                 foreach (var link in homePage.ContentLinks)
                 {
                     counter++;
-                    cgi.Writer.WriteLine($"=> /cgi-bin/waffle.cgi/view?{WebUtility.UrlEncode(link.Url.AbsoluteUri)} {counter}. {link.Text}");
+                    cgi.Writer.WriteLine($"=> /cgi-bin/waffle.cgi/article?{WebUtility.UrlEncode(link.Url.AbsoluteUri)} {counter}. {link.Text}");
                 }
             }
             if (homePage.NavigationLinks.Count > 0)
@@ -129,6 +157,29 @@ namespace NewsWaffle.Cgi
                     cgi.Writer.WriteLine($"=> /cgi-bin/waffle.cgi/view?{WebUtility.UrlEncode(link.Url.AbsoluteUri)} {counter}. {link.Text}");
                 }
             }
+        }
+
+        private static void RenderFeed(CgiWrapper cgi, FeedPage feedPage)
+        {
+            cgi.Writer.WriteLine($"## {feedPage.Meta.Title}");
+            if (feedPage.Meta.FeaturedImage != null)
+            {
+                cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(feedPage.Meta.FeaturedImage)} Featured Image");
+            }
+            if (feedPage.Meta.Description.Length > 0)
+            {
+                cgi.Writer.WriteLine($">{feedPage.Meta.Description}");
+            }
+            cgi.Writer.WriteLine();
+            int counter = 0;
+            cgi.Writer.WriteLine($"### Feed Links: {feedPage.Links.Count}");
+
+            foreach (var link in feedPage.Links)
+            {
+                counter++;
+                var published = link.HasPublished ? $"({link.TimeAgo})" : "";
+                cgi.Writer.WriteLine($"=> /cgi-bin/waffle.cgi/article?{WebUtility.UrlEncode(link.Url.AbsoluteUri)} {counter}. {link.Text} {published}");
+            }            
         }
 
         private static void RenderArticle(CgiWrapper cgi, ContentPage articlePage)

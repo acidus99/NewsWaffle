@@ -12,6 +12,7 @@ namespace NewsWaffle.Cgi
             CgiRouter router = new CgiRouter();
             router.OnRequest("/view", RouteHandler.View);
             router.OnRequest("/article", RouteHandler.Article);
+            router.OnRequest("/feed", RouteHandler.Feed);
             router.OnRequest("/media.jpg", RouteHandler.ProxyMedia);
             router.SetStaticRoot("static/");
             router.ProcessRequest();

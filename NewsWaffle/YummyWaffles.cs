@@ -22,7 +22,7 @@ namespace NewsWaffle
             try
             {
                 //========= Step 1: Get HTML
-                var html = GetHtml(url);
+                var html = GetContent(url);
                 if(string.IsNullOrEmpty(html))
                 {
                     return null;
@@ -43,9 +43,20 @@ namespace NewsWaffle
 
             } catch(Exception ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = ex.Message + ex.StackTrace;
                 return null;
             }
+        }
+
+        public FeedPage GetFeedPage(string url)
+        {
+            var xml = GetContent(url);
+            if (string.IsNullOrEmpty(xml))
+            {
+                return null;
+            }
+
+            return FeedConverter.ParseFeed(url, xml);
         }
 
         /// <summary>
@@ -58,7 +69,7 @@ namespace NewsWaffle
             try
             {
                 //========= Step 1: Get HTML
-                var html = GetHtml(url);
+                var html = GetContent(url);
                 if (string.IsNullOrEmpty(html))
                 {
                     return null;
@@ -95,7 +106,7 @@ namespace NewsWaffle
             try
             {
                 //========= Step 1: Get HTML
-                var html = GetHtml(url);
+                var html = GetContent(url);
                 if (string.IsNullOrEmpty(html))
                 {
                     return null;
@@ -117,13 +128,13 @@ namespace NewsWaffle
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = ex.Message + ex.StackTrace;
                 return null;
             }
         }
 
 
-        private string GetHtml(string url)
+        private string GetContent(string url)
         {
             var fetcher = new HttpFetcher();
             var html = fetcher.GetAsString(url);
