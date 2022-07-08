@@ -28,7 +28,7 @@ namespace NewsWaffle.Cgi
 
             if (page is LinkPage)
             {
-                RenderHome(cgi, (LinkPage)page);
+                RenderLinks(cgi, (LinkPage)page);
             }
             else
             {
@@ -60,6 +60,30 @@ namespace NewsWaffle.Cgi
             RenderArticle(cgi, page);
             Footer(cgi, page);
         }
+
+        public static void Links(CgiWrapper cgi)
+        {
+            if (!cgi.HasQuery)
+            {
+                cgi.Input("Enter URL of news site (e.g. 'https://www.wired.com'");
+                return;
+            }
+            cgi.Success();
+            cgi.Writer.WriteLine("# 🧇 NewsWaffle");
+
+            var waffles = new YummyWaffles();
+            var page = waffles.GetLinkPage(cgi.Query);
+
+            if (page == null)
+            {
+                cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
+                cgi.Writer.WriteLine(waffles.ErrorMessage);
+                return;
+            }
+            RenderLinks(cgi, page);
+            Footer(cgi, page);
+        }
+
 
         public static void Feed(CgiWrapper cgi)
         {
@@ -120,7 +144,7 @@ namespace NewsWaffle.Cgi
             cgi.Writer.WriteLine("=> mailto:acidus@gemi.dev Made with 🧇 and ❤️ by Acidus");
         }
 
-        private static void RenderHome(CgiWrapper cgi, LinkPage homePage)
+        private static void RenderLinks(CgiWrapper cgi, LinkPage homePage)
         {
             cgi.Writer.WriteLine($"## {homePage.Meta.Title}");
             if (homePage.Meta.FeaturedImage != null)
@@ -240,6 +264,7 @@ namespace NewsWaffle.Cgi
             }
 
             cgi.Writer.WriteLine("Unfortunately this full article could not be properly parsed.");
+            cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.OriginalUrl)} Try in Link View");
         }
 
         static string ReadableFileSize(double size, int unit = 0)
