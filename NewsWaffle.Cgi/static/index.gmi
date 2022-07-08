@@ -1,8 +1,8 @@
 # 🧇 NewsWaffle
-Any news site, available via Gemini
+Read any news site, all via Gemini
 => /cgi-bin/waffle.cgi/about.gmi About NewsWaffle
 
-=> /cgi-bin/waffle.cgi/view Access custom news site
+=> /cgi-bin/waffle.cgi/view View custom news site
 
 ## World News:
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.bbc.com%2Fnews BBC News
