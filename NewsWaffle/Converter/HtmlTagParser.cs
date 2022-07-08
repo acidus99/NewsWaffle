@@ -249,6 +249,10 @@ namespace NewsWaffle.Converter
                     ProcessSup(element);
                     break;
 
+                case "table":
+                    ProcessTable(element);
+                    break;
+
                 case "u":
                     buffer.Append("_");
                     ParseChildern(element);
@@ -260,7 +264,6 @@ namespace NewsWaffle.Converter
                     break;
 
                 //skipping
-                case "table":
                 case "noscript":
                     return;
 
@@ -468,6 +471,19 @@ namespace NewsWaffle.Converter
                     buffer.Append(content);
                     buffer.Append(")");
                 }
+            }
+        }
+
+        private void ProcessTable(HtmlElement element)
+        {
+            //TODO: sanity check table
+            TableParser parser = new TableParser();
+            var table = parser.ParseTable(element);
+            if(table != null && !buffer.InBlockquote)
+            {
+                buffer.EnsureAtLineStart();
+                buffer.Append(TableRenderer.RenderTable(table));
+                buffer.EnsureAtLineStart();
             }
         }
 
