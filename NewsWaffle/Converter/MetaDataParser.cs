@@ -1,6 +1,13 @@
 ﻿using System;
 using System.Linq;
+
+using System;
+using AngleSharp;
+using AngleSharp.Html.Parser;
+using AngleSharp.Html.Dom;
+using AngleSharp.Dom;
 using OpenGraphNet;
+
 using NewsWaffle.Models;
 using NewsWaffle.Util;
 
@@ -12,15 +19,19 @@ namespace NewsWaffle.Converter
 	public class MetaDataParser
 	{
 		OpenGraph openGraph;
+		Lazy<HtmlHead> head;
+
 
 		public PageMetaData GetMetaData(string url, string html)
 		{
 			openGraph = OpenGraph.ParseHtml(html);
+			head = new Lazy<HtmlHead>(() => new HtmlHead(html));
 
 			return new PageMetaData
 			{
 				Description = GetDescription(),
 				FeaturedImage = GetFeatureImage(),
+				OriginalSize = html.Length,
 				OriginalUrl = url,
 				SiteName = GetSiteName(),
 				Title = GetTitle(),
@@ -35,15 +46,42 @@ namespace NewsWaffle.Converter
 			=> openGraph.Image?.AbsoluteUri ?? null;
 
 		private string GetSiteName()
-			=> StringUtils.Normnalize(openGraph.Metadata["og:site_name"].FirstOrDefault()?.Value ?? "");
+		{ 
+			var name =  openGraph.Metadata["og:site_name"].FirstOrDefault()?.Value ?? "";
+			if(name is "")
+            {
+				name = head.Value.ApplicationName;
+            }
+			return StringUtils.Normnalize(name);
+		}
 
 		private string GetTitle()
-			//TODO use HTML as well
-			=> StringUtils.Normnalize(openGraph.Title ?? "");
+			=> StringUtils.Normnalize(openGraph.Title ?? head.Value.Title);
 
 		private string GetOpenGraphType()
 			=> openGraph.Type;
 
+		private class HtmlHead
+		{
+			public IElement Head { get; private set; }
+
+			public HtmlHead(string html)
+			{
+				var context = BrowsingContext.New(Configuration.Default);
+				var parser = context.GetService<IHtmlParser>();
+				var document = parser.ParseDocument(html);
+				Head = document.QuerySelector("head");
+			}
+
+			public string Title
+				=> Head.QuerySelector("title")?.TextContent ?? "";
+
+			public string ApplicationName
+				=> Head.QuerySelectorAll("meta")
+					.Where(x => (x.GetAttribute("name") == "application-name"))
+					.FirstOrDefault()?.GetAttribute("content") ?? "";
+
+		}
+
 	}
 }
-
