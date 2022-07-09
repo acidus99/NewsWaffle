@@ -7,9 +7,26 @@ NewsWaffle is a Gemini gateway to public news websites, allowing you to get list
 Instead of only being able to read "text only" specific or "lite" versions of news sites, NewsWaffle works with nearly any news site.
 
 ## Why?
-* Modern news sites are user hostile, full of popups, nag-walls, and intrustive ads.
+* Modern news sites are user hostile, full of pop-ups, nag-walls, and intrusive ads that profile you and sell that to the highest bidder.
 * Modern news sites are BLOATED, wasting time and data. Even the HTML itself is bloated, hundreds of kilobytes in size when the actual article content is only 1-4 kilobytes.
 * Modern news sites are slow. Who has time for that nonsense?
+
+## How?
+
+NewsWaffle uses meta data in the HTML, like OpenGraph, to determine the type of page you are looking at, and uses different modes to parse and display content from news sites. 
+
+* Link View: Shows a list of articles. Works best on the home page of news sites, and category pages. Separates out content links from navigational links
+* Article View: Optimized view for reading an article. Hows by
+* RSS View: If we detect an RSS feed, we allow you to view that. This is a better 
+
+## Really, how do you do this?
+
+NewWaffle uses different standards, semantics, and web technologies to allow better navigation and reading of news contents:
+
+* Semantic HTML5 Tags: Using tags like <header> <footer> <nav> NewsWaffle determines which hyperlinks are navigational and which ones are likely link to news stories.
+* OpenGraph: NewsWaffle uses OpenGraph meta data to determine the type of page.
+* RSS/Atom feeds: Better than trying to determine which links go to news articles, some sites provide an RSS or Atom feed, which explicitly tells you the list of articles.
+* Readability: Readability is a library that powers many "Reader View" features in browsers and apps. It extracts out just the text of an article.
 
 ---
 => mailto:acidus@gemi.dev Made with 🧇 and ❤️ by Acidus
