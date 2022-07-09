@@ -6,10 +6,10 @@ Read any news site, all via Gemini
 
 ## World News:
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.bbc.com%2Fnews BBC News
-=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.reuters.com/%2Fworld%2F Reuters
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.aljazeera.com Al Jazeera
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.pbs.org%2Fnewshour%2F PBS News Hour
 
 ## Financial
-=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Ffinance.yahoo.com Yahoo Finance
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.cnbc.com%2F CNBC
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.fastcompany.com%2F Fast Company
 
@@ -19,6 +19,64 @@ Read any news site, all via Gemini
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fappleinsider.com%2F Apple Insider
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.engadget.com%2F Engadget
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Farstechnica.com%2F Ars Technica
+
+## Test Sites:
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.nytimes.com%2F New York Times
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.wsj.com%2F Wall Street Journal
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.huffpost.com%2F HuffPost
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.washingtonpost.com%2F Washington Post
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.latimes.com%2F Los Angeles Times
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.reuters.com%2F Reuters
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fabcnews.go.com%2F ABC News
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.usatoday.com%2F USA Today
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.bloomberg.com%2F Bloomberg Business
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.nbcnews.com%2F NBC News
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.dailymail.co.uk%2F Daily Mail
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.theguardian.com%2F Guardian
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.thesun.co.uk%2F The Sun
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.mirror.co.uk%2F Mirror
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.telegraph.co.uk%2F Mirror
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.bbc.com%2F BBC News
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.thestar.com%2F Star
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.theglobeandmail.com%2F Globe and Mail
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.news.com.au%2F news.com.au
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.forbes.com%2F Forbes
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.cnbc.com%2F CNBC
+=> /cgi-bin/waffle.cgi/view?http%3A%2F%2Fglobal.chinadaily.com.cn%2F China Daily
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.chron.com%2F Houston Chronicle
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fnypost.com%2F New York Post
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.usnews.com%2F U.S.News
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.dw.com%2F Deutsche Welle
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Ftimesofindia.indiatimes.com%2F Times of India
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.thehindu.com%2F The Hindu
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Findianexpress.com%2F Indian Express
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.hindustantimes.com%2F Hindustan Times
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.cbsnews.com%2F CBS NEWS
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Ftime.com%2F TIME
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.sfgate.com%2F SFGATE
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fthehill.com%2F The Hill
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.thedailybeast.com%2F Daily Beast
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.newsweek.com%2F Newsweek
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.theatlantic.com%2F The Atlantic
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.nzherald.co.nz%2F New Zealand Herald
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.herald.co.zw%2F The Herald
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.vanguardngr.com%2F Vanguard
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.dailysun.co.za%2F Daily Sun
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.thejakartapost.com%2F Jakarta Post
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.thestar.com.my%2F Star
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.straitstimes.com%2F Straits Times
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.bangkokpost.com%2F Bangkok Post
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.japantimes.co.jp%2F Japan Times
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.thedailystar.net%2F Daily Star
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.dawn.com%2F Dawn
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fenglish.alarabiya.net%2F Al Arabiya
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.hollywoodreporter.com%2F Hollywood Reporter
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.scmp.com%2F South China Morning Post
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.aljazeera.com%2F Al Jazeera
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.voanews.com%2F Voice of America
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.yahoo.com%2Fnews%2F Yahoo%21 News
+=>  /cgi-bin/waffle.cgi/view?https%3A%2F%2Fnews.google.com%2F Google News
+
 
 ## New Sites Acidus Likes
 => /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.anandtech.com AnandTech
