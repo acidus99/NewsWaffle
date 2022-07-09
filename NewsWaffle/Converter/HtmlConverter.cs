@@ -78,9 +78,8 @@ namespace NewsWaffle.Converter
             }
 			var article = Reader.ParseArticle(Url, Html, null);
 
-			if (article.IsReadable)
+			if (article.IsReadable && article.Content > 0)
 			{
-
 				var contentRoot = Preparer.PrepareHtml(article.Content);
 
 				if (Debug)
