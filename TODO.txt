@@ -65,4 +65,15 @@ sailthru.tags
 great long form content to test with:
 
 
-- AnandTech doesn't have a title from OG
+Consider filtering Link view Content links for words?
+
+======
+https://arstechnica.com
+    - only finds 3 content links. thinks all the article links are nav links
+https://news.crunchbase.com
+    - Not excluding the nav links
+
+
+
+https://www.cbsnews.com/video/where-elon-musks-abandoned-twitter-deal-stands/
+    uses og:type:video !!!
