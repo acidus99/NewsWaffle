@@ -13,6 +13,8 @@ namespace NewsWaffle.Converter
     {
         string NormalizedHost;
         Uri BaselUrl;
+        bool UseWordLimit = false;
+        const int WordLimit = 4;
 
         public List<HyperLink> ContentLinks { get; internal set; }
         public List<HyperLink> NavigationLinks { get; internal set; }
@@ -34,7 +36,6 @@ namespace NewsWaffle.Converter
 
         public void FindLinks(IElement content)
         {
-
             FindFeeds(content);
 
             //first, get all the links
@@ -48,9 +49,9 @@ namespace NewsWaffle.Converter
             //nav/menus are often hidden
             Preparer.RemoveMatchingTags(content, "[aria-hidden='true']");
             Preparer.RemoveMatchingTags(content, ".hidden");
-
+            UseWordLimit = true;
             var justContent = GetLinks(content);
-
+            UseWordLimit = false;
             ContentLinks = justContent.GetLinks();
 
             //now remove any content links from all links, to just get the navigation links
@@ -70,6 +71,12 @@ namespace NewsWaffle.Converter
                 //we want to skip navigation hyperlinks that are just to other sections on the page
                 //we want to skip links without any text
                 if (href.StartsWith('#') || linkText.Length == 0)
+                {
+                    continue;
+                }
+
+                if (UseWordLimit &&
+                    linkText.Replace('&', ' ').Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Count() < WordLimit)
                 {
                     continue;
                 }
