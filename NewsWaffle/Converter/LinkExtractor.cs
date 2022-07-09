@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using AngleSharp.Dom;
 
+using NewsWaffle.Converter.Special;
 using NewsWaffle.Models;
 using NewsWaffle.Util;
 
@@ -37,7 +38,7 @@ namespace NewsWaffle.Converter
         public void FindLinks(IElement content)
         {
             FindFeeds(content);
-
+            Preparer.RemoveMatchingTags(content, "svg");
             //first, get all the links
             var allLinks = GetLinks(content);
             //now, remove all the navigation stuff
@@ -63,10 +64,13 @@ namespace NewsWaffle.Converter
         {
             var ret = new LinkCollection();
 
+            TextExtractor textExtractor = new TextExtractor();
+
             foreach (var link in content.QuerySelectorAll("a[href]"))
             {
                 var href = link.GetAttribute("href");
-                var linkText = SanitizeLinkText(link.TextContent);
+                textExtractor.Extract(link);
+                var linkText = SanitizeLinkText(textExtractor.Content);
 
                 //we want to skip navigation hyperlinks that are just to other sections on the page
                 //we want to skip links without any text
