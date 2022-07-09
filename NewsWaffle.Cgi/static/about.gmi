@@ -1,7 +1,6 @@
 # About NewsWaffle
 
 ## What?
-
 NewsWaffle is a Gemini gateway to public news websites, allowing you to get lists of current news articles, and read those news articles, all from inside Gemini.
 
 Instead of only being able to read "text only" specific or "lite" versions of news sites, NewsWaffle works with nearly any news site.
@@ -12,7 +11,6 @@ Instead of only being able to read "text only" specific or "lite" versions of ne
 * Modern news sites are slow. Who has time for that nonsense?
 
 ## How?
-
 NewsWaffle uses meta data in the HTML, like OpenGraph, to determine the type of page you are looking at, and uses different modes to parse and display content from news sites. 
 
 * Link View: Shows a list of articles. Works best on the home page of news sites, and category pages. Separates out content links from navigational links
@@ -20,7 +18,6 @@ NewsWaffle uses meta data in the HTML, like OpenGraph, to determine the type of 
 * RSS View: If we detect an RSS feed, we allow you to view that. This is a better 
 
 ## Really, how do you do this?
-
 NewWaffle uses different standards, semantics, and web technologies to allow better navigation and reading of news contents:
 
 * Semantic HTML5 Tags: Using tags like <header> <footer> <nav> NewsWaffle determines which hyperlinks are navigational and which ones are likely link to news stories.
