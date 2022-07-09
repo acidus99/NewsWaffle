@@ -32,7 +32,7 @@ namespace NewsWaffle.Converter
 				OriginalSize = html.Length,
 				OriginalUrl = url,
 				ProbablyType = ClassifyPageType(),
-				SiteName = GetSiteName(),
+				SiteName = GetSiteName(url),
 				Title = GetTitle(),				
 			};
 		}
@@ -43,12 +43,16 @@ namespace NewsWaffle.Converter
 		private string GetFeatureImage()
 			=> openGraph.Image?.AbsoluteUri ?? null;
 
-		private string GetSiteName()
+		private string GetSiteName(string url)
 		{ 
 			var name =  openGraph.Metadata["og:site_name"].FirstOrDefault()?.Value ?? "";
 			if(name is "")
             {
 				name = head.Value.ApplicationName;
+            }
+			if(name is "")
+            {
+				name = (new Uri(url)).Host.Replace("www.", "");
             }
 			return StringUtils.Normnalize(name);
 		}
