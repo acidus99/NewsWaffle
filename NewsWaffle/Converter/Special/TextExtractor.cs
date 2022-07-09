@@ -60,6 +60,10 @@ namespace NewsWaffle.Converter.Special
                 case NodeType.Element:
                     {
                         HtmlElement element = current as HtmlElement;
+                        if(element == null)
+                        {
+                            return;
+                        }
                         var nodeName = element?.NodeName.ToLower();
 
                         switch (nodeName)
@@ -77,8 +81,16 @@ namespace NewsWaffle.Converter.Special
                                 break;
 
                             default:
-                                ExtractChildrenText(current);
-                                
+                                if (HtmlTagParser.ShouldDisplayAsBlock(element))
+                                {
+                                    buffer.EnsureAtLineStart();
+                                    ExtractChildrenText(current);
+                                    buffer.EnsureAtLineStart();
+                                }
+                                else
+                                {
+                                    ExtractChildrenText(current);
+                                }
                                 break;
                         }
                     }
