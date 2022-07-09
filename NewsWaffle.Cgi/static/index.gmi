@@ -27,7 +27,7 @@ Read any news website, all via Gemini
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.ajc.com The Atlanta Journal-Constitution
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thedrive.com%2Fthe-war-zone The War Zone
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.theatlantic.com%2F The Atlantic
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.rollingstone.com%2F Rolling Sone
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.rollingstone.com%2F Rolling Stone
 =>  /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.hollywoodreporter.com%2F The Hollywood Reporter
 
 ## Trashy British Tabloids 🇬🇧👑
@@ -48,7 +48,6 @@ Read any news website, all via Gemini
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Ftimesofindia.indiatimes.com%2F Times of India (India) 🇮🇳
 =>  /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thejakartapost.com%2F Jakarta Post (Indonesia) 🇮🇩
 =>  /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.lastampa.it%2Festeri%2Fla-stampa-in-english La Stampa (Italy) 🇮🇹
-=>  /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.japantimes.co.jp%2F Japan Times (Japan) 🇯🇵
 =>  /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.nzherald.co.nz%2F New Zealand Herald (New Zealand) 🇳🇿
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fenglish.elpais.com%2Fspain%2F EL PAÍS (Spain) 🇪🇸
 
@@ -75,7 +74,6 @@ Read any news website, all via Gemini
 =>  /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thestar.com.my%2F Star
 =>  /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.straitstimes.com%2F Straits Times
 =>  /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.bangkokpost.com%2F Bangkok Post
-=>  /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.japantimes.co.jp%2F Japan Times
 =>  /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thedailystar.net%2F Daily Star
 =>  /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.dawn.com%2F Dawn
 =>  /cgi-bin/waffle.cgi/links?https%3A%2F%2Fenglish.alarabiya.net%2F Al Arabiya
