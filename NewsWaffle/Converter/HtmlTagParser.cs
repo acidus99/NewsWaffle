@@ -249,7 +249,7 @@ namespace NewsWaffle.Converter
                     ProcessSup(element);
                     break;
 
-                case "table":
+               case "table":
                     ProcessTable(element);
                     break;
 
@@ -264,6 +264,7 @@ namespace NewsWaffle.Converter
                     break;
 
                 //skipping
+                case "svg":
                 case "noscript":
                     return;
 
