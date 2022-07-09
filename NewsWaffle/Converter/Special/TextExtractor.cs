@@ -77,7 +77,10 @@ namespace NewsWaffle.Converter.Special
                                 break;
 
                             case "img":
-                                buffer.Append(ConvertImage(element));
+                                if (ShouldConvertImages)
+                                {
+                                    buffer.Append(ConvertImage(element));
+                                }
                                 break;
 
                             default:
