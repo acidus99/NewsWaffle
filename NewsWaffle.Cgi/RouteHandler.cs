@@ -15,12 +15,12 @@ namespace NewsWaffle.Cgi
                 return;
             }
             cgi.Success();
-            cgi.Writer.WriteLine("# 🧇 NewsWaffle");
 
             var waffles = new YummyWaffles();
             var page = waffles.GetPage(cgi.Query);
             if (page == null)
             {
+                cgi.Writer.WriteLine("# 🧇 NewsWaffle");
                 cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
                 cgi.Writer.WriteLine(waffles.ErrorMessage);
                 return;
@@ -46,13 +46,12 @@ namespace NewsWaffle.Cgi
                 return;
             }
             cgi.Success();
-            cgi.Writer.WriteLine("# 🧇 NewsWaffle");
-
             var waffles = new YummyWaffles();
             var page = waffles.GetContentPage(cgi.Query);
 
             if (page == null)
             {
+                cgi.Writer.WriteLine($"# 🧇 NewsWaffle");
                 cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
                 cgi.Writer.WriteLine(waffles.ErrorMessage);
                 return;
@@ -69,13 +68,12 @@ namespace NewsWaffle.Cgi
                 return;
             }
             cgi.Success();
-            cgi.Writer.WriteLine("# 🧇 NewsWaffle");
-
             var waffles = new YummyWaffles();
             var page = waffles.GetLinkPage(cgi.Query);
 
             if (page == null)
             {
+                cgi.Writer.WriteLine($"# 🧇 NewsWaffle");
                 cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
                 cgi.Writer.WriteLine(waffles.ErrorMessage);
                 return;
@@ -93,7 +91,7 @@ namespace NewsWaffle.Cgi
                 return;
             }
             cgi.Success();
-            cgi.Writer.WriteLine("# 🧇 NewsWaffle");
+            cgi.Writer.WriteLine($"# 🧇 NewsWaffle");
 
             var waffles = new YummyWaffles();
             var feedPage = waffles.GetFeedPage(cgi.Query);
@@ -146,6 +144,8 @@ namespace NewsWaffle.Cgi
 
         private static void RenderLinks(CgiWrapper cgi, LinkPage homePage)
         {
+            cgi.Writer.WriteLine($"# 🧇 NewsWaffle: {homePage.Meta.SiteName}");
+
             cgi.Writer.WriteLine($"## {homePage.Meta.Title}");
             if (homePage.Meta.FeaturedImage != null)
             {
@@ -214,7 +214,8 @@ namespace NewsWaffle.Cgi
 
         private static void RenderArticle(CgiWrapper cgi, ContentPage articlePage)
         {
-            if(articlePage.IsReadability)
+            cgi.Writer.WriteLine($"# 🧇 NewsWaffle: {articlePage.Meta.SiteName}");
+            if (articlePage.IsReadability)
             {
                 RenderArticleSuccess(cgi, articlePage);
             } else
