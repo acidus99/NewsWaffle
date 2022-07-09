@@ -83,6 +83,11 @@ namespace NewsWaffle.Converter.Special
                                 }
                                 break;
 
+                            case "figure":
+                            case "picture":
+                            case "table":
+                                break;
+
                             default:
                                 if (HtmlTagParser.ShouldDisplayAsBlock(element))
                                 {
