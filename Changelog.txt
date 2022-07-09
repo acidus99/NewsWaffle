@@ -8,3 +8,7 @@
 - Feature: Better detection of article-style pages use META tags
 - Feature: Detect RSS/Atom feeds and use those for making list of links
 - Feature: Add TABLE tag support
+- Fixed: Remove SVG so there internal text like titles don't appear in content links
+- Feature: Switching between modes
+- Feature: Site name in title
+- Fixed: Articles that passed readability still had no content
