@@ -198,7 +198,7 @@ namespace NewsWaffle.Cgi
             }
             if (feedPage.RootUrl.Length > 0)
             {
-                cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(feedPage.RootUrl)} View site homepage");
+                cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(feedPage.RootUrl)} Mode: RSS View. Try Link View?");
             }
             cgi.Writer.WriteLine();
             int counter = 0;
@@ -247,7 +247,8 @@ namespace NewsWaffle.Cgi
             {
                 cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(articlePage.Meta.FeaturedImage)} Featured Image");
             }
-
+            cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.OriginalUrl)} Mode: Article View. Try in Link View?");
+            cgi.Writer.WriteLine();
             foreach (var item in articlePage.Content)
             {
                 cgi.Writer.Write(item.Content);
@@ -268,7 +269,7 @@ namespace NewsWaffle.Cgi
             }
 
             cgi.Writer.WriteLine("Based on meta data, we thought this was a article, But we were unable to extract one. This might be a page of primarily links, like a home page or category page. this full article could not be properly parsed.");
-            cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.OriginalUrl)} Try in Link View");
+            cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.OriginalUrl)} Try in Link View?");
         }
 
         static string ReadableFileSize(double size, int unit = 0)
