@@ -17,7 +17,5 @@ namespace NewsWaffle.Cgi
 
 		public static string ViewLinks(string url)
 			=> $"{BasePath}/links?{WebUtility.UrlEncode(url)}";
-
 	}
 }
-
