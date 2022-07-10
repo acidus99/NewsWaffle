@@ -3,26 +3,28 @@
 ## What?
 NewsWaffle is a Gemini gateway to public news websites, allowing you to get lists of current news articles, and read those news articles, all from inside Gemini.
 
-Instead of only being able to read "text only" specific or "lite" versions of news sites, NewsWaffle works with nearly any news site.
+Instead of only being able to read specific "text only" or "lite" versions of news sites, NewsWaffle works with nearly any news site.
 
-NewsWaffle also proxies images from the articles, delivering resizing and converting them to be appropriate for Gemini.
+NewsWaffle also proxies images from the articles, esizing and converting them to be appropriately sized for Gemini.
 
 ## Why?
 * Modern news sites are user hostile, full of pop-ups, nag-walls, and intrusive ads that profile you and sell that to the highest bidder.
-* Modern news sites are BLOATED, wasting time and data. Even the HTML itself is bloated, hundreds of kilobytes in size when the actual article content is only 1-4 kilobytes.
+* Modern news sites are BLOATED, wasting time and data. Even the HTML itself is bloated, being hundreds of kilobytes in size when the actual article content is only few kilobytes.
 * Modern news sites are slow. Who has time for that nonsense?
+
+NewsWaffle helps with all of this. JavaScript, cookies, and tracking pixels are all excluded, so you aren't being tracked. NewsWaffle optimizes the HTML much smaller gemtext. You can look at the bottom of NewsWaffle to see how much smaller the content is. Saving of 95% or more is common.
 
 ## How?
 NewsWaffle uses meta data in the HTML, like OpenGraph, to determine the type of page you are looking at, and uses different modes to parse and display content from news sites. 
 
-* Link View: Shows a list of articles. Works best on the home page of news sites, and category pages. Separates out content links from navigational links
-* Article View: Optimized view for reading an article. Hows by
-* RSS View: If we detect an RSS feed, we allow you to view that. This is a better 
+* Link View: Shows a list of articles. Works best on the home pages and category pages of news sites. Separates out content links from navigational links.
+* Article View: Optimized view showing just the article content, author, publish date, and feature image.
+* RSS View: If NewsWaffke detects an RSS feed, it can use that view to show you a more accurate list of articles.
 
 ## Really, how do you do this?
-NewWaffle uses different standards, semantics, and web technologies to allow better navigation and reading of news contents:
+NewWaffle uses different standards, semantics, and web technologies to allow better navigation and reading of news websites. Specifically:
 
-* Semantic HTML5 Tags: Using tags like <header> <footer> <nav> NewsWaffle determines which hyperlinks are navigational and which ones are likely link to news stories.
+* Semantic HTML5 Tags: Using tags like <header>, <footer>, and <nav> NewsWaffle determines which hyperlinks are navigational and which ones are likely links to news articles.
 * OpenGraph: NewsWaffle uses OpenGraph meta data to determine the type of page.
 * RSS/Atom feeds: Better than trying to determine which links go to news articles, some sites provide an RSS or Atom feed, which explicitly tells you the list of articles.
 * Readability: Readability is a library that powers many "Reader View" features in browsers and apps. It extracts out just the text of an article.
