@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using CodeHollow.FeedReader;
+using CodeHollow.FeedReader.Feeds;
 
 using NewsWaffle.Models;
 using NewsWaffle.Util;
@@ -32,7 +33,7 @@ namespace NewsWaffle.Converter
             };
             ret.Links.AddRange(feed.Items.Where(x => TimeOk(x.PublishingDate)).Take(ItemLimit).Select(x => new FeedLink
             {
-                Url = new Uri(x.Link),
+                Url = new Uri(GetHtmlUrl(x)),
                 Text = x.Title,
                 Published = x.PublishingDate
             }));
@@ -55,7 +56,31 @@ namespace NewsWaffle.Converter
             }
             return "";
         }
-            
+
+        /// <summary>
+        /// gets the link to the HTML article for a feed item.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        private static string GetHtmlUrl(FeedItem item)
+        {
+            if(item.SpecificItem is AtomFeedItem)
+            {
+                return GetHtmlUrl(item.SpecificItem as AtomFeedItem);
+            }
+            return item.Link;
+        }
+
+        /// <summary>
+        /// atom feed can have multiple links tags, so find the appropriate one, with a fallback
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        private static string GetHtmlUrl(AtomFeedItem item)
+        {
+            var htmlLink = item.Links.Where(x => x.Relation == "alternate" && x.LinkType == "text/html").FirstOrDefault();
+            return htmlLink?.Href ?? item.Link;
+        }
 
         private static bool TimeOk(DateTime? published)
             => (published == null) ? true :
