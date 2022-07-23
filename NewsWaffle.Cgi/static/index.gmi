@@ -9,32 +9,30 @@ Read any news website, all via Gemini
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.aljazeera.com Al Jazeera
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.bbc.com%2Fnews BBC News
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.nytimes.com%2F New York Times
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.washingtonpost.com%2F The Washington Post
+=> /cgi-bin/waffle.cgi/view?https%3A%2F%2Fwww.reuters.com%2Fworld%2F Reuters
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.theguardian.com%2F The Guardian
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.latimes.com%2F Los Angeles Times
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.pbs.org%2Fnewshour%2F PBS News Hour
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.washingtonpost.com%2F The Washington Post
 
 ## Tech 💻
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.wired.com%2F Wired
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.theverge.com%2F The Verge
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.anandtech.com AnandTech
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fappleinsider.com%2F Apple Insider
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Farstechnica.com%2F Ars Technica
+=> /cgi-bin/waffle.cgi/feed?https%3A%2F%2Farstechnica.com%2F Ars Technica
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.engadget.com%2F Engadget
 
 ## Sites Acidus Likes ❤️
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.sixcolors.com%2F Six Colors
+=> /cgi-bin/waffle.cgi/feed?https%3A%2F%2Fnews.ycombinator.com%2Frss Hacker News
+=> /cgi-bin/waffle.cgi/feed?http%3A%2F%2Ffeedpress.me%2Fsixcolors Six Colors
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.ajc.com The Atlanta Journal-Constitution
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thedrive.com%2Fthe-war-zone The War Zone
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.theatlantic.com%2F The Atlantic
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.rollingstone.com%2F Rolling Stone
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.hollywoodreporter.com%2F The Hollywood Reporter
 
-## Trashy British Tabloids 🇬🇧👑
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thesun.co.uk%2F The Sun
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.mirror.co.uk%2F Mirror
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.dailymail.co.uk%2F Daily Mail
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.theglobeandmail.com%2F Globe and Mail
+## Degrowth
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.lowtechmagazine.com%2Fsite-map.html Low Tech Magazine
 
 ## Around the World 🌍🌏🌎
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.news.com.au%2F news.com.au (Australia) 🇦🇺
@@ -50,6 +48,12 @@ Read any news website, all via Gemini
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.lastampa.it%2Festeri%2Fla-stampa-in-english La Stampa (Italy) 🇮🇹
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.nzherald.co.nz%2F New Zealand Herald (New Zealand) 🇳🇿
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fenglish.elpais.com%2Fspain%2F EL PAÍS (Spain) 🇪🇸
+
+## Trashy British Tabloids 🇬🇧👑
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thesun.co.uk%2F The Sun
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.mirror.co.uk%2F Mirror
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.dailymail.co.uk%2F Daily Mail
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.theglobeandmail.com%2F Globe and Mail
 
 ## Test Sites 👩‍🔬
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.huffpost.com%2F HuffPost
