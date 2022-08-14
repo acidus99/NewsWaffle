@@ -201,15 +201,21 @@ namespace NewsWaffle.Cgi
                 cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(feedPage.RootUrl)} Mode: RSS View. Try Link View?");
             }
             cgi.Writer.WriteLine();
-            int counter = 0;
             cgi.Writer.WriteLine($"### Feed Links: {feedPage.Links.Count}");
-
-            foreach (var link in feedPage.Links)
+            if (feedPage.Links.Count > 0)
             {
-                counter++;
-                var published = link.HasPublished ? $"({link.TimeAgo})" : "";
-                cgi.Writer.WriteLine($"=> {CgiPaths.ViewArticle(link.Url.AbsoluteUri)} {counter}. {link.Text} {published}");
-            }            
+                int counter = 0;
+                foreach (var link in feedPage.Links)
+                {
+                    counter++;
+                    var published = link.HasPublished ? $"({link.TimeAgo})" : "";
+                    cgi.Writer.WriteLine($"=> {CgiPaths.ViewArticle(link.Url.AbsoluteUri)} {counter}. {link.Text} {published}");
+                }
+            }
+            else
+            {
+                cgi.Writer.WriteLine("This feed doesn't actually have any items in it. Unfortunately some sites have broken feeds without content."); ;
+            }
         }
 
         private static void RenderArticle(CgiWrapper cgi, ContentPage articlePage)
