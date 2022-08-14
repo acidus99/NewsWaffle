@@ -1,5 +1,7 @@
 ﻿using System;
-using System.Net;
+using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
 
 using NewsWaffle.Cache;
 
@@ -7,13 +9,17 @@ namespace NewsWaffle.Net
 {
     public class HttpFetcher
     {
-        WebClient Client;
         DiskCache Cache;
+        HttpClient Client;
 
         public HttpFetcher()
         {
-            Client = new WebClient();
-            Client.Headers.Add(HttpRequestHeader.UserAgent, "GeminiProxy/0.1 (gemini://gemi.dev/; acidus@gemi.dev) gemini-proxy/0.1");
+            Client = new HttpClient(new HttpClientHandler
+            {
+                AllowAutoRedirect = true,
+                //AutomaticDecompression = System.Net.DecompressionMethods.All
+            });
+            Client.DefaultRequestHeaders.UserAgent.TryParseAdd("GeminiProxy/0.1 (gemini://gemi.dev/) gemini-proxy/0.1");
             Cache = new DiskCache(TimeSpan.FromHours(1));
         }
 
@@ -28,7 +34,11 @@ namespace NewsWaffle.Net
                     return contents;
                 }
                 //fetch it
-                contents = Client.DownloadString(url);
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                contents = ReadAsString(url);
+                stopwatch.Stop();
+                Console.WriteLine("MS : " + Convert.ToInt32(stopwatch.ElapsedMilliseconds));
                 //cache it
                 Cache.Set(url, contents);
                 return contents;
@@ -50,7 +60,7 @@ namespace NewsWaffle.Net
                     return contents;
                 }
                 //fetch it
-                contents = Client.DownloadData(url);
+                contents = ReadAsButes(url);
                 //cache it
                 Cache.Set(url, contents);
                 return contents;
@@ -60,5 +70,29 @@ namespace NewsWaffle.Net
                 return null;
             }
         }
+
+        private HttpResponseMessage MakeRequest(string url)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            return Client.Send(request);
+        }
+
+        private string ReadAsString(string url)
+        {
+            var resp = MakeRequest(url);
+
+            var reader = new StreamReader(resp.Content.ReadAsStream());
+            return reader.ReadToEnd();
+        }
+
+        private byte[] ReadAsButes(string url)
+        {
+            var resp = MakeRequest(url);
+
+            MemoryStream ms = new MemoryStream();
+            return resp.Content.ReadAsByteArrayAsync().Result;
+
+        }
+
     }
 }
