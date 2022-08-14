@@ -30,9 +30,12 @@ namespace NewsWaffle.Cgi
             {
                 RenderLinks(cgi, (LinkPage)page);
             }
-            else
+            else if(page is ContentPage)
             {
                 RenderArticle(cgi, (ContentPage)page);
+            } else
+            {
+                RenderFeed(cgi, (FeedPage)page);
             }
 
             Footer(cgi, page);
@@ -136,6 +139,7 @@ namespace NewsWaffle.Cgi
             if (page != null)
             {
                 cgi.Writer.WriteLine($"Size: {ReadableFileSize(page.Size)}. {page.Savings} smaller than original HTML: {ReadableFileSize(page.Meta.OriginalSize)} 🤮");
+                cgi.Writer.WriteLine($"Downloaded: {page.DownloadMs} ms. Converted: {page.ParseMs} ms 🐇");
                 cgi.Writer.WriteLine($"=> {page.Meta.OriginalUrl} Link to Source");
                 cgi.Writer.WriteLine("---");
             }

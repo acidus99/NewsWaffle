@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using SmartReader;
@@ -16,6 +17,7 @@ namespace NewsWaffle.Converter
 		string Url;
 		string Html;
 		PageMetaData MetaData;
+		Stopwatch timer = new Stopwatch();
 
 		public HtmlConverter(string url, string html)
 		{
@@ -34,6 +36,7 @@ namespace NewsWaffle.Converter
 		/// </summary>
 		public AbstractPage Convert()
 		{
+			timer.Start();
 			ParseMetadata();
 			switch (MetaData.ProbablyType)
 			{
@@ -50,6 +53,10 @@ namespace NewsWaffle.Converter
 		/// </summary>
 		public LinkPage ConvertToLinkPage()
 		{
+			if(!timer.IsRunning)
+            {
+				timer.Start();
+            }
 			if (MetaData == null)
 			{
 				ParseMetadata();
@@ -63,6 +70,8 @@ namespace NewsWaffle.Converter
 				NavigationLinks = extractor.NavigationLinks,
 				FeedUrl = extractor.FeedUrl,
 			};
+			timer.Stop();
+			homePage.ParseMs = (int) timer.ElapsedMilliseconds;
 			return homePage;
 		}
 
@@ -72,11 +81,16 @@ namespace NewsWaffle.Converter
 		/// <returns></returns>
 		public ContentPage ConvertToContentPage()
 		{
-			if(MetaData == null)
+			if (!timer.IsRunning)
+			{
+				timer.Start();
+			}
+			if (MetaData == null)
             {
 				ParseMetadata();
             }
 			var article = Reader.ParseArticle(Url, Html, null);
+			ContentPage page = null;
 
 			if (article.IsReadable && article.Content != "")
 			{
@@ -95,7 +109,7 @@ namespace NewsWaffle.Converter
 
 				var contentItems = parser.GetItems();
 
-				var articlePage = new ContentPage(MetaData)
+				page = new ContentPage(MetaData)
 				{
 					IsReadability = true,
 					Byline = StringUtils.Normnalize(article.Author ?? article.Byline),
@@ -107,22 +121,22 @@ namespace NewsWaffle.Converter
 					WordCount = CountWords(contentItems[0]),
 				};
 
-				articlePage.Meta.Title = StringUtils.Normnalize(article.Title);
-
-				return articlePage;
+				page.Meta.Title = StringUtils.Normnalize(article.Title);
 			}
 			else
 			{
-				return new ContentPage(MetaData)
+				page = new ContentPage(MetaData)
 				{
 					IsReadability = false,
 					Excerpt = StringUtils.Normnalize(article.Excerpt)
 				};
 			}
+			timer.Stop();
+			page.ParseMs = (int)timer.ElapsedMilliseconds;
+			return page;
 		}
 
 		#endregion
-
 
 		#region private workings
 
