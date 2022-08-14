@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 using NewsWaffle.Net;
 using NewsWaffle.Converter;
@@ -11,6 +12,8 @@ namespace NewsWaffle
 
         public bool Debug { get; set; } = true;
         public string ErrorMessage { get; internal set; } = "";
+
+        Stopwatch timer = new Stopwatch();
 
         /// <summary>
         /// Gets a page, auto-detect page type, and return it
@@ -28,6 +31,13 @@ namespace NewsWaffle
                     return null;
                 }
 
+                if(IsFeed(html))
+                {
+                    var feed = FeedConverter.ParseFeed(url, html);
+                    feed.DownloadMs = (int)timer.ElapsedMilliseconds;
+                    return feed;
+                }
+
                 HtmlConverter htmlConverter = new HtmlConverter(url, html);
 
                 //convert, autodetecting
@@ -38,7 +48,7 @@ namespace NewsWaffle
                     ErrorMessage = $"Could not parse HTML from '{url}'";
                     return null;
                 }
-
+                page.DownloadMs = (int)timer.ElapsedMilliseconds;
                 return page;
 
             } catch(Exception ex)
@@ -56,7 +66,12 @@ namespace NewsWaffle
                 return null;
             }
 
-            return FeedConverter.ParseFeed(url, xml);
+            var page = FeedConverter.ParseFeed(url, xml);
+            if(page != null)
+            {
+                page.DownloadMs = (int)timer.ElapsedMilliseconds;
+            }
+            return page;
         }
 
         /// <summary>
@@ -85,7 +100,7 @@ namespace NewsWaffle
                     ErrorMessage = $"Could not parse HTML from '{url}'";
                     return null;
                 }
-
+                page.DownloadMs = (int)timer.ElapsedMilliseconds;
                 return page;
 
             }
@@ -122,7 +137,7 @@ namespace NewsWaffle
                     ErrorMessage = $"Could not parse HTML from '{url}'";
                     return null;
                 }
-
+                page.DownloadMs = (int)timer.ElapsedMilliseconds;
                 return page;
 
             }
@@ -136,8 +151,10 @@ namespace NewsWaffle
 
         private string GetContent(string url)
         {
+            timer.Start();
             var fetcher = new HttpFetcher();
             var html = fetcher.GetAsString(url);
+            timer.Stop();
             if (string.IsNullOrEmpty(html))
             {
                 ErrorMessage = $"Could not download HTML for '{url}'";
@@ -146,7 +163,11 @@ namespace NewsWaffle
             return html;
         }
 
-
+        private bool IsFeed(string content)
+        {
+            var prefix = content.Substring(0, Math.Min(content.Length, 250));
+            return prefix.Contains("<rss") || prefix.Contains("<feed");
+        }
     }
 }
 
