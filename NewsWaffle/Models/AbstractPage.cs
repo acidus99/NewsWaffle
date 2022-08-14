@@ -14,6 +14,10 @@ namespace NewsWaffle.Models
 
         public string Savings
             => string.Format("{0:0.00}%", (1.0d - (Convert.ToDouble(Size) / Convert.ToDouble(Meta.OriginalSize))) * 100.0d);
+
+        public int DownloadMs { get; set; } = 0;
+
+        public int ParseMs { get; set; } = 0;
     }
 }
 
