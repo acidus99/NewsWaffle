@@ -67,11 +67,14 @@ namespace NewsWaffle
             }
 
             var page = FeedConverter.ParseFeed(url, xml);
-            if(page != null)
+            if(page == null)
             {
-                page.DownloadMs = (int)timer.ElapsedMilliseconds;
+                ErrorMessage = $"Could not parse RSS/Atom feed from '{url}'";
+                return null;
             }
+            page.DownloadMs = (int)timer.ElapsedMilliseconds;
             return page;
+
         }
 
         /// <summary>
@@ -106,7 +109,7 @@ namespace NewsWaffle
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = ex.Message + ex.StackTrace;
                 return null;
             }
         }
@@ -147,7 +150,6 @@ namespace NewsWaffle
                 return null;
             }
         }
-
 
         private string GetContent(string url)
         {
