@@ -3,7 +3,6 @@ namespace NewsWaffle.Models
 {
     public abstract class AbstractPage
     {
-
         public AbstractPage(PageMetaData metaData)
         {
             Meta = metaData;
