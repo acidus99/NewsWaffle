@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-using AngleSharp;
-using AngleSharp.Html.Parser;
 using AngleSharp.Dom;
-using OpenGraphNet;
 
 using NewsWaffle.Models;
 using NewsWaffle.Util;
@@ -16,15 +13,11 @@ namespace NewsWaffle.Converter
     /// </summary>
 	public class MetaDataParser
 	{
-		OpenGraph openGraph;
-		Lazy<HtmlHead> head;
+		HtmlHead head;
 
-
-		public PageMetaData GetMetaData(string url, string html)
+		public PageMetaData GetMetaData(string url, string html, IElement document)
 		{
-			openGraph = OpenGraph.ParseHtml(html);
-			head = new Lazy<HtmlHead>(() => new HtmlHead(html));
-
+			head = new HtmlHead(document);
 			return new PageMetaData
 			{
 				Description = GetDescription(),
@@ -38,17 +31,17 @@ namespace NewsWaffle.Converter
 		}
 
 		private string GetDescription()
-			=> StringUtils.Normnalize(openGraph.Metadata["og:description"].FirstOrDefault()?.Value ?? "");
+			=> StringUtils.Normnalize(head.OGDescription);
 
 		private string GetFeatureImage()
-			=> openGraph.Image?.AbsoluteUri ?? null;
+			=> head.OGImage ?? null;
 
 		private string GetSiteName(string url)
 		{ 
-			var name =  openGraph.Metadata["og:site_name"].FirstOrDefault()?.Value ?? "";
+			var name =  head.OGSiteName ?? "";
 			if(name is "")
             {
-				name = head.Value.ApplicationName;
+				name = head.ApplicationName;
             }
 			if(name is "")
             {
@@ -58,11 +51,11 @@ namespace NewsWaffle.Converter
 		}
 
 		private string GetTitle()
-			=> StringUtils.Normnalize(openGraph.Title is "" ? head.Value.Title : openGraph.Title);
+			=> StringUtils.Normnalize(string.IsNullOrEmpty(head.OGTitle) ? head.Title : head.OGTitle);
 
 		private PageType ClassifyPageType()
         {
-			if(openGraph.Type == "article" || head.Value.HasArticleProperties)
+			if(StringUtils.Normnalize(head.OGType) == "article" || head.HasArticleProperties)
             {
 				return PageType.ContentPage;
             }
@@ -73,13 +66,39 @@ namespace NewsWaffle.Converter
 		{
 			public IElement Head { get; private set; }
 
-			public HtmlHead(string html)
+			public HtmlHead(IElement document)
 			{
-				var context = BrowsingContext.New(Configuration.Default);
-				var parser = context.GetService<IHtmlParser>();
-				var document = parser.ParseDocument(html);
 				Head = document.QuerySelector("head");
+				foreach(var element in Head.QuerySelectorAll("meta[property]"))
+                {
+					string content = element.GetAttribute("content") ?? "";
+
+					switch(element.GetAttribute("property").ToLower())
+                    {
+						case "og:image":
+							OGImage = content;
+							break;
+						case "og:site_name":
+							OGSiteName = content;
+							break;
+						case "og:title":
+							OGTitle = content;
+							break;
+						case "og:type":
+							OGType = content;
+							break;
+						case "og:description":
+							OGDescription = content;
+							break;
+                    }
+                }
 			}
+
+			public string OGTitle { get; set; }
+			public string OGType { get; set; }
+			public string OGImage { get; set; }
+			public string OGSiteName { get; set; }
+			public string OGDescription { get; set; }
 
 			public string Title
 				=> Head.QuerySelector("title")?.TextContent ?? "";
