@@ -35,10 +35,7 @@ namespace NewsWaffle.Net
                 }
                 //fetch it
                 Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
                 contents = ReadAsString(url);
-                stopwatch.Stop();
-                Console.WriteLine("MS : " + Convert.ToInt32(stopwatch.ElapsedMilliseconds));
                 //cache it
                 Cache.Set(url, contents);
                 return contents;
