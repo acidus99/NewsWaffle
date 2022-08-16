@@ -11,6 +11,7 @@ namespace NewsWaffle.Cgi
 
             CgiRouter router = new CgiRouter();
             router.OnRequest("/article", RouteHandler.Article);
+            router.OnRequest("/current", RouteHandler.CurrentNews);
             router.OnRequest("/feed", RouteHandler.Feed);
             router.OnRequest("/links", RouteHandler.Links);
             router.OnRequest("/view", RouteHandler.View);

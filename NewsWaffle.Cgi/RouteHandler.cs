@@ -3,6 +3,9 @@ using Gemini.Cgi;
 using NewsWaffle.Models;
 using NewsWaffle.Cgi.Media;
 
+using NewsWaffle.Aggregators;
+using NewsWaffle.Aggregators.Models;
+
 namespace NewsWaffle.Cgi
 {
     public static class RouteHandler
@@ -109,6 +112,46 @@ namespace NewsWaffle.Cgi
             Footer(cgi, feedPage);
         }
 
+        public static void CurrentNews(CgiWrapper cgi)
+        {
+            var yahooNews = new YahooNews();
+
+            var sectionName = cgi.HasQuery ? cgi.SantiziedQuery : yahooNews.DefaultSection;
+
+            if(!yahooNews.IsValidSection(sectionName))
+            {
+                cgi.Redirect(CgiPaths.ViewCurrentNewsSection());
+                return;
+            }
+
+            cgi.Success();
+            cgi.Writer.WriteLine($"# 🧇 NewsWaffle - Current News");
+
+            var section = AggregatorFetcher.GetSection(sectionName, yahooNews);
+
+            if (section == null)
+            {
+                cgi.Writer.WriteLine("Bummer dude! Error fetching current news");
+                return;
+            }
+            RenderCurrentNewsSection(cgi, section);
+            Footer(cgi);
+        }
+
+        public static void SwitchNewsSection(CgiWrapper cgi)
+        {
+            var yahooNews = new YahooNews();
+            cgi.Success();
+            cgi.Writer.WriteLine($"# 🧇 NewsWaffle - Current News");
+            cgi.Writer.WriteLine("Choose a section:");
+            foreach(var section in yahooNews.AvailableSections)
+            {
+                cgi.Writer.WriteLine($"=> {CgiPaths.ViewCurrentNewsSection(section)} {section}");
+            }
+            cgi.Writer.WriteLine();
+            cgi.Writer.WriteLine($"News Aggregator: {yahooNews.Name}");
+            Footer(cgi);
+        }
 
         public static void ProxyMedia(CgiWrapper cgi)
         {
@@ -131,7 +174,7 @@ namespace NewsWaffle.Cgi
         private static void Footer(CgiWrapper cgi, AbstractPage page = null)
         {
             cgi.Writer.WriteLine();
-            if (!string.IsNullOrEmpty(page.Meta.SiteName))
+            if (!string.IsNullOrEmpty(page?.Meta.SiteName ?? null))
             {
                 cgi.Writer.WriteLine($"All content © {DateTime.Now.Year} {page.Meta.SiteName}");
             }
@@ -220,6 +263,27 @@ namespace NewsWaffle.Cgi
             {
                 cgi.Writer.WriteLine("This feed doesn't actually have any items in it. Unfortunately some sites have broken feeds without content."); ;
             }
+        }
+
+        private static void RenderCurrentNewsSection(CgiWrapper cgi, Section section)
+        {
+            cgi.Writer.WriteLine($"=> {CgiPaths.SwitchNewsSection} Current Section: {section.SectionName}. Change?");
+            cgi.Writer.WriteLine();
+            if (section.Stories.Count > 0)
+            {
+                int counter = 0;
+                foreach (var story in section.Stories)
+                {
+                    counter++;
+                    cgi.Writer.WriteLine($"=> {CgiPaths.ViewArticle(story.Url)} {counter}. {story.Title} ({story.Source})");
+                }
+            }
+            else
+            {
+                cgi.Writer.WriteLine("This sections doesn't have any news stories"); ;
+            }
+            cgi.Writer.WriteLine();
+            cgi.Writer.WriteLine($"News Aggregator: {section.AggregatorName}");
         }
 
         private static void RenderArticle(CgiWrapper cgi, ContentPage articlePage)

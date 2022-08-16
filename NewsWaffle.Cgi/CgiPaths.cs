@@ -17,5 +17,11 @@ namespace NewsWaffle.Cgi
 
 		public static string ViewLinks(string url)
 			=> $"{BasePath}/links?{WebUtility.UrlEncode(url)}";
+
+		public static string ViewCurrentNewsSection(string section = "")
+			=> $"{BasePath}/curent?{WebUtility.UrlEncode(section)}";
+
+		public static string SwitchNewsSection
+			=> $"{BasePath}/switch";
 	}
 }
