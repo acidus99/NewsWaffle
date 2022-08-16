@@ -4,6 +4,11 @@ using System.IO;
 using System.Linq;
 using SmartReader;
 
+using AngleSharp;
+using AngleSharp.Html.Parser;
+using AngleSharp.Html.Dom;
+using AngleSharp.Dom;
+
 using NewsWaffle.Models;
 using NewsWaffle.Util;
 
@@ -16,6 +21,7 @@ namespace NewsWaffle.Converter
 
 		string Url;
 		string Html;
+		IElement document;
 		PageMetaData MetaData;
 		Stopwatch timer = new Stopwatch();
 
@@ -37,7 +43,7 @@ namespace NewsWaffle.Converter
 		public AbstractPage Convert()
 		{
 			timer.Start();
-			ParseMetadata();
+			EnsureParsed();
 			switch (MetaData.ProbablyType)
 			{
 				case PageType.ContentPage:
@@ -57,13 +63,9 @@ namespace NewsWaffle.Converter
             {
 				timer.Start();
             }
-			if (MetaData == null)
-			{
-				ParseMetadata();
-			}
-			var contentRoot = Preparer.PrepareHtml(Html);
+			EnsureParsed();
 			LinkExtractor extractor = new LinkExtractor(Url);
-			extractor.FindLinks(contentRoot);
+			extractor.FindLinks(document);
 			var homePage = new LinkPage(MetaData)
 			{
 				ContentLinks = extractor.ContentLinks,
@@ -85,17 +87,12 @@ namespace NewsWaffle.Converter
 			{
 				timer.Start();
 			}
-			if (MetaData == null)
-            {
-				ParseMetadata();
-            }
+			EnsureParsed();
 			var article = Reader.ParseArticle(Url, Html, null);
 			ContentPage page = null;
 
 			if (article.IsReadable && article.Content != "")
 			{
-				var contentRoot = Preparer.PrepareHtml(article.Content);
-
 				if (Debug)
 				{
 					SaveHtml("simplified.html", article.Content);
@@ -105,7 +102,7 @@ namespace NewsWaffle.Converter
 				{
 					ShouldRenderHyperlinks = false
 				};
-				parser.Parse(contentRoot);
+				parser.Parse(ParseToRoot(article.Content));
 
 				var contentItems = parser.GetItems();
 
@@ -140,6 +137,18 @@ namespace NewsWaffle.Converter
 
 		#region private workings
 
+		private void EnsureParsed()
+        {
+			if(document == null)
+            {
+				document = ParseToRoot(Html);
+            }
+			if(MetaData == null)
+            {
+				ParseMetadata();
+			}
+        }
+
 		private int CountWords(ContentItem content)
 			=> content.Content.Split("\n").Where(x => !x.StartsWith("=> ")).Sum(x => CountWords(x));
 
@@ -150,11 +159,20 @@ namespace NewsWaffle.Converter
 		private void ParseMetadata()
 		{
 			MetaDataParser parser = new MetaDataParser();
-			MetaData = parser.GetMetaData(Url, Html);
+			MetaData = parser.GetMetaData(Url, Html, document);
 		}
 
 		private void SaveHtml(string filename, string html)
 			=> File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/tmp/" + filename, html);
+
+		private IElement ParseToRoot(string html)
+		{
+			var context = BrowsingContext.New(Configuration.Default);
+			var parser = context.GetService<IHtmlParser>();
+			var document = parser.ParseDocument(html);
+			return document.FirstElementChild;
+		}
+
 
 		#endregion
 	}

@@ -38,18 +38,18 @@ namespace NewsWaffle.Converter
         public void FindLinks(IElement content)
         {
             FindFeeds(content);
-            Preparer.RemoveMatchingTags(content, "svg");
+            RemoveMatchingTags(content, "svg");
             //first, get all the links
             var allLinks = GetLinks(content);
             //now, remove all the navigation stuff
-            Preparer.RemoveMatchingTags(content, "header");
-            Preparer.RemoveMatchingTags(content, "footer");
-            Preparer.RemoveMatchingTags(content, "nav");
-            Preparer.RemoveMatchingTags(content, "menu");
+            RemoveMatchingTags(content, "header");
+            RemoveMatchingTags(content, "footer");
+            RemoveMatchingTags(content, "nav");
+            RemoveMatchingTags(content, "menu");
 
             //nav/menus are often hidden
-            Preparer.RemoveMatchingTags(content, "[aria-hidden='true']");
-            Preparer.RemoveMatchingTags(content, ".hidden");
+            RemoveMatchingTags(content, "[aria-hidden='true']");
+            RemoveMatchingTags(content, ".hidden");
             UseWordLimit = true;
             var justContent = GetLinks(content);
             UseWordLimit = false;
@@ -68,6 +68,7 @@ namespace NewsWaffle.Converter
 
             foreach (var link in content.QuerySelectorAll("a[href]"))
             {
+
                 var href = link.GetAttribute("href");
                 textExtractor.Extract(link);
                 var linkText = SanitizeLinkText(textExtractor.Content);
@@ -100,6 +101,11 @@ namespace NewsWaffle.Converter
                     continue;
                 }
                 if (!IsInternalLink(resolvedUrl))
+                {
+                    continue;
+                }
+                //don't include links to self
+                if(resolvedUrl == BaselUrl)
                 {
                     continue;
                 }
@@ -151,5 +157,9 @@ namespace NewsWaffle.Converter
             }
             return false;
         }
+
+        private void RemoveMatchingTags(IElement element, string selector)
+          => element.QuerySelectorAll(selector).ToList().ForEach(x => x.Remove());
+
     }
 }
