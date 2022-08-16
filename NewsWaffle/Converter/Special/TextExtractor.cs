@@ -86,6 +86,8 @@ namespace NewsWaffle.Converter.Special
                             case "figure":
                             case "picture":
                             case "table":
+                            case "style":
+                            case "script":
                                 break;
 
                             default:
