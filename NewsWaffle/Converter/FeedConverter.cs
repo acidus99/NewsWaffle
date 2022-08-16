@@ -16,33 +16,40 @@ namespace NewsWaffle.Converter
 
 		public static FeedPage ParseFeed(string url, string xml)
         {
-            var timer = new Stopwatch();
-            timer.Start();
-            var feed = FeedReader.ReadFromString(xml);
-            
-            PageMetaData metaData = new PageMetaData
+            try
             {
-                Description = StringUtils.Normnalize(feed.Description),
-                FeaturedImage = feed.ImageUrl,
-                OriginalSize = xml.Length,
-                OriginalUrl = url,
-                ProbablyType = PageType.FeedPage,
-                Title = StringUtils.Normnalize(feed.Title),
-                SiteName = StringUtils.Normnalize(feed.Copyright),
-            };
-            var ret = new FeedPage(metaData)
+                var timer = new Stopwatch();
+                timer.Start();
+                var feed = FeedReader.ReadFromString(xml);
+
+                PageMetaData metaData = new PageMetaData
+                {
+                    Description = StringUtils.Normnalize(feed.Description),
+                    FeaturedImage = feed.ImageUrl,
+                    OriginalSize = xml.Length,
+                    OriginalUrl = url,
+                    ProbablyType = PageType.FeedPage,
+                    Title = StringUtils.Normnalize(feed.Title),
+                    SiteName = StringUtils.Normnalize(feed.Copyright),
+                };
+                var ret = new FeedPage(metaData)
+                {
+                    RootUrl = GetRootUrl(url)
+                };
+                ret.Links.AddRange(feed.Items.Where(x => TimeOk(x.PublishingDate)).Take(ItemLimit).Select(x => new FeedLink
+                {
+                    Url = new Uri(GetHtmlUrl(x)),
+                    Text = x.Title,
+                    Published = x.PublishingDate
+                }));
+                timer.Stop();
+                ret.ParseMs = (int)timer.ElapsedMilliseconds;
+                return ret;
+            } catch(Exception ex)
             {
-                RootUrl = GetRootUrl(url)
-            };
-            ret.Links.AddRange(feed.Items.Where(x => TimeOk(x.PublishingDate)).Take(ItemLimit).Select(x => new FeedLink
-            {
-                Url = new Uri(GetHtmlUrl(x)),
-                Text = x.Title,
-                Published = x.PublishingDate
-            }));
-            timer.Stop();
-            ret.ParseMs = (int) timer.ElapsedMilliseconds;
-            return ret;
+                
+            }
+            return null;
         }
 
         private static string GetRootUrl(string url)
