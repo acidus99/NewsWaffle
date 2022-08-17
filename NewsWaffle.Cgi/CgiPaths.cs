@@ -19,7 +19,7 @@ namespace NewsWaffle.Cgi
 			=> $"{BasePath}/links?{WebUtility.UrlEncode(url)}";
 
 		public static string ViewCurrentNewsSection(string section = "")
-			=> $"{BasePath}/curent?{WebUtility.UrlEncode(section)}";
+			=> $"{BasePath}/current?{WebUtility.UrlEncode(section)}";
 
 		public static string SwitchNewsSection
 			=> $"{BasePath}/switch";
