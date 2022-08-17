@@ -12,7 +12,7 @@ namespace NewsWaffle.Aggregators
 	{
         public string Name => "Yahoo News";
 
-        public string DefaultSection => "Technology";
+        public string DefaultSection => "World";
 
         public string[] AvailableSections => new string[]
         {
@@ -51,7 +51,7 @@ namespace NewsWaffle.Aggregators
                     return "https://news.yahoo.com/rss/tech";
 
                 case "World":
-                    return "https://www.yahoo.com/news/world";
+                    return "https://news.yahoo.com/rss/world";
 
                 default:
                     return null;
