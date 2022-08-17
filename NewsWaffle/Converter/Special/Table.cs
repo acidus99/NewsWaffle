@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +13,9 @@ namespace NewsWaffle.Converter.Special
 
         public bool HasCaption
             => Caption.Length > 0;
+
+        public bool IsEmpty
+            => (Rows.Count == 0);
 
         /// <summary>
         /// How many column units wide is this table. Many tables have rows with
@@ -30,8 +33,10 @@ namespace NewsWaffle.Converter.Special
     {
         public List<Cell> Cells = new List<Cell>();
 
-        public int LineHeight =>
-            Cells.Max(x => x.LineHeight);
+        public bool IsEmpty => (Cells.Count == 0);
+
+        public int LineHeight => IsEmpty
+            ? 0 : Cells.Max(x => x.LineHeight);
     }
 
     public class Cell

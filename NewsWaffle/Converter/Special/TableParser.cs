@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -77,7 +77,7 @@ namespace NewsWaffle.Converter.Special
 
         private void AppendRow()
         {
-            if (currRow != null)
+            if (currRow != null && !currRow.IsEmpty)
             {
                 table.Rows.Add(currRow);
             }
@@ -110,7 +110,9 @@ namespace NewsWaffle.Converter.Special
                 if (attribValue != null)
                 {
                     var match = Regex.Match(attribValue, @"^(\d+)");
-                    return match.Success ? Convert.ToInt32(match.Groups[1].Value) : 1;
+                    var value = match.Success ? Convert.ToInt32(match.Groups[1].Value) : 1;
+                    //colspan and rowspan must be >= 1
+                    return (value > 0) ? value : 1;
                 }
             }
             catch (Exception)

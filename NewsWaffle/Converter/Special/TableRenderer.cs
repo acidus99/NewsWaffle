@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,7 +17,7 @@ namespace NewsWaffle.Converter.Special
             buffer = new StringBuilder();
         }
 
-        public string Render()
+        private string Render()
         {
             if (Table.HasCaption)
             {
@@ -193,6 +193,10 @@ namespace NewsWaffle.Converter.Special
 
         public static string RenderTable(Table Table)
         {
+            if(Table.IsEmpty)
+            {
+                return "";
+            }
             var renderer = new TableRenderer(Table);
             renderer.FormatContents();
             return renderer.Render();
