@@ -8,6 +8,48 @@ namespace NewsWaffle.Util
 	{
         private static readonly Regex whitespace = new Regex(@"\s+", RegexOptions.Compiled);
 
+        public static string FormatTimeAgo(DateTime? dateTime)
+            => dateTime.HasValue ? FormatTimeAgo(dateTime.Value) : "";
+
+        public static string FormatTimeAgo(DateTime dateTime)
+        {
+            var s = DateTime.Now.Subtract(dateTime);
+            int dayDiff = (int)s.TotalDays;
+
+            int secDiff = (int)s.TotalSeconds;
+
+            if (dayDiff == 0)
+            {
+                if (secDiff < 60)
+                {
+                    return "just now";
+                }
+                if (secDiff < 120)
+                {
+                    return "1 minute ago";
+                }
+                if (secDiff < 3600)
+                {
+                    return string.Format("{0} minutes ago",
+                        Math.Floor((double)secDiff / 60));
+                }
+                if (secDiff < 7200)
+                {
+                    return "1 hour ago";
+                }
+                if (secDiff < 86400)
+                {
+                    return string.Format("{0} hours ago",
+                        Math.Floor((double)secDiff / 3600));
+                }
+            }
+            if (dayDiff == 1)
+            {
+                return "yesterday";
+            }
+            return string.Format("{0} days ago", dayDiff);
+        }
+
         /// <summary>
         /// normalizes a string found in HTML
         /// - HTML decodes it
