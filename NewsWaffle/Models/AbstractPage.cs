@@ -1,7 +1,7 @@
 ﻿using System;
 namespace NewsWaffle.Models
 {
-    public abstract class AbstractPage
+    public abstract class AbstractPage : IPageStats
     {
         public AbstractPage(PageMetaData metaData)
         {
@@ -11,12 +11,15 @@ namespace NewsWaffle.Models
         public PageMetaData Meta { get; private set; }
         public abstract int Size { get; }
 
-        public string Savings
-            => string.Format("{0:0.00}%", (1.0d - (Convert.ToDouble(Size) / Convert.ToDouble(Meta.OriginalSize))) * 100.0d);
+        public int DownloadTime { get; set; } = 0;
 
-        public int DownloadMs { get; set; } = 0;
+        public int ConvertTime { get; set; } = 0;
 
-        public int ParseMs { get; set; } = 0;
+        public int OriginalSize => Meta.OriginalSize;
+
+        public string Copyright => Meta.SiteName ?? "";
+
+        public string SourceUrl => Meta.SourceUrl ?? "";
     }
 }
 

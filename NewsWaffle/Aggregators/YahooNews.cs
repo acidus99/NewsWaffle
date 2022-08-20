@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Diagnostics;
 
 using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
@@ -58,9 +58,15 @@ namespace NewsWaffle.Aggregators
             }
         }
 
-        public Section ParseSection(string sectionName, string content)
+        public NewsSection ParseSection(string sectionName, string content, int downloadTime)
         {
-            var section = new Section(sectionName, Name);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var section = new NewsSection(sectionName, Name)
+            {
+                OriginalSize = content.Length,
+                DownloadTime = downloadTime,
+            };
 
             var feed = FeedReader.ReadFromString(content);
             foreach(var item in feed.Items)
@@ -71,6 +77,8 @@ namespace NewsWaffle.Aggregators
                     section.Stories.Add(story);
                 }
             }
+            stopwatch.Stop();
+            section.ConvertTime = (int)stopwatch.ElapsedMilliseconds;
 
             return section;
         }

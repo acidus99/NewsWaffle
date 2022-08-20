@@ -27,7 +27,7 @@ namespace NewsWaffle.Converter
                     Description = StringUtils.Normnalize(feed.Description),
                     FeaturedImage = feed.ImageUrl,
                     OriginalSize = xml.Length,
-                    OriginalUrl = url,
+                    SourceUrl = url,
                     ProbablyType = PageType.FeedPage,
                     Title = StringUtils.Normnalize(feed.Title),
                     SiteName = StringUtils.Normnalize(feed.Copyright),
@@ -43,7 +43,7 @@ namespace NewsWaffle.Converter
                     Published = x.PublishingDate
                 }));
                 timer.Stop();
-                ret.ParseMs = (int)timer.ElapsedMilliseconds;
+                ret.ConvertTime = (int)timer.ElapsedMilliseconds;
                 return ret;
             } catch(Exception ex)
             {

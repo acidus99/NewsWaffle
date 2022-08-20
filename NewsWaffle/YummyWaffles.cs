@@ -34,7 +34,7 @@ namespace NewsWaffle
                 if(IsFeed(html))
                 {
                     var feed = FeedConverter.ParseFeed(url, html);
-                    feed.DownloadMs = (int)timer.ElapsedMilliseconds;
+                    feed.DownloadTime = (int)timer.ElapsedMilliseconds;
                     return feed;
                 }
 
@@ -48,7 +48,7 @@ namespace NewsWaffle
                     ErrorMessage = $"Could not parse HTML from '{url}'";
                     return null;
                 }
-                page.DownloadMs = (int)timer.ElapsedMilliseconds;
+                page.DownloadTime = (int)timer.ElapsedMilliseconds;
                 return page;
 
             } catch(Exception ex)
@@ -72,7 +72,7 @@ namespace NewsWaffle
                 ErrorMessage = $"Could not parse RSS/Atom feed from '{url}'";
                 return null;
             }
-            page.DownloadMs = (int)timer.ElapsedMilliseconds;
+            page.DownloadTime = (int)timer.ElapsedMilliseconds;
             return page;
 
         }
@@ -103,7 +103,7 @@ namespace NewsWaffle
                     ErrorMessage = $"Could not parse HTML from '{url}'";
                     return null;
                 }
-                page.DownloadMs = (int)timer.ElapsedMilliseconds;
+                page.DownloadTime = (int)timer.ElapsedMilliseconds;
                 return page;
 
             }
@@ -140,7 +140,7 @@ namespace NewsWaffle
                     ErrorMessage = $"Could not parse HTML from '{url}'";
                     return null;
                 }
-                page.DownloadMs = (int)timer.ElapsedMilliseconds;
+                page.DownloadTime = (int)timer.ElapsedMilliseconds;
                 return page;
 
             }

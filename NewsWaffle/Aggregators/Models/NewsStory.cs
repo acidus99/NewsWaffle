@@ -16,6 +16,9 @@ namespace NewsWaffle.Aggregators.Models
 
 		public string TimeAgo
 			=> StringUtils.FormatTimeAgo(Updated);
+
+		//20 is roughly the overhead per link
+		public int Size => Title.Length + Url.Length + Source.Length + 20;
 	}
 }
 

@@ -27,7 +27,7 @@ namespace NewsWaffle.Aggregators
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-		public Section ParseSection(string sectionName, string content);
+		public NewsSection ParseSection(string sectionName, string content, int downloadTime);
 	}
 }
 

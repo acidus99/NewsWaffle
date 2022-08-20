@@ -23,7 +23,7 @@ namespace NewsWaffle.Converter
 				Description = GetDescription(),
 				FeaturedImage = GetFeatureImage(),
 				OriginalSize = html.Length,
-				OriginalUrl = url,
+				SourceUrl = url,
 				ProbablyType = ClassifyPageType(),
 				SiteName = GetSiteName(url),
 				Title = GetTitle(),				

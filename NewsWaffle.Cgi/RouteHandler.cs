@@ -127,15 +127,15 @@ namespace NewsWaffle.Cgi
             cgi.Success();
             cgi.Writer.WriteLine($"# 🧇 NewsWaffle - Current News");
 
-            var section = AggregatorFetcher.GetSection(sectionName, yahooNews);
+            var newsSection = AggregatorFetcher.GetSection(sectionName, yahooNews);
 
-            if (section == null)
+            if (newsSection == null)
             {
                 cgi.Writer.WriteLine("Bummer dude! Error fetching current news");
                 return;
             }
-            RenderCurrentNewsSection(cgi, section);
-            Footer(cgi);
+            RenderCurrentNewsSection(cgi, newsSection);
+            Footer(cgi, newsSection);
         }
 
         public static void SwitchNewsSection(CgiWrapper cgi)
@@ -148,8 +148,6 @@ namespace NewsWaffle.Cgi
             {
                 cgi.Writer.WriteLine($"=> {CgiPaths.ViewCurrentNewsSection(section)} {section}");
             }
-            cgi.Writer.WriteLine();
-            cgi.Writer.WriteLine($"News Aggregator: {yahooNews.Name}");
             Footer(cgi);
         }
 
@@ -171,19 +169,19 @@ namespace NewsWaffle.Cgi
             cgi.Out.Write(optimizedImage);
         }
 
-        private static void Footer(CgiWrapper cgi, AbstractPage page = null)
+        private static void Footer(CgiWrapper cgi, IPageStats page = null)
         {
             cgi.Writer.WriteLine();
-            if (!string.IsNullOrEmpty(page?.Meta.SiteName ?? null))
+            if (!string.IsNullOrEmpty(page?.Copyright ?? null))
             {
-                cgi.Writer.WriteLine($"All content © {DateTime.Now.Year} {page.Meta.SiteName}");
+                cgi.Writer.WriteLine($"All content © {DateTime.Now.Year} {page.Copyright}");
             }
             cgi.Writer.WriteLine("---");
             if (page != null)
             {
-                cgi.Writer.WriteLine($"Size: {ReadableFileSize(page.Size)}. {page.Savings} smaller than original HTML: {ReadableFileSize(page.Meta.OriginalSize)} 🤮");
-                cgi.Writer.WriteLine($"Downloaded: {page.DownloadMs} ms. Converted: {page.ParseMs} ms 🐇");
-                cgi.Writer.WriteLine($"=> {page.Meta.OriginalUrl} Link to Source");
+                cgi.Writer.WriteLine($"Size: {RenderUtils.ReadableFileSize(page.Size)}. {RenderUtils.Savings(page.Size, page.OriginalSize)} smaller than original: {RenderUtils.ReadableFileSize(page.OriginalSize)} 🤮");
+                cgi.Writer.WriteLine($"Fetched: {page.DownloadTime} ms. Converted: {page.ConvertTime} ms 🐇");
+                cgi.Writer.WriteLine($"=> {page.SourceUrl} Link to Source");
                 cgi.Writer.WriteLine("---");
             }
             cgi.Writer.WriteLine("=> mailto:acidus@gemi.dev Made with 🧇 and ❤️ by Acidus");
@@ -202,7 +200,7 @@ namespace NewsWaffle.Cgi
             {
                 cgi.Writer.WriteLine($">{homePage.Meta.Description}");
             }
-            cgi.Writer.WriteLine($"=> {CgiPaths.ViewArticle(homePage.Meta.OriginalUrl)} Mode: Link View. This doesn't appear to be an article. Force Article View?");
+            cgi.Writer.WriteLine($"=> {CgiPaths.ViewArticle(homePage.Meta.SourceUrl)} Mode: Link View. This doesn't appear to be an article. Force Article View?");
             if (homePage.HasFeed)
             {
                 cgi.Writer.WriteLine($"=> {CgiPaths.ViewFeed(homePage.FeedUrl)} RSS/Atom Feed detected. Click here for more accurate list of links");
@@ -265,7 +263,7 @@ namespace NewsWaffle.Cgi
             }
         }
 
-        private static void RenderCurrentNewsSection(CgiWrapper cgi, Section section)
+        private static void RenderCurrentNewsSection(CgiWrapper cgi, NewsSection section)
         {
             cgi.Writer.WriteLine($"=> {CgiPaths.SwitchNewsSection} Current Section: {section.SectionName}. Change?");
             cgi.Writer.WriteLine();
@@ -322,7 +320,7 @@ namespace NewsWaffle.Cgi
             {
                 cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(articlePage.Meta.FeaturedImage)} Featured Image");
             }
-            cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.OriginalUrl)} Mode: Article View. Try in Link View?");
+            cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.SourceUrl)} Mode: Article View. Try in Link View?");
             cgi.Writer.WriteLine();
             foreach (var item in articlePage.Content)
             {
@@ -344,20 +342,7 @@ namespace NewsWaffle.Cgi
             }
 
             cgi.Writer.WriteLine("Based on meta data, we thought this was a article, But we were unable to extract one. This might be a page of primarily links, like a home page or category page. this full article could not be properly parsed.");
-            cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.OriginalUrl)} Try in Link View?");
-        }
-
-        static string ReadableFileSize(double size, int unit = 0)
-        {
-            string[] units = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
-
-            while (size >= 1024)
-            {
-                size /= 1024;
-                ++unit;
-            }
-
-            return String.Format("{0:0.0#} {1}", size, units[unit]);
+            cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.SourceUrl)} Try in Link View?");
         }
     }
 }

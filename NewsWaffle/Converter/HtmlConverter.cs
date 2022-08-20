@@ -73,7 +73,7 @@ namespace NewsWaffle.Converter
 				FeedUrl = extractor.FeedUrl,
 			};
 			timer.Stop();
-			homePage.ParseMs = (int) timer.ElapsedMilliseconds;
+			homePage.ConvertTime = (int) timer.ElapsedMilliseconds;
 			return homePage;
 		}
 
@@ -129,7 +129,7 @@ namespace NewsWaffle.Converter
 				};
 			}
 			timer.Stop();
-			page.ParseMs = (int)timer.ElapsedMilliseconds;
+			page.ConvertTime = (int)timer.ElapsedMilliseconds;
 			return page;
 		}
 
