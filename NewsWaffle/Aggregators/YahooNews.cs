@@ -16,14 +16,11 @@ namespace NewsWaffle.Aggregators
 
         public string[] AvailableSections => new string[]
         {
-            "Business",
-            "Entertainment",
-            "Headlines",
-            "Health",
-            "Science",
-            "Sports",
-            "Technology",
             "World",
+            "Headlines",
+            "Business",
+            "Technology",
+            "Science",
         };
 
         public string GetFeedUrl(string sectionName)
@@ -32,27 +29,18 @@ namespace NewsWaffle.Aggregators
             {
                 case "Business":
                     return "https://news.yahoo.com/rss/business";
-                case "Entertainment":
-                    return "https://news.yahoo.com/rss/entertainment";
 
                 case "Headlines":
                     return "https://news.yahoo.com/rss/";
 
-                case "Health":
-                    return "https://news.yahoo.com/rss/health";
-
                 case "Science":
                     return "https://news.yahoo.com/rss/science";
-
-                case "Sports":
-                    return "https://news.yahoo.com/rss/sports";
 
                 case "Technology":
                     return "https://news.yahoo.com/rss/tech";
 
                 case "World":
                     return "https://news.yahoo.com/rss/world";
-
                 default:
                     return null;
             }
