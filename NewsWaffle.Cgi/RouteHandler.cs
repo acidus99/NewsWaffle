@@ -275,7 +275,7 @@ namespace NewsWaffle.Cgi
                 foreach (var story in section.Stories.OrderByDescending(x=>x.Updated))
                 {
                     counter++;
-                    cgi.Writer.WriteLine($"=> {CgiPaths.ViewArticle(story.Url)} {counter}. {story.Title} ({story.Source})");
+                    cgi.Writer.WriteLine($"=> {CgiPaths.ViewArticle(story.Url)} {counter}. {story.Title} ({story.Source}, {story.TimeAgo})");
                 }
             }
             else
