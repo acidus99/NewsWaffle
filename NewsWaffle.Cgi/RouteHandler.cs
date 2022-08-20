@@ -280,8 +280,6 @@ namespace NewsWaffle.Cgi
             {
                 cgi.Writer.WriteLine("This sections doesn't have any news stories"); ;
             }
-            cgi.Writer.WriteLine();
-            cgi.Writer.WriteLine($"News Aggregator: {section.AggregatorName}");
         }
 
         private static void RenderArticle(CgiWrapper cgi, ContentPage articlePage)
