@@ -1,9 +1,13 @@
 # 🧇 NewsWaffle
 Read any news website, all via Gemini
-=> /cgi-bin/waffle.cgi/about.gmi About NewsWaffle
-=> /cgi-bin/waffle.cgi/help.gmi Help 
+=> /cgi-bin/waffle.cgi/about.gmi About 🧇 NewsWaffle
+=> /cgi-bin/waffle.cgi/help.gmi 🛟 Help 
 
-=> /cgi-bin/waffle.cgi/view Enter your own favorite news site
+=> /cgi-bin/waffle.cgi/view 💜 Enter your own favorite news site
+
+## New Aggregators 🤖
+News stories from multiple sources, aggregated together, sorted into sections
+=> /cgi-bin/waffle.cgi/current 🤪 Yahoo News
 
 ## World News 🌐
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.aljazeera.com Al Jazeera
