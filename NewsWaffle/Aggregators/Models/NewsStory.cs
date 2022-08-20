@@ -1,4 +1,7 @@
 ﻿using System;
+
+using NewsWaffle.Util;
+
 namespace NewsWaffle.Aggregators.Models
 {
 	public class NewsStory
@@ -10,6 +13,9 @@ namespace NewsWaffle.Aggregators.Models
 		public string Source { get; set; }
 
 		public DateTime Updated { get; set; }
+
+		public string TimeAgo
+			=> StringUtils.FormatTimeAgo(Updated);
 	}
 }
 
