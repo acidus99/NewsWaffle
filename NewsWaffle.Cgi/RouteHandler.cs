@@ -272,7 +272,7 @@ namespace NewsWaffle.Cgi
             if (section.Stories.Count > 0)
             {
                 int counter = 0;
-                foreach (var story in section.Stories)
+                foreach (var story in section.Stories.OrderByDescending(x=>x.Updated)
                 {
                     counter++;
                     cgi.Writer.WriteLine($"=> {CgiPaths.ViewArticle(story.Url)} {counter}. {story.Title} ({story.Source})");
