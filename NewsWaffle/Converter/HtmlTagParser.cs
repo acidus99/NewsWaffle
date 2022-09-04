@@ -37,6 +37,7 @@ namespace NewsWaffle.Converter
 
         public void Parse(INode current)
         {
+
             ParseHelper(current);
         }
 
@@ -264,8 +265,15 @@ namespace NewsWaffle.Converter
                     break;
 
                 //skipping
-                case "svg":
+                
                 case "noscript":
+                case "script":
+                case "head":
+                case "meta":
+                case "link":
+                case "style":
+                case "svg":
+
                     return;
 
                 default:
