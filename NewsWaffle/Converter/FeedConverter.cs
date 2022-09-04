@@ -41,7 +41,7 @@ namespace NewsWaffle.Converter
                     Url = new Uri(GetHtmlUrl(x)),
                     Text = x.Title,
                     Published = x.PublishingDate
-                }));
+                }).OrderByDescending(x=>x.Published));
                 timer.Stop();
                 ret.ConvertTime = (int)timer.ElapsedMilliseconds;
                 return ret;
