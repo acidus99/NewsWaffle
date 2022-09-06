@@ -112,6 +112,30 @@ namespace NewsWaffle.Cgi
             Footer(cgi, feedPage);
         }
 
+        public static void Raw(CgiWrapper cgi)
+        {
+            if (!cgi.HasQuery)
+            {
+                cgi.Redirect(CgiPaths.BasePath);
+                return;
+            }
+            cgi.Success();
+            cgi.Writer.WriteLine($"# 🧇 NewsWaffle");
+
+            var waffles = new YummyWaffles();
+            var page = waffles.GetRawPage(cgi.Query);
+            if (page == null)
+            {
+                cgi.Writer.WriteLine("# 🧇 NewsWaffle");
+                cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
+                cgi.Writer.WriteLine(waffles.ErrorMessage);
+                return;
+            }
+
+            RenderRaw(cgi, page);
+            Footer(cgi, page);
+        }
+
         public static void CurrentNews(CgiWrapper cgi)
         {
             var yahooNews = new YahooNews();
@@ -263,6 +287,21 @@ namespace NewsWaffle.Cgi
             }
         }
 
+        private static void RenderRaw(CgiWrapper cgi, RawPage rawPage)
+        {
+            cgi.Writer.WriteLine($"## {rawPage.Meta.Title}");
+            if (rawPage.Meta.FeaturedImage != null)
+            {
+                cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(rawPage.Meta.FeaturedImage)} Featured Image");
+            }
+            cgi.Writer.WriteLine($"=> {CgiPaths.ViewArticle(rawPage.Meta.SourceUrl)} Mode: Raw View. Try in Article View?");
+            cgi.Writer.WriteLine();
+            foreach (var item in rawPage.Content)
+            {
+                cgi.Writer.Write(item.Content);
+            }
+        }
+
         private static void RenderCurrentNewsSection(CgiWrapper cgi, NewsSection section)
         {
             cgi.Writer.WriteLine($"=> {CgiPaths.SwitchNewsSection} Current Section: {section.SectionName}. Change?");
@@ -340,6 +379,7 @@ namespace NewsWaffle.Cgi
             }
 
             cgi.Writer.WriteLine("Based on meta data, we thought this was a article, But we were unable to extract one. This might be a page of primarily links, like a home page or category page. this full article could not be properly parsed.");
+            cgi.Writer.WriteLine($"=> {CgiPaths.ViewRaw(articlePage.Meta.SourceUrl)} Try in Raw View?");
             cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.SourceUrl)} Try in Link View?");
         }
     }

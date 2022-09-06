@@ -133,6 +133,35 @@ namespace NewsWaffle.Converter
 			return page;
 		}
 
+		/// <summary>
+		/// Convert to Content Page
+		/// </summary>
+		/// <returns></returns>
+		public RawPage ConvertToRawPage()
+		{
+			if (!timer.IsRunning)
+			{
+				timer.Start();
+			}
+			EnsureParsed();
+
+			HtmlTagParser parser = new HtmlTagParser
+			{
+				ShouldRenderHyperlinks = true
+			};
+			parser.Parse(document);
+
+			var page = new RawPage(MetaData)
+			{
+				Content = parser.GetItems(),
+				Links = parser.BodyLinks,
+
+			};
+			timer.Stop();
+			page.ConvertTime = (int)timer.ElapsedMilliseconds;
+			return page;
+		}
+
 		#endregion
 
 		#region private workings
@@ -142,6 +171,7 @@ namespace NewsWaffle.Converter
 			if(document == null)
             {
 				document = ParseToRoot(Html);
+				RemoveProblemElements();
             }
 			if(MetaData == null)
             {
@@ -173,6 +203,13 @@ namespace NewsWaffle.Converter
 			return document.FirstElementChild;
 		}
 
+		private void RemoveProblemElements()
+        {
+			RemoveMatchingTags(document, "svg");
+        }
+
+		private void RemoveMatchingTags(IElement element, string selector)
+			=> element.QuerySelectorAll(selector).ToList().ForEach(x => x.Remove());
 
 		#endregion
 	}

@@ -151,6 +151,40 @@ namespace NewsWaffle
             }
         }
 
+        /// <summary>
+        /// Gets a page, using Raw mode
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public RawPage GetRawPage(string url)
+        {
+            try
+            {
+                //========= Step 1: Get HTML
+                var html = GetContent(url);
+                if (string.IsNullOrEmpty(html))
+                {
+                    return null;
+                }
+
+                var htmlConverter = new HtmlConverter(url, html);
+                var page = htmlConverter.ConvertToRawPage();
+
+                if (page == null)
+                {
+                    ErrorMessage = $"Could not parse HTML from '{url}'";
+                    return null;
+                }
+                page.DownloadTime = (int)timer.ElapsedMilliseconds;
+                return page;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message + ex.StackTrace;
+                return null;
+            }
+        }
+
         private string GetContent(string url)
         {
             timer.Start();

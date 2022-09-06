@@ -30,7 +30,5 @@ namespace NewsWaffle.Models
 
         public override int Size
             => Content.Sum(x => x.Content.Length);
-
-
     }
 }

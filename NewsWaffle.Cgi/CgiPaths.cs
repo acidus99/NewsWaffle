@@ -18,10 +18,13 @@ namespace NewsWaffle.Cgi
 		public static string ViewLinks(string url)
 			=> $"{BasePath}/links?{WebUtility.UrlEncode(url)}";
 
+		public static string ViewRaw(string url)
+				=> $"{BasePath}/raw?{WebUtility.UrlEncode(url)}";
+
 		public static string ViewCurrentNewsSection(string section = "")
-			=> $"{BasePath}/current?{WebUtility.UrlEncode(section)}";
+			=> $"{BasePath}/current/yahoo?{WebUtility.UrlEncode(section)}";
 
 		public static string SwitchNewsSection
-			=> $"{BasePath}/switch";
+			=> $"{BasePath}/switch/yahoo";
 	}
 }

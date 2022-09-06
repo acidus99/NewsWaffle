@@ -21,7 +21,7 @@ namespace NewsWaffle.Console
                 if (url.StartsWith("http"))
                 {
                     var waffles = new YummyWaffles();
-                    var page = waffles.GetPage(url);
+                    var page = (AbstractPage) waffles.GetRawPage(url);
                     if (page == null)
                     {
                         System.Console.WriteLine($"Error: '{waffles.ErrorMessage}'");
@@ -34,6 +34,10 @@ namespace NewsWaffle.Console
                     else if (page is ContentPage)
                     {
                         RenderArticle((ContentPage)page);
+                    } else if(page is RawPage)
+                    {
+
+                        RenderRawPage((RawPage)page);
                     }
                 }
                 System.Console.WriteLine("Entry URL");
@@ -79,5 +83,16 @@ namespace NewsWaffle.Console
                 System.Console.Write(item.Content);
             }
         }
+
+        private static void RenderRawPage(RawPage rawPage)
+        {
+            System.Console.WriteLine($"## {rawPage.Meta.Title}");
+
+            foreach (var item in rawPage.Content)
+            {
+                System.Console.Write(item.Content);
+            }
+        }
+
     }
 }
