@@ -21,7 +21,9 @@ namespace NewsWaffle.Converter
 
 		string Url;
 		string Html;
-		IElement document;
+		IHtmlDocument document;
+		//represents the root element
+		IElement documentRoot;
 		PageMetaData MetaData;
 		Stopwatch timer = new Stopwatch();
 
@@ -65,7 +67,7 @@ namespace NewsWaffle.Converter
             }
 			EnsureParsed();
 			LinkExtractor extractor = new LinkExtractor(Url);
-			extractor.FindLinks(document);
+			extractor.FindLinks(documentRoot);
 			var homePage = new LinkPage(MetaData)
 			{
 				ContentLinks = extractor.ContentLinks,
@@ -88,7 +90,10 @@ namespace NewsWaffle.Converter
 				timer.Start();
 			}
 			EnsureParsed();
-			var article = Reader.ParseArticle(Url, Html, null);
+
+
+			var reader = new Reader(Url, document);
+			var article = reader.GetArticle();
 			ContentPage page = null;
 
 			if (article.IsReadable && article.Content != "")
@@ -102,7 +107,7 @@ namespace NewsWaffle.Converter
 				{
 					ShouldRenderHyperlinks = false
 				};
-				parser.Parse(ParseToRoot(article.Content));
+				parser.Parse(ParseToDocument(article.Content).FirstElementChild);
 
 				var contentItems = parser.GetItems();
 
@@ -149,7 +154,7 @@ namespace NewsWaffle.Converter
 			{
 				ShouldRenderHyperlinks = true
 			};
-			parser.Parse(document);
+			parser.Parse(documentRoot);
 
 			var page = new RawPage(MetaData)
 			{
@@ -170,7 +175,11 @@ namespace NewsWaffle.Converter
         {
 			if(document == null)
             {
-				document = ParseToRoot(Html);
+				document = ParseToDocument(Html);
+			}
+			if(documentRoot == null)
+            {
+				documentRoot = document.FirstElementChild;
 				RemoveProblemElements();
             }
 			if(MetaData == null)
@@ -189,23 +198,22 @@ namespace NewsWaffle.Converter
 		private void ParseMetadata()
 		{
 			MetaDataParser parser = new MetaDataParser();
-			MetaData = parser.GetMetaData(Url, Html, document);
+			MetaData = parser.GetMetaData(Url, Html, documentRoot);
 		}
 
 		private void SaveHtml(string filename, string html)
 			=> File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/tmp/" + filename, html);
 
-		private IElement ParseToRoot(string html)
+		private IHtmlDocument ParseToDocument(string html)
 		{
 			var context = BrowsingContext.New(Configuration.Default);
 			var parser = context.GetService<IHtmlParser>();
-			var document = parser.ParseDocument(html);
-			return document.FirstElementChild;
+			return parser.ParseDocument(html);
 		}
 
 		private void RemoveProblemElements()
         {
-			RemoveMatchingTags(document, "svg");
+			RemoveMatchingTags(documentRoot, "svg");
         }
 
 		private void RemoveMatchingTags(IElement element, string selector)
