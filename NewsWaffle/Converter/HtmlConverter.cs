@@ -150,6 +150,8 @@ namespace NewsWaffle.Converter
 			}
 			EnsureParsed();
 
+			TagStripper.RemoveNavigation(documentRoot);
+
 			HtmlTagParser parser = new HtmlTagParser
 			{
 				ShouldRenderHyperlinks = true
@@ -180,7 +182,7 @@ namespace NewsWaffle.Converter
 			if(documentRoot == null)
             {
 				documentRoot = document.FirstElementChild;
-				RemoveProblemElements();
+				TagStripper.RemoveProblemTags(documentRoot);
             }
 			if(MetaData == null)
             {
@@ -210,15 +212,6 @@ namespace NewsWaffle.Converter
 			var parser = context.GetService<IHtmlParser>();
 			return parser.ParseDocument(html);
 		}
-
-		private void RemoveProblemElements()
-        {
-			RemoveMatchingTags(documentRoot, "svg");
-        }
-
-		private void RemoveMatchingTags(IElement element, string selector)
-			=> element.QuerySelectorAll(selector).ToList().ForEach(x => x.Remove());
-
 		#endregion
 	}
 }

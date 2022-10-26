@@ -38,18 +38,10 @@ namespace NewsWaffle.Converter
         public void FindLinks(IElement content)
         {
             FindFeeds(content);
-            RemoveMatchingTags(content, "svg");
             //first, get all the links
             var allLinks = GetLinks(content);
-            //now, remove all the navigation stuff
-            RemoveMatchingTags(content, "header");
-            RemoveMatchingTags(content, "footer");
-            RemoveMatchingTags(content, "nav");
-            RemoveMatchingTags(content, "menu");
 
-            //nav/menus are often hidden
-            RemoveMatchingTags(content, "[aria-hidden='true']");
-            RemoveMatchingTags(content, ".hidden");
+            TagStripper.RemoveNavigation(content);
             UseWordLimit = true;
             var justContent = GetLinks(content);
             UseWordLimit = false;
@@ -158,8 +150,7 @@ namespace NewsWaffle.Converter
             return false;
         }
 
-        private void RemoveMatchingTags(IElement element, string selector)
-          => element.QuerySelectorAll(selector).ToList().ForEach(x => x.Remove());
+      
 
     }
 }
