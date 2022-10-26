@@ -20,7 +20,6 @@ News stories from multiple sources, aggregated together, sorted into sections
 
 ## Tech 💻
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.wired.com%2F Wired
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.theverge.com%2F The Verge
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.anandtech.com AnandTech
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fappleinsider.com%2F Apple Insider
 => /cgi-bin/waffle.cgi/feed?http%3A%2F%2Ffeeds.arstechnica.com%2Farstechnica%2Findex%2F Ars Technica
