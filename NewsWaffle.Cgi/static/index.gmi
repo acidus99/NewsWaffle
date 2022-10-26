@@ -37,21 +37,18 @@ News stories from multiple sources, aggregated together, sorted into sections
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.lowtechmagazine.com%2Fsite-map.html Low Tech Magazine
 
 ## Around the World 🌍🌏🌎
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.news.com.au%2F news.com.au (Australia)
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thestar.com%2F The Star (Canada)
 => /cgi-bin/waffle.cgi/links?http%3A%2F%2Fglobal.chinadaily.com.cn%2F China Daily (China)
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.scmp.com%2F South China Morning Post (China)
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.dw.com%2F Deutsche Welle (Germany)
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thehindu.com%2F The Hindu (India)
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.hindustantimes.com%2F Hindustan Times (India)
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Findianexpress.com%2F Indian Express (India)
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Ftimesofindia.indiatimes.com%2F Times of India (India)
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thejakartapost.com%2F Jakarta Post (Indonesia)
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.lastampa.it%2Festeri%2Fla-stampa-in-english La Stampa (Italy)
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.nzherald.co.nz%2F New Zealand Herald (New Zealand)
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fenglish.elpais.com%2Fspain%2F EL PAÍS (Spain)
 
 ## Trashy British Tabloids 🇬🇧👑
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.telegraph.co.uk%2F The Telegraph
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thesun.co.uk%2F The Sun
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.mirror.co.uk%2F Mirror
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.dailymail.co.uk%2F Daily Mail
@@ -59,11 +56,9 @@ News stories from multiple sources, aggregated together, sorted into sections
 
 ## Test Sites 👩‍🔬
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.huffpost.com%2F HuffPost
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.reuters.com%2F Reuters
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fabcnews.go.com%2F ABC News
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.usatoday.com%2F USA Today
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.nbcnews.com%2F NBC News
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.telegraph.co.uk%2F Mirror
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.forbes.com%2F Forbes
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.cnbc.com%2F CNBC
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.chron.com%2F Houston Chronicle
@@ -71,11 +66,9 @@ News stories from multiple sources, aggregated together, sorted into sections
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.usnews.com%2F U.S.News
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.cbsnews.com%2F CBS NEWS
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Ftime.com%2F TIME
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fthehill.com%2F The Hill
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thedailybeast.com%2F Daily Beast
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.newsweek.com%2F Newsweek
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.herald.co.zw%2F The Herald
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.vanguardngr.com%2F Vanguard
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.dailysun.co.za%2F Daily Sun
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thestar.com.my%2F Star
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.straitstimes.com%2F Straits Times
