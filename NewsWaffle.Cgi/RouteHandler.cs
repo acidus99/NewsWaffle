@@ -1,10 +1,13 @@
 ﻿using System.Net;
 using Gemini.Cgi;
+
 using NewsWaffle.Models;
+using NewsWaffle.Cgi.Views;
 using NewsWaffle.Cgi.Media;
 
 using NewsWaffle.Aggregators;
 using NewsWaffle.Aggregators.Models;
+
 
 namespace NewsWaffle.Cgi
 {
@@ -33,10 +36,12 @@ namespace NewsWaffle.Cgi
             {
                 RenderLinks(cgi, (LinkPage)page);
             }
-            else if(page is ContentPage)
+            else if (page is ContentPage)
             {
-                RenderArticle(cgi, (ContentPage)page);
-            } else
+                var articleView = new ArticleView(cgi.Writer);
+                articleView.RenderArticle((ContentPage)page);
+            }
+            else
             {
                 RenderFeed(cgi, (FeedPage)page);
             }
@@ -62,7 +67,9 @@ namespace NewsWaffle.Cgi
                 cgi.Writer.WriteLine(waffles.ErrorMessage);
                 return;
             }
-            RenderArticle(cgi, page);
+            var articleView = new ArticleView(cgi.Writer);
+            articleView.RenderArticle((ContentPage)page);
+
             Footer(cgi, page);
         }
 
@@ -319,68 +326,6 @@ namespace NewsWaffle.Cgi
             {
                 cgi.Writer.WriteLine("This sections doesn't have any news stories"); ;
             }
-        }
-
-        private static void RenderArticle(CgiWrapper cgi, ContentPage articlePage)
-        {
-            cgi.Writer.WriteLine($"# 🧇 NewsWaffle: {articlePage.Meta.SiteName}");
-            if (articlePage.IsReadability)
-            {
-                RenderArticleSuccess(cgi, articlePage);
-            } else
-            {
-                RenderArticleFailed(cgi, articlePage);
-            }
-        }
-
-        private static void RenderArticleSuccess(CgiWrapper cgi, ContentPage articlePage)
-        {
-            cgi.Writer.WriteLine($"## {articlePage.Meta.Title}");
-            if (articlePage.Published != null)
-            {
-                cgi.Writer.WriteLine($"Published: {articlePage.Published.Value.ToString("yyyy-MM-dd HH:mm")} GMT");
-            }
-            if (!string.IsNullOrEmpty(articlePage.Byline))
-            {
-                cgi.Writer.WriteLine($"Byline: {articlePage.Byline}");
-            }
-            cgi.Writer.WriteLine($"Length: {articlePage.WordCount} words (~{articlePage.TimeToRead.Minutes} minutes)");
-            //if (articlePage.Images.Count > 0)
-            //{
-            //    cgi.Writer.WriteLine($"Article images: {articlePage.Images.Count}");
-            //}
-            //if (articlePage.Links.Count > 0)
-            //{
-            //    cgi.Writer.WriteLine($"Hyperlinks in Body: {articlePage.Links.Count}");
-            //}
-            if (articlePage.Meta.FeaturedImage != null)
-            {
-                cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(articlePage.Meta.FeaturedImage)} Featured Image");
-            }
-            cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.SourceUrl)} Mode: Article View. Try in Link View?");
-            cgi.Writer.WriteLine();
-            foreach (var item in articlePage.Content)
-            {
-                cgi.Writer.Write(item.Content);
-            }
-        }
-
-        private static void RenderArticleFailed(CgiWrapper cgi, ContentPage articlePage)
-        {
-            cgi.Writer.WriteLine($"## {articlePage.Meta.Title}");
-            if (articlePage.Meta.FeaturedImage != null)
-            {
-                cgi.Writer.WriteLine($"=> {MediaRewriter.GetPath(articlePage.Meta.FeaturedImage)} Featured Image");
-            }
-            if(!string.IsNullOrEmpty(articlePage.Excerpt))
-            {
-                cgi.Writer.WriteLine("Excerpt:");
-                cgi.Writer.WriteLine($">{articlePage.Excerpt}");
-            }
-
-            cgi.Writer.WriteLine("Based on meta data, we thought this was a article, But we were unable to extract one. This might be a page of primarily links, like a home page or category page. this full article could not be properly parsed.");
-            cgi.Writer.WriteLine($"=> {CgiPaths.ViewRaw(articlePage.Meta.SourceUrl)} Try in Raw View?");
-            cgi.Writer.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.SourceUrl)} Try in Link View?");
         }
     }
 }

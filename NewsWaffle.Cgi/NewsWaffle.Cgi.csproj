@@ -16,10 +16,12 @@
     <None Remove="Magick.NET-Q8-AnyCPU" />
     <None Remove="static\" />
     <None Remove="static\index.gmi" />
+    <None Remove="Views\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Media\" />
     <Folder Include="static\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="12.0.1" />
