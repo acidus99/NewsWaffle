@@ -12,3 +12,5 @@
 - Feature: Switching between modes
 - Feature: Site name in title
 - Fixed: Articles that passed readability still had no content
+- Fixed: Consist rendering of site name/article title for Content, Link, RSS, or Raw modes
+- Feature: Always offer raw mode option
