@@ -4,15 +4,25 @@ using NewsWaffle.Models;
 
 namespace NewsWaffle.Cgi.Views
 {
-	internal class BaseView
+	internal abstract class AbstractView
 	{
 
         protected StreamWriter Out;
 
-        public BaseView(StreamWriter sw)
+        abstract protected IPageStats PageStats { get; }
+
+        public AbstractView(StreamWriter sw)
         {
             Out = sw;
         }
+
+        public void Render()
+        {
+            RenderView();
+            RenderFooter();
+        }
+
+        protected abstract void RenderView();
 
         protected void RenderTitle(string subTitle = "")
         {
@@ -26,19 +36,19 @@ namespace NewsWaffle.Cgi.Views
             }
         }
 
-        protected void RenderFooter(IPageStats page = null)
+        private void RenderFooter()
         {
             Out.WriteLine();
-            if (!string.IsNullOrEmpty(page?.Copyright ?? null))
+            if (!string.IsNullOrEmpty(PageStats?.Copyright ?? null))
             {
-                Out.WriteLine($"All content © {DateTime.Now.Year} {page.Copyright}");
+                Out.WriteLine($"All content © {DateTime.Now.Year} {PageStats.Copyright}");
             }
             Out.WriteLine("---");
-            if (page != null)
+            if (PageStats != null)
             {
-                Out.WriteLine($"Size: {ReadableFileSize(page.Size)}. {Savings(page.Size, page.OriginalSize)} smaller than original: {ReadableFileSize(page.OriginalSize)} 🤮");
-                Out.WriteLine($"Fetched: {page.DownloadTime} ms. Converted: {page.ConvertTime} ms 🐇");
-                Out.WriteLine($"=> {page.SourceUrl} Link to Source");
+                Out.WriteLine($"Size: {ReadableFileSize(PageStats.Size)}. {Savings(PageStats.Size, PageStats.OriginalSize)} smaller than original: {ReadableFileSize(PageStats.OriginalSize)} 🤮");
+                Out.WriteLine($"Fetched: {PageStats.DownloadTime} ms. Converted: {PageStats.ConvertTime} ms 🐇");
+                Out.WriteLine($"=> {PageStats.SourceUrl} Link to Source");
                 Out.WriteLine("---");
             }
             Out.WriteLine("=> mailto:acidus@gemi.dev Made with 🧇 and ❤️ by Acidus");
