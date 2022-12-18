@@ -26,9 +26,8 @@ namespace NewsWaffle.Cgi
             var page = waffles.GetPage(cgi.Query);
             if (page == null)
             {
-                cgi.Writer.WriteLine("# 🧇 NewsWaffle");
-                cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
-                cgi.Writer.WriteLine(waffles.ErrorMessage);
+                var errorView = new ErrorView(cgi.Writer);
+                errorView.RenderError(waffles.ErrorMessage);
                 return;
             }
 
@@ -45,8 +44,6 @@ namespace NewsWaffle.Cgi
             {
                 RenderFeed(cgi, (FeedPage)page);
             }
-
-            Footer(cgi, page);
         }
 
         public static void Article(CgiWrapper cgi)
@@ -62,9 +59,8 @@ namespace NewsWaffle.Cgi
 
             if (page == null)
             {
-                cgi.Writer.WriteLine($"# 🧇 NewsWaffle");
-                cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
-                cgi.Writer.WriteLine(waffles.ErrorMessage);
+                var errorView = new ErrorView(cgi.Writer);
+                errorView.RenderError(waffles.ErrorMessage);
                 return;
             }
             var articleView = new ArticleView(cgi.Writer);
@@ -86,9 +82,8 @@ namespace NewsWaffle.Cgi
 
             if (page == null)
             {
-                cgi.Writer.WriteLine($"# 🧇 NewsWaffle");
-                cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
-                cgi.Writer.WriteLine(waffles.ErrorMessage);
+                var errorView = new ErrorView(cgi.Writer);
+                errorView.RenderError(waffles.ErrorMessage);
                 return;
             }
             RenderLinks(cgi, page);
@@ -104,15 +99,14 @@ namespace NewsWaffle.Cgi
                 return;
             }
             cgi.Success();
-            cgi.Writer.WriteLine($"# 🧇 NewsWaffle");
 
             var waffles = new YummyWaffles();
             var feedPage = waffles.GetFeedPage(cgi.Query);
 
             if (feedPage == null)
             {
-                cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
-                cgi.Writer.WriteLine(waffles.ErrorMessage);
+                var errorView = new ErrorView(cgi.Writer);
+                errorView.RenderError(waffles.ErrorMessage);
                 return;
             }
             RenderFeed(cgi, feedPage);
@@ -133,9 +127,8 @@ namespace NewsWaffle.Cgi
             var page = waffles.GetRawPage(cgi.Query);
             if (page == null)
             {
-                cgi.Writer.WriteLine("# 🧇 NewsWaffle");
-                cgi.Writer.WriteLine("Bummer dude! Error Wafflizing that page.");
-                cgi.Writer.WriteLine(waffles.ErrorMessage);
+                var errorView = new ErrorView(cgi.Writer);
+                errorView.RenderError(waffles.ErrorMessage);
                 return;
             }
 
@@ -162,7 +155,8 @@ namespace NewsWaffle.Cgi
 
             if (newsSection == null)
             {
-                cgi.Writer.WriteLine("Bummer dude! Error fetching current news");
+                var errorView = new ErrorView(cgi.Writer);
+                errorView.RenderError("Couldn't fetch current news");
                 return;
             }
             RenderCurrentNewsSection(cgi, newsSection);
@@ -198,24 +192,6 @@ namespace NewsWaffle.Cgi
             }
             cgi.Success("image/jpeg");
             cgi.Out.Write(optimizedImage);
-        }
-
-        private static void Footer(CgiWrapper cgi, IPageStats page = null)
-        {
-            cgi.Writer.WriteLine();
-            if (!string.IsNullOrEmpty(page?.Copyright ?? null))
-            {
-                cgi.Writer.WriteLine($"All content © {DateTime.Now.Year} {page.Copyright}");
-            }
-            cgi.Writer.WriteLine("---");
-            if (page != null)
-            {
-                cgi.Writer.WriteLine($"Size: {RenderUtils.ReadableFileSize(page.Size)}. {RenderUtils.Savings(page.Size, page.OriginalSize)} smaller than original: {RenderUtils.ReadableFileSize(page.OriginalSize)} 🤮");
-                cgi.Writer.WriteLine($"Fetched: {page.DownloadTime} ms. Converted: {page.ConvertTime} ms 🐇");
-                cgi.Writer.WriteLine($"=> {page.SourceUrl} Link to Source");
-                cgi.Writer.WriteLine("---");
-            }
-            cgi.Writer.WriteLine("=> mailto:acidus@gemi.dev Made with 🧇 and ❤️ by Acidus");
         }
 
         private static void RenderLinks(CgiWrapper cgi, LinkPage homePage)
@@ -263,6 +239,7 @@ namespace NewsWaffle.Cgi
 
         private static void RenderFeed(CgiWrapper cgi, FeedPage feedPage)
         {
+            cgi.Writer.WriteLine($"# 🧇 NewsWaffle");
             cgi.Writer.WriteLine($"## {feedPage.Meta.Title}");
             if (feedPage.Meta.FeaturedImage != null)
             {
