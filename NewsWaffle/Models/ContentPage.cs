@@ -26,7 +26,7 @@ namespace NewsWaffle.Models
 
         public TimeSpan TimeToRead { get; internal set; }
 
-        public int WordCount { get; internal set; }
+        public int WordCount { get; internal set; } = 0;
 
         public override int Size
             => Content.Sum(x => x.Content.Length);
