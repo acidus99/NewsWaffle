@@ -63,6 +63,7 @@ namespace NewsWaffle.Cgi.Views
             {
                 Out.WriteLine($"=> {CgiPaths.ViewLinks(ContentPage.Meta.SourceUrl)} View in Link Mode");
             }
+            Out.WriteLine($"=> {CgiPaths.ViewRaw(ContentPage.Meta.SourceUrl)} View in Raw View");
         }
     }
 }
