@@ -5,30 +5,22 @@ using Gemini.Cgi;
 using NewsWaffle.Models;
 namespace NewsWaffle.Cgi.Views
 {
-    internal class ArticleView
+    internal class ArticleView : BaseView
     {
-        TextWriter Out;
-
-        public ArticleView(TextWriter tw)
-        {
-            Out = tw;
-        }
+        public ArticleView(StreamWriter sw)
+            : base(sw) { }
 
         public void RenderArticle(ContentPage articlePage)
         {
-            Out.WriteLine($"# 🧇 NewsWaffle: {articlePage.Meta.SiteName}");
-            if (articlePage.IsReadability)
-            {
-                RenderArticleSuccess(articlePage);
-            }
-            else
-            {
-                RenderArticleFailed(articlePage);
-            }
+            Header(articlePage);
+            ReadOptions(articlePage);
+            ArticleBody(articlePage);
+            RenderFooter(articlePage);
         }
 
-        private void RenderArticleSuccess(ContentPage articlePage)
+        private void Header(ContentPage articlePage)
         {
+            Out.WriteLine($"# 🧇 NewsWaffle: {articlePage.Meta.SiteName}");
             Out.WriteLine($"## {articlePage.Meta.Title}");
             if (articlePage.Published != null)
             {
@@ -38,35 +30,47 @@ namespace NewsWaffle.Cgi.Views
             {
                 Out.WriteLine($"Byline: {articlePage.Byline}");
             }
-            Out.WriteLine($"Length: {articlePage.WordCount} words (~{articlePage.TimeToRead.Minutes} minutes)");
+            if (articlePage.WordCount > 0)
+            {
+                Out.WriteLine($"Length: {articlePage.WordCount} words (~{articlePage.TimeToRead.Minutes} minutes)");
+            }
             if (articlePage.Meta.FeaturedImage != null)
             {
                 Out.WriteLine($"=> {MediaRewriter.GetPath(articlePage.Meta.FeaturedImage)} Featured Image");
-            }
-            Out.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.SourceUrl)} Mode: Article View. Try in Link View?");
-            Out.WriteLine();
-            foreach (var item in articlePage.Content)
-            {
-                Out.Write(item.Content);
             }
         }
 
-        private void RenderArticleFailed(ContentPage articlePage)
+        private void ReadOptions(ContentPage articlePage)
         {
-            Out.WriteLine($"## {articlePage.Meta.Title}");
-            if (articlePage.Meta.FeaturedImage != null)
+            if (articlePage.IsReadability)
             {
-                Out.WriteLine($"=> {MediaRewriter.GetPath(articlePage.Meta.FeaturedImage)} Featured Image");
+                Out.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.SourceUrl)} View in Link Mode");
             }
-            if (!string.IsNullOrEmpty(articlePage.Excerpt))
-            {
-                Out.WriteLine("Excerpt:");
-                Out.WriteLine($">{articlePage.Excerpt}");
-            }
+        }
 
-            Out.WriteLine("Based on meta data, we thought this was a article, But we were unable to extract one. This might be a page of primarily links, like a home page or category page. this full article could not be properly parsed.");
-            Out.WriteLine($"=> {CgiPaths.ViewRaw(articlePage.Meta.SourceUrl)} Try in Raw View?");
-            Out.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.SourceUrl)} Try in Link View?");
+        private void ArticleBody(ContentPage articlePage)
+        {
+            Out.WriteLine();
+            if (articlePage.IsReadability)
+            {
+                foreach (var item in articlePage.Content)
+                {
+                    Out.Write(item.Content);
+                }
+            }
+            else
+            {
+                Out.WriteLine("Based on meta data, we thought this was a article, But we were unable to extract one. This might be a page of primarily links, like a home page or category page, or an oddly formatted page.");
+
+                if (!string.IsNullOrEmpty(articlePage.Excerpt))
+                {
+                    Out.WriteLine("Excerpt:");
+                    Out.WriteLine($">{articlePage.Excerpt}");
+                }
+
+                Out.WriteLine($"=> {CgiPaths.ViewRaw(articlePage.Meta.SourceUrl)} Try in Raw View?");
+                Out.WriteLine($"=> {CgiPaths.ViewLinks(articlePage.Meta.SourceUrl)} Try in Link View?");
+            }
         }
     }
 }
