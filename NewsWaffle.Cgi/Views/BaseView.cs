@@ -14,6 +14,18 @@ namespace NewsWaffle.Cgi.Views
             Out = sw;
         }
 
+        protected void RenderTitle(string subTitle = "")
+        {
+            if (string.IsNullOrEmpty(subTitle))
+            {
+                Out.WriteLine($"# 🧇 NewsWaffle");
+            }
+            else
+            {
+                Out.WriteLine($"# 🧇 NewsWaffle: {subTitle}");
+            }
+        }
+
         protected void RenderFooter(IPageStats page = null)
         {
             Out.WriteLine();

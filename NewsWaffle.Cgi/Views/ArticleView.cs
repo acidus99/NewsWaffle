@@ -20,7 +20,7 @@ namespace NewsWaffle.Cgi.Views
 
         private void Header(ContentPage articlePage)
         {
-            Out.WriteLine($"# 🧇 NewsWaffle: {articlePage.Meta.SiteName}");
+            RenderTitle(articlePage.Meta.SiteName);
             Out.WriteLine($"## {articlePage.Meta.Title}");
             if (articlePage.Published != null)
             {

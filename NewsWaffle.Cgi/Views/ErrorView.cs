@@ -12,7 +12,7 @@ namespace NewsWaffle.Cgi.Views
 
         public void RenderError(string msg)
         {
-            Out.WriteLine($"# 🧇 NewsWaffle");
+            RenderTitle();
             Out.WriteLine("Bummer dude! Error Wafflizing that page.");
             Out.WriteLine(msg);
             RenderFooter();
