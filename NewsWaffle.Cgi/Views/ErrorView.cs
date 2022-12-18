@@ -5,17 +5,23 @@ using Gemini.Cgi;
 using NewsWaffle.Models;
 namespace NewsWaffle.Cgi.Views
 {
-    internal class ErrorView : BaseView
+    internal class ErrorView : AbstractView
     {
-        public ErrorView(StreamWriter sw)
-            : base(sw) { }
+        string ErrorMsg;
 
-        public void RenderError(string msg)
+        protected override IPageStats PageStats => null;
+
+        public ErrorView(StreamWriter sw, string msg)
+            : base(sw)
+        {
+            ErrorMsg = msg;
+        }
+
+        protected override void RenderView()
         {
             RenderTitle();
             Out.WriteLine("Bummer dude! Error Wafflizing that page.");
-            Out.WriteLine(msg);
-            RenderFooter();
+            Out.WriteLine(ErrorMsg);
         }
     }
 }

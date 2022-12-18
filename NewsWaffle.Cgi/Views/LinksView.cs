@@ -5,61 +5,53 @@ using Gemini.Cgi;
 using NewsWaffle.Models;
 namespace NewsWaffle.Cgi.Views
 {
-    internal class LinksView : BaseView
+    internal class LinksView : ArticleView
     {
-        public LinksView(StreamWriter sw)
-            : base(sw) { }
+        LinkPage LinkPage => (LinkPage)Page;
 
-        public void RenderLinks(LinkPage linkPage)
-        {
-            RenderTitle(linkPage.Meta.SiteName);
-            Header(linkPage);
-            ReadOptions(linkPage);
-            Links(linkPage);
-            RenderFooter();
-        }
+        public LinksView(StreamWriter sw, LinkPage page)
+            : base(sw, page) { }
 
-        private void Header(LinkPage linkPage)
+        protected override void Header()
         {
-            Out.WriteLine($"## {linkPage.Meta.Title}");
-            if (linkPage.Meta.FeaturedImage != null)
+            if (LinkPage.Meta.FeaturedImage != null)
             {
-                Out.WriteLine($"=> {MediaRewriter.GetPath(linkPage.Meta.FeaturedImage)} Featured Image");
+                Out.WriteLine($"=> {MediaRewriter.GetPath(LinkPage.Meta.FeaturedImage)} Featured Image");
             }
-            if (linkPage.Meta.Description.Length > 0)
+            if (LinkPage.Meta.Description.Length > 0)
             {
-                Out.WriteLine($">{linkPage.Meta.Description}");
+                Out.WriteLine($">{LinkPage.Meta.Description}");
             }
         }
 
-        private void ReadOptions(LinkPage linkPage)
+        protected override void ReadOptions()
         {
-            Out.WriteLine($"=> {CgiPaths.ViewArticle(linkPage.Meta.SourceUrl)} Mode: Link View. This doesn't appear to be an article. Force Article View?");
-            if (linkPage.HasFeed)
+            Out.WriteLine($"=> {CgiPaths.ViewArticle(LinkPage.Meta.SourceUrl)} Mode: Link View. This doesn't appear to be an article. Force Article View?");
+            if (LinkPage.HasFeed)
             {
-                Out.WriteLine($"=> {CgiPaths.ViewFeed(linkPage.FeedUrl)} RSS/Atom Feed detected. Click here for more accurate list of links");
+                Out.WriteLine($"=> {CgiPaths.ViewFeed(LinkPage.FeedUrl)} RSS/Atom Feed detected. Click here for more accurate list of links");
             }
         }
 
-        private void Links(LinkPage linkPage)
+        protected override void Body()
         {
             Out.WriteLine();
             int counter = 0;
-            if (linkPage.ContentLinks.Count > 0)
+            if (LinkPage.ContentLinks.Count > 0)
             {
-                Out.WriteLine($"### Content Links: {linkPage.ContentLinks.Count}");
+                Out.WriteLine($"### Content Links: {LinkPage.ContentLinks.Count}");
 
-                foreach (var link in linkPage.ContentLinks)
+                foreach (var link in LinkPage.ContentLinks)
                 {
                     counter++;
                     Out.WriteLine($"=> {CgiPaths.ViewArticle(link.Url.AbsoluteUri)} {counter}. {link.Text}");
                 }
             }
-            if (linkPage.NavigationLinks.Count > 0)
+            if (LinkPage.NavigationLinks.Count > 0)
             {
-                Out.WriteLine($"### Navigation Links: {linkPage.NavigationLinks.Count}");
+                Out.WriteLine($"### Navigation Links: {LinkPage.NavigationLinks.Count}");
                 counter = 0;
-                foreach (var link in linkPage.NavigationLinks)
+                foreach (var link in LinkPage.NavigationLinks)
                 {
                     counter++;
                     Out.WriteLine($"=> {CgiPaths.ViewAuto(link.Url.AbsoluteUri)} {counter}. {link.Text}");

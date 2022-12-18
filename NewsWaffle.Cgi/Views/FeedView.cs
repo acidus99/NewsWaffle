@@ -5,47 +5,14 @@ using Gemini.Cgi;
 using NewsWaffle.Models;
 namespace NewsWaffle.Cgi.Views
 {
-    internal class FeedView : BaseView
+    internal class FeedView : ArticleView
     {
-        private FeedPage FeedPage;
+        private FeedPage FeedPage => (FeedPage)Page;
 
-        public FeedView(StreamWriter sw, FeedPage feedPage)
-            : base(sw)
-        {
-            FeedPage = feedPage;
-        }
+        public FeedView(StreamWriter sw, FeedPage page)
+            : base(sw, page) { }
 
-        public void RenderFeed()
-        {
-            RenderTitle();
-            Header();
-            ReadOptions();
-            FeedBody();
-            RenderFooter(FeedPage);
-        }
-
-        private void Header()
-        {
-            Out.WriteLine($"## {FeedPage.Meta.Title}");
-            if (FeedPage.Meta.FeaturedImage != null)
-            {
-                Out.WriteLine($"=> {MediaRewriter.GetPath(FeedPage.Meta.FeaturedImage)} Featured Image");
-            }
-            if (FeedPage.Meta.Description.Length > 0)
-            {
-                Out.WriteLine($">{FeedPage.Meta.Description}");
-            }
-        }
-
-        private void ReadOptions()
-        {
-            if (FeedPage.RootUrl.Length > 0)
-            {
-                Out.WriteLine($"=> {CgiPaths.ViewLinks(FeedPage.RootUrl)} Mode: RSS View. Try Link View?");
-            }
-        }
-
-        private void FeedBody()
+        protected override void Body()
         {
             Out.WriteLine();
             Out.WriteLine($"### Feed Links: {FeedPage.Links.Count}");
@@ -62,6 +29,26 @@ namespace NewsWaffle.Cgi.Views
             else
             {
                 Out.WriteLine("This feed doesn't actually have any items in it. Unfortunately some sites have broken feeds with content.");
+            }
+        }
+
+        protected override void Header()
+        {
+            if (FeedPage.Meta.FeaturedImage != null)
+            {
+                Out.WriteLine($"=> {MediaRewriter.GetPath(FeedPage.Meta.FeaturedImage)} Featured Image");
+            }
+            if (FeedPage.Meta.Description.Length > 0)
+            {
+                Out.WriteLine($">{FeedPage.Meta.Description}");
+            }
+        }
+
+        protected override void ReadOptions()
+        {
+            if (FeedPage.RootUrl.Length > 0)
+            {
+                Out.WriteLine($"=> {CgiPaths.ViewLinks(FeedPage.RootUrl)} Mode: RSS View. Try Link View?");
             }
         }
     }
