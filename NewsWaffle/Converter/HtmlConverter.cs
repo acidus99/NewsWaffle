@@ -154,7 +154,7 @@ namespace NewsWaffle.Converter
 
 			HtmlTagParser parser = new HtmlTagParser
 			{
-				ShouldRenderHyperlinks = true
+				ShouldRenderHyperlinks = false
 			};
 			parser.Parse(documentRoot);
 
