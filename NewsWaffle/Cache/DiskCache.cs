@@ -46,7 +46,7 @@ namespace NewsWaffle.Cache
 			var filepath = GetPath(cacheKey);
 			try
 			{
-				if (CacheEntryValid(filepath))
+				if (IsCacheEntryValid(filepath))
 				{
 					return File.ReadAllText(filepath);
 				}
@@ -66,7 +66,7 @@ namespace NewsWaffle.Cache
 			var filepath = GetPath(cacheKey);
 			try
 			{
-				if (CacheEntryValid(filepath))
+				if (IsCacheEntryValid(filepath))
 				{
 					return File.ReadAllBytes(filepath);
 				}
@@ -113,7 +113,7 @@ namespace NewsWaffle.Cache
 		private string GetPath(string cacheKey)
 			=> Path.Combine(Path.GetTempPath(), cacheKey + ".diskcache");
 
-		private bool CacheEntryValid(string filepath)
+		private bool IsCacheEntryValid(string filepath)
         {
 			try
 			{
