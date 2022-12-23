@@ -27,4 +27,7 @@
     <Folder Include="Aggregators\" />
     <Folder Include="Aggregators\Models\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\HtmlToGmi\HtmlToGmi.csproj" />
+  </ItemGroup>
 </Project>
