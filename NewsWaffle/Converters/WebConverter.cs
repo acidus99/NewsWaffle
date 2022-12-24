@@ -15,9 +15,11 @@ using HtmlToGmi;
 
 namespace NewsWaffle.Converters
 {
-    public class HtmlConverter
+	/// <summary>
+	/// Convers web pages into the appropriate page type
+	/// </summary>
+    public class WebConverter
     {
-
 		public bool Debug { get; set; } = true;
 
 		string Url;
@@ -28,7 +30,7 @@ namespace NewsWaffle.Converters
 		PageMetaData MetaData;
 		Stopwatch timer = new Stopwatch();
 
-		public HtmlConverter(string url, string html)
+		public WebConverter(string url, string html)
 		{
 			Url = url;
 			Html = html;

@@ -41,7 +41,7 @@ namespace NewsWaffle
                     return feed;
                 }
 
-                HtmlConverter htmlConverter = new HtmlConverter(url, html);
+                WebConverter htmlConverter = new WebConverter(url, html);
 
                 //convert, autodetecting
                 var page = htmlConverter.Convert();
@@ -96,7 +96,7 @@ namespace NewsWaffle
                     return null;
                 }
 
-                HtmlConverter htmlConverter = new HtmlConverter(url, html);
+                WebConverter htmlConverter = new WebConverter(url, html);
 
                 //convert, autodetecting
                 var page = htmlConverter.ConvertToLinkPage();
@@ -133,7 +133,7 @@ namespace NewsWaffle
                     return null;
                 }
 
-                HtmlConverter htmlConverter = new HtmlConverter(url, html);
+                WebConverter htmlConverter = new WebConverter(url, html);
 
                 //convert, autodetecting
                 var page = htmlConverter.ConvertToContentPage();
@@ -170,7 +170,7 @@ namespace NewsWaffle
                     return null;
                 }
 
-                var htmlConverter = new HtmlConverter(url, html);
+                var htmlConverter = new WebConverter(url, html);
                 var page = htmlConverter.ConvertToRawPage();
 
                 if (page == null)
