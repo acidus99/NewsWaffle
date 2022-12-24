@@ -18,6 +18,16 @@ namespace NewsWaffle.Cgi.Views
             if (ContentPage.IsReadability)
             {
                 Out.WriteLine(ContentPage.Content);
+                if (ContentPage.Links.Count > 0)
+                {
+                    Out.WriteLine();
+                    Out.WriteLine("## Article Links");
+                    foreach (var link in ContentPage.Links)
+                    {
+                        string externalTag = link.IsExternal ? " (External)" : "";
+                        Out.WriteLine($"=> {LinkRewriter.GetLinkUrl(link.Url)} [{link.OrderDetected}] {link.Text}{externalTag}");
+                    }
+                }
             }
             else
             {
