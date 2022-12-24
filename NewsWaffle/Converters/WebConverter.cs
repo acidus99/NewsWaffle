@@ -20,8 +20,6 @@ namespace NewsWaffle.Converters
 	/// </summary>
     public class WebConverter
     {
-		public bool Debug { get; set; } = true;
-
 		string Url;
 		string Html;
 		IHtmlDocument document;
@@ -34,10 +32,6 @@ namespace NewsWaffle.Converters
 		{
 			Url = url;
 			Html = html;
-			if (Debug)
-			{
-				SaveHtml("original.html", Html);
-			}
 		}
 
 		#region public methods
@@ -94,18 +88,12 @@ namespace NewsWaffle.Converters
 			}
 			EnsureParsed();
 
-
 			var reader = new Reader(Url, document);
 			var article = reader.GetArticle();
 			ContentPage page = null;
 
 			if (article.IsReadable && article.Content != "")
 			{
-				if (Debug)
-				{
-					SaveHtml("simplified.html", article.Content);
-				}
-
 				Uri uri = new Uri(Url);
 
 				var converter = new HtmlToGmi.HtmlConverter
