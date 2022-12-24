@@ -7,7 +7,10 @@ using NewsWaffle.Models;
 
 namespace NewsWaffle
 {
-    public class YummyWaffles
+    /// <summary>
+    /// Fetches content over HTTP and converts it to different news formats
+    /// </summary>
+    public class NewsConverter
     {
 
         public bool Debug { get; set; } = true;

@@ -67,7 +67,7 @@ namespace NewsWaffle.Converters
 				timer.Start();
             }
 			EnsureParsed();
-			LinkExtractor extractor = new LinkExtractor(Url);
+			LinkParser extractor = new LinkParser(Url);
 			extractor.FindLinks(documentRoot);
 			var homePage = new LinkPage(MetaData)
 			{

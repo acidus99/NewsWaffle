@@ -22,7 +22,7 @@ namespace NewsWaffle.Cgi
             }
             cgi.Success();
 
-            var waffles = new YummyWaffles();
+            var waffles = new NewsConverter();
             var page = waffles.GetPage(cgi.Query);
 
             AbstractView view = null;
@@ -53,7 +53,7 @@ namespace NewsWaffle.Cgi
                 return;
             }
             cgi.Success();
-            var waffles = new YummyWaffles();
+            var waffles = new NewsConverter();
             var page = waffles.GetContentPage(cgi.Query);
 
             AbstractView view = (page == null) ?
@@ -71,7 +71,7 @@ namespace NewsWaffle.Cgi
                 return;
             }
             cgi.Success();
-            var waffles = new YummyWaffles();
+            var waffles = new NewsConverter();
             var linksPage = waffles.GetLinkPage(cgi.Query);
 
             AbstractView view = (linksPage == null) ?
@@ -90,7 +90,7 @@ namespace NewsWaffle.Cgi
             }
             cgi.Success();
 
-            var waffles = new YummyWaffles();
+            var waffles = new NewsConverter();
             var feedPage = waffles.GetFeedPage(cgi.Query);
             AbstractView view = (feedPage == null) ?
                 new ErrorView(cgi.Writer, waffles.ErrorMessage) :
@@ -109,7 +109,7 @@ namespace NewsWaffle.Cgi
             cgi.Success();
             cgi.Writer.WriteLine($"# 🧇 NewsWaffle");
 
-            var waffles = new YummyWaffles();
+            var waffles = new NewsConverter();
             var rawPage = waffles.GetRawPage(cgi.Query);
 
             AbstractView view = (rawPage == null) ?

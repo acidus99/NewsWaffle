@@ -20,7 +20,7 @@ namespace NewsWaffle.Console
             {
                 if (url.StartsWith("http"))
                 {
-                    var waffles = new YummyWaffles();
+                    var waffles = new NewsConverter();
                     var page = (AbstractPage) waffles.GetRawPage(url);
                     if (page == null)
                     {
