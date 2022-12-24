@@ -64,8 +64,7 @@ namespace NewsWaffle.Converters
             {
 
                 var href = link.GetAttribute("href");
-                textExtractor.Convert(link);
-                var linkText = SanitizeLinkText(textExtractor.Content);
+                var linkText = SanitizeLinkText(textExtractor.Convert(link));
 
                 //we want to skip navigation hyperlinks that are just to other sections on the page
                 //we want to skip links without any text
@@ -114,11 +113,10 @@ namespace NewsWaffle.Converters
         private bool IsInternalLink(Uri link)
             => link.Host.EndsWith(NormalizedHost);
 
-        //
         private string SanitizeLinkText(string text)
             //remove newliens inside the text, and ensure its trimmed on both sides
             //TODO: should this just use the sanitize function to handle HTML encoding?
-            => HtmlToGmi.Html.StringUtils.RemoveNewlines(text).Trim();
+            => TextConverter.CollapseWhitespace(text).Trim();
 
         private Uri ResolveUrl(string href)
         {
