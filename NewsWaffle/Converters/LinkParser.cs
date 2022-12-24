@@ -105,7 +105,7 @@ namespace NewsWaffle.Converters
 
                 //TODO: other validation? Protocol checking? etc
 
-                ret.AddLink(resolvedUrl, linkText);
+                ret.AddLink(resolvedUrl, linkText, false);
             }
             return ret;
         }
