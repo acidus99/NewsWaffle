@@ -6,7 +6,7 @@ using AngleSharp.Dom;
 using NewsWaffle.Models;
 using NewsWaffle.Util;
 
-namespace NewsWaffle.Converter
+namespace NewsWaffle.Converters
 {
 	/// <summary>
     /// Extracts meta data from the HTML

@@ -7,7 +7,7 @@ using CodeHollow.FeedReader.Feeds;
 using NewsWaffle.Models;
 using NewsWaffle.Util;
 
-namespace NewsWaffle.Converter
+namespace NewsWaffle.Converters
 {
 	public static class FeedConverter
 	{

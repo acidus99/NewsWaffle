@@ -13,7 +13,7 @@ using NewsWaffle.Models;
 using NewsWaffle.Util;
 using HtmlToGmi;
 
-namespace NewsWaffle.Converter
+namespace NewsWaffle.Converters
 {
     public class HtmlConverter
     {

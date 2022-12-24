@@ -2,7 +2,7 @@
 using System.Diagnostics;
 
 using NewsWaffle.Net;
-using NewsWaffle.Converter;
+using NewsWaffle.Converters;
 using NewsWaffle.Models;
 
 namespace NewsWaffle
