@@ -14,7 +14,7 @@ namespace NewsWaffle.Converters
         const int DayLimit = 45;
         const int ItemLimit = 100;
 
-		public static FeedPage ParseFeed(string url, string xml)
+		public static FeedPage ParseFeed(Uri url, string xml)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace NewsWaffle.Converters
                 PageMetaData metaData = new PageMetaData
                 {
                     Description = StringUtils.Normnalize(feed.Description),
-                    FeaturedImage = feed.ImageUrl,
+                    FeaturedImage = LinkForge.Create(feed.ImageUrl),
                     OriginalSize = xml.Length,
                     SourceUrl = url,
                     ProbablyType = PageType.FeedPage,
@@ -52,20 +52,21 @@ namespace NewsWaffle.Converters
             return null;
         }
 
-        private static string GetRootUrl(string url)
+        private static Uri GetRootUrl(Uri url)
         {
             try
             {
-                Uri tmp = new Uri(url);
-                if (tmp.IsAbsoluteUri)
-                {
-                    return $"{tmp.Scheme}://{tmp.Host}/";
-                }
+                UriBuilder builder = new UriBuilder();
+                builder.Scheme = url.Scheme;
+                builder.Host = url.Host;
+                builder.Port = url.Port;
+                builder.Path = "/";
+                return builder.Uri;
                 
             } catch(Exception)
             {
             }
-            return "";
+            return null;
         }
 
         /// <summary>

@@ -15,7 +15,7 @@ namespace NewsWaffle.Converters
 	{
 		HtmlHead head;
 
-		public PageMetaData GetMetaData(string url, string html, IElement document)
+		public PageMetaData GetMetaData(Uri url, string html, IElement document)
 		{
 			head = new HtmlHead(document);
 			return new PageMetaData
@@ -33,10 +33,10 @@ namespace NewsWaffle.Converters
 		private string GetDescription()
 			=> StringUtils.Normnalize(head.OGDescription);
 
-		private string GetFeatureImage()
-			=> head.OGImage ?? null;
+		private Uri GetFeatureImage()
+			=> LinkForge.Create(head.OGImage) ?? null;
 
-		private string GetSiteName(string url)
+		private string GetSiteName(Uri url)
 		{ 
 			var name =  head.OGSiteName ?? "";
 			if(name is "")
@@ -45,7 +45,7 @@ namespace NewsWaffle.Converters
             }
 			if(name is "")
             {
-				name = (new Uri(url)).Host.Replace("www.", "");
+				name = url.Host.Replace("www.", "");
             }
 			return StringUtils.Normnalize(name);
 		}

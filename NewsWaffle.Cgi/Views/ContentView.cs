@@ -24,8 +24,7 @@ namespace NewsWaffle.Cgi.Views
                     Out.WriteLine("## Article Links");
                     foreach (var link in ContentPage.Links)
                     {
-                        string externalTag = link.IsExternal ? " (External)" : "";
-                        Out.WriteLine($"=> {LinkRewriter.GetLinkUrl(link.Url)} [{link.OrderDetected}] {link.Text}{externalTag}");
+                        Out.WriteLine($"=> {LinkRewriter.GetLinkUrl(link.Url)} {link.OrderDetected}. ({link.Url.Host}) \"{link.Text}\"");
                     }
                 }
             }

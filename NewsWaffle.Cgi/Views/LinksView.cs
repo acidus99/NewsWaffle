@@ -44,7 +44,7 @@ namespace NewsWaffle.Cgi.Views
                 foreach (var link in LinkPage.ContentLinks)
                 {
                     counter++;
-                    Out.WriteLine($"=> {CgiPaths.ViewArticle(link.Url.AbsoluteUri)} {counter}. {link.Text}");
+                    Out.WriteLine($"=> {CgiPaths.ViewArticle(link.Url)} {counter}. {link.Text}");
                 }
             }
             if (LinkPage.NavigationLinks.Count > 0)
@@ -54,7 +54,7 @@ namespace NewsWaffle.Cgi.Views
                 foreach (var link in LinkPage.NavigationLinks)
                 {
                     counter++;
-                    Out.WriteLine($"=> {CgiPaths.ViewAuto(link.Url.AbsoluteUri)} {counter}. {link.Text}");
+                    Out.WriteLine($"=> {CgiPaths.ViewAuto(link.Url)} {counter}. {link.Text}");
                 }
             }
         }

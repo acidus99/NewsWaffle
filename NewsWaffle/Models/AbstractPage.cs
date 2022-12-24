@@ -19,7 +19,7 @@ namespace NewsWaffle.Models
 
         public string Copyright => Meta.SiteName ?? "";
 
-        public string SourceUrl => Meta.SourceUrl ?? "";
+        public Uri SourceUrl => Meta.SourceUrl ?? null;
     }
 }
 

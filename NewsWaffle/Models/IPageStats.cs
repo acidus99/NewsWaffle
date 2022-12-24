@@ -18,7 +18,7 @@ namespace NewsWaffle.Models
         //size of the optimized gemini page
         int Size { get; }
 
-        string SourceUrl { get; }
+        Uri SourceUrl { get; }
 
     }
 }

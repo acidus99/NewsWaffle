@@ -20,7 +20,7 @@ namespace NewsWaffle.Converters
 	/// </summary>
     public class WebConverter
     {
-		string Url;
+		Uri Url;
 		string Html;
 		IHtmlDocument document;
 		//represents the root element
@@ -28,7 +28,7 @@ namespace NewsWaffle.Converters
 		PageMetaData MetaData;
 		Stopwatch timer = new Stopwatch();
 
-		public WebConverter(string url, string html)
+		public WebConverter(Uri url, string html)
 		{
 			Url = url;
 			Html = html;
@@ -88,20 +88,18 @@ namespace NewsWaffle.Converters
 			}
 			EnsureParsed();
 
-			var reader = new Reader(Url, document);
+			var reader = new Reader(Url.AbsoluteUri, document);
 			var article = reader.GetArticle();
 			ContentPage page = null;
 
 			if (article.IsReadable && article.Content != "")
 			{
-				Uri uri = new Uri(Url);
-
 				var converter = new HtmlToGmi.HtmlConverter
 				{
 					ShouldRenderHyperlinks = false,
 					ImageRewriteCallback = LinkRewriter.GetImageUrl				
                 };
-                var result = converter.Convert(uri, ParseToDocument(article.Content).FirstElementChild);
+                var result = converter.Convert(Url, ParseToDocument(article.Content).FirstElementChild);
 
 				page = new ContentPage(MetaData)
 				{
@@ -146,10 +144,11 @@ namespace NewsWaffle.Converters
 
 			var converter = new HtmlToGmi.HtmlConverter
 			{
-				ShouldRenderHyperlinks = false,
-				ImageRewriteCallback = LinkRewriter.GetImageUrl
+				ShouldRenderHyperlinks = true,
+				ImageRewriteCallback = LinkRewriter.GetImageUrl,
+				AnchorRewriteCallback = LinkRewriter.GetLinkUrl
             };
-            var result = converter.Convert(new Uri(Url), documentRoot);
+            var result = converter.Convert(Url, documentRoot);
 
 			var page = new RawPage(MetaData)
 			{

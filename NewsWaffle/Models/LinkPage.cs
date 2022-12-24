@@ -13,8 +13,8 @@ namespace NewsWaffle.Models
         {
         }
 
-        public bool HasFeed => !string.IsNullOrEmpty(FeedUrl);
-        public string FeedUrl { get; internal set; }
+        public bool HasFeed => (FeedUrl != null);
+        public Uri FeedUrl { get; internal set; }
 
         public List<Hyperlink> ContentLinks { get; internal set; }
 

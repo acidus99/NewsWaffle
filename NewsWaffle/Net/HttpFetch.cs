@@ -23,12 +23,12 @@ namespace NewsWaffle.Net
             Cache = new DiskCache(TimeSpan.FromHours(1));
         }
 
-        public string GetAsString(string url)
+        public string GetAsString(Uri url)
         {
             try
             {
                 //first check the cache
-                var contents = Cache.GetAsString(url);
+                var contents = Cache.GetAsString(url.AbsoluteUri);
                 if (contents != null)
                 {
                     return contents;
@@ -37,7 +37,7 @@ namespace NewsWaffle.Net
                 Stopwatch stopwatch = new Stopwatch();
                 contents = ReadAsString(url);
                 //cache it
-                Cache.Set(url, contents);
+                Cache.Set(url.AbsoluteUri, contents);
                 return contents;
             }
             catch (Exception)
@@ -46,12 +46,12 @@ namespace NewsWaffle.Net
             }
         }
 
-        public byte [] GetAsBytes(string url)
+        public byte [] GetAsBytes(Uri url)
         {
             try
             {
                 //first check the cache
-                var contents = Cache.GetAsBytes(url);
+                var contents = Cache.GetAsBytes(url.AbsoluteUri);
                 if (contents != null)
                 {
                     return contents;
@@ -59,7 +59,7 @@ namespace NewsWaffle.Net
                 //fetch it
                 contents = ReadAsButes(url);
                 //cache it
-                Cache.Set(url, contents);
+                Cache.Set(url.AbsoluteUri, contents);
                 return contents;
             }
             catch (Exception)
@@ -68,21 +68,20 @@ namespace NewsWaffle.Net
             }
         }
 
-        private HttpResponseMessage MakeRequest(string url)
+        private HttpResponseMessage MakeRequest(Uri url)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             return Client.Send(request);
         }
 
-        private string ReadAsString(string url)
+        private string ReadAsString(Uri url)
         {
             var resp = MakeRequest(url);
-
             var reader = new StreamReader(resp.Content.ReadAsStream());
             return reader.ReadToEnd();
         }
 
-        private byte[] ReadAsButes(string url)
+        private byte[] ReadAsButes(Uri url)
         {
             var resp = MakeRequest(url);
 

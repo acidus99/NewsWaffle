@@ -22,11 +22,11 @@ namespace NewsWaffle.Converters
         public List<Hyperlink> ContentLinks { get; internal set; }
         public List<Hyperlink> NavigationLinks { get; internal set; }
 
-        public string FeedUrl { get; internal set; }
+        public Uri FeedUrl { get; internal set; }
 
-        public LinkParser(string htmlUrl)
+        public LinkParser(Uri htmlUrl)
         {
-            BaselUrl = new Uri(htmlUrl);
+            BaselUrl = htmlUrl;
             NormalizedHost = BaselUrl.Host;
             if (NormalizedHost.StartsWith("www."))
             {
@@ -130,7 +130,7 @@ namespace NewsWaffle.Converters
             return null;
         }
 
-        private bool FindFeeds(IElement content)
+        private void FindFeeds(IElement content)
         {
             var link = content.QuerySelectorAll("link")
                 .Where(x => (x.GetAttribute("rel") == "alternate") &&
@@ -140,17 +140,8 @@ namespace NewsWaffle.Converters
                 .FirstOrDefault();
             if (link != null)
             {
-                var url = ResolveUrl(link.GetAttribute("href"));
-                if (url != null)
-                {
-                    FeedUrl = url.AbsoluteUri;
-                    return true;
-                }
+                FeedUrl = ResolveUrl(link.GetAttribute("href"));
             }
-            return false;
         }
-
-      
-
     }
 }

@@ -4,6 +4,8 @@ using System.Diagnostics;
 using NewsWaffle.Net;
 using NewsWaffle.Converters;
 using NewsWaffle.Models;
+using AngleSharp.Dom;
+using System.Data.SqlTypes;
 
 namespace NewsWaffle
 {
@@ -23,10 +25,15 @@ namespace NewsWaffle
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public AbstractPage GetPage(string url)
+        public AbstractPage GetPage(string urlString)
         {
             try
             {
+                Uri url = LinkForge.Create(urlString);
+                if(url == null)
+                {
+                    return null;
+                }
                 //========= Step 1: Get HTML
                 var html = GetContent(url);
                 if(string.IsNullOrEmpty(html))
@@ -61,8 +68,13 @@ namespace NewsWaffle
             }
         }
 
-        public FeedPage GetFeedPage(string url)
+        public FeedPage GetFeedPage(string urlString)
         {
+            Uri url = LinkForge.Create(urlString);
+            if (url == null)
+            {
+                return null;
+            }
             var xml = GetContent(url);
             if (string.IsNullOrEmpty(xml))
             {
@@ -85,11 +97,15 @@ namespace NewsWaffle
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public LinkPage GetLinkPage(string url)
+        public LinkPage GetLinkPage(string urlString)
         {
             try
             {
-                //========= Step 1: Get HTML
+                Uri url = LinkForge.Create(urlString);
+                if (url == null)
+                {
+                    return null;
+                }
                 var html = GetContent(url);
                 if (string.IsNullOrEmpty(html))
                 {
@@ -122,11 +138,15 @@ namespace NewsWaffle
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public ContentPage GetContentPage(string url)
+        public ContentPage GetContentPage(string urlString)
         {
             try
             {
-                //========= Step 1: Get HTML
+                Uri url = LinkForge.Create(urlString);
+                if (url == null)
+                {
+                    return null;
+                }
                 var html = GetContent(url);
                 if (string.IsNullOrEmpty(html))
                 {
@@ -159,10 +179,15 @@ namespace NewsWaffle
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public RawPage GetRawPage(string url)
+        public RawPage GetRawPage(string urlString)
         {
             try
             {
+                Uri url = LinkForge.Create(urlString);
+                if (url == null)
+                {
+                    return null;
+                }
                 //========= Step 1: Get HTML
                 var html = GetContent(url);
                 if (string.IsNullOrEmpty(html))
@@ -188,7 +213,7 @@ namespace NewsWaffle
             }
         }
 
-        private string GetContent(string url)
+        private string GetContent(Uri url)
         {
             timer.Start();
             var fetcher = new HttpFetcher();

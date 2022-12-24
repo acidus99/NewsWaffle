@@ -8,7 +8,7 @@ namespace NewsWaffle.Aggregators.Models
 	{
 		public string Title { get; set; }
 
-		public string Url { get; set; }
+		public Uri Url { get; set; }
 
 		public string Source { get; set; }
 
@@ -18,7 +18,7 @@ namespace NewsWaffle.Aggregators.Models
 			=> StringUtils.FormatTimeAgo(Updated);
 
 		//20 is roughly the overhead per link
-		public int Size => Title.Length + Url.Length + Source.Length + 20;
+		public int Size => Title.Length + Url.AbsoluteUri.Length + Source.Length + 20;
 	}
 }
 

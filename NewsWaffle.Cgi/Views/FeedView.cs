@@ -23,7 +23,7 @@ namespace NewsWaffle.Cgi.Views
                 {
                     counter++;
                     var published = link.HasPublished ? $"({link.TimeAgo})" : "";
-                    Out.WriteLine($"=> {CgiPaths.ViewArticle(link.Url.AbsoluteUri)} {counter}. {link.Text} {published}");
+                    Out.WriteLine($"=> {CgiPaths.ViewArticle(link.Url)} {counter}. {link.Text} {published}");
                 }
             }
             else
@@ -46,7 +46,7 @@ namespace NewsWaffle.Cgi.Views
 
         protected override void ReadOptions()
         {
-            if (FeedPage.RootUrl.Length > 0)
+            if (FeedPage.RootUrl != null)
             {
                 Out.WriteLine($"=> {CgiPaths.ViewLinks(FeedPage.RootUrl)} Mode: RSS View. Try Link View?");
             }

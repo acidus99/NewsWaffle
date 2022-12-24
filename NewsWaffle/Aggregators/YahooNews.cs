@@ -23,24 +23,25 @@ namespace NewsWaffle.Aggregators
             "Science",
         };
 
-        public string GetFeedUrl(string sectionName)
+        public Uri GetFeedUrl(string sectionName)
         {
             switch(sectionName)
             {
                 case "Business":
-                    return "https://news.yahoo.com/rss/business";
+                    return new Uri("https://news.yahoo.com/rss/business");
 
                 case "Headlines":
-                    return "https://news.yahoo.com/rss/";
+                    return new Uri("https://news.yahoo.com/rss/");
 
                 case "Science":
-                    return "https://news.yahoo.com/rss/science";
+                    return new Uri("https://news.yahoo.com/rss/science");
 
                 case "Technology":
-                    return "https://news.yahoo.com/rss/tech";
+                    return new Uri("https://news.yahoo.com/rss/tech");
 
                 case "World":
-                    return "https://news.yahoo.com/rss/world";
+                    return new Uri("https://news.yahoo.com/rss/world");
+
                 default:
                     return null;
             }
@@ -72,13 +73,20 @@ namespace NewsWaffle.Aggregators
         }
 
         private NewsStory ParseStory(MediaRssFeedItem item)
-            => new NewsStory
+        {
+            var storyUrl = LinkForge.Create(item.Link);
+            if (storyUrl == null)
+            {
+                return null;
+            }
+            return new NewsStory
             {
                 Source = item.Source.Value,
                 Title = item.Title,
                 Updated = item.PublishingDate ?? DateTime.MinValue,
-                Url = item.Link
+                Url = storyUrl
             };
+        }
 
         public bool IsValidSection(string sectionName)
             => GetFeedUrl(sectionName) != null;

@@ -8,15 +8,13 @@ namespace NewsWaffle.Cgi.Media
 	{
         DiskCache cache = new DiskCache(TimeSpan.FromDays(3));
 
-        public byte [] ProxyMedia(string url)
+        public byte [] ProxyMedia(string urlString)
         {
-            Uri uri = ValidateUrl(url);
-            if(uri == null)
+            Uri url = ValidateUrl(urlString);
+            if(url == null)
             {
                 return null;
             }
-            url = uri.AbsoluteUri;
-
             //check the cache
             byte[] optimizedImage = GetFromCache(url);
             if(optimizedImage != null)
@@ -40,21 +38,20 @@ namespace NewsWaffle.Cgi.Media
             return optimizedImage;
         }
 
-        private byte[] GetFromCache(string url)
+        private byte[] GetFromCache(Uri url)
             => cache.GetAsBytes(GetCacheKey(url));
 
-        private void PutInCache(string url, byte [] data)
+        private void PutInCache(Uri url, byte [] data)
             => cache.Set(GetCacheKey(url), data);
 
-        private static string GetCacheKey(string url)
-           => url + "optimized";
+        private static string GetCacheKey(Uri url)
+           => url.AbsoluteUri + "optimized";
 
-        private byte [] FetchFromNetwork(string url)
+        private byte [] FetchFromNetwork(Uri url)
         {
             var fetcher = new HttpFetcher();
             return fetcher.GetAsBytes(url);
         }
-
 
 		private static Uri ValidateUrl(string url)
         {
@@ -79,8 +76,6 @@ namespace NewsWaffle.Cgi.Media
             }
             return null;
         }
-
-
 
 	}
 }

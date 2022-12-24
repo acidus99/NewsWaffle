@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using NewsWaffle.Models;
@@ -21,7 +22,7 @@ namespace NewsWaffle.Aggregators.Models
 
         public int OriginalSize { get; set; }
 
-		public string SourceUrl { get; set; }
+		public Uri SourceUrl { get; set; }
 
         public int Size
 			=> Stories.Sum(x => x.Size) + SectionName.Length + AggregatorName.Length + 20;
@@ -35,7 +36,7 @@ namespace NewsWaffle.Aggregators.Models
 			ConvertTime = 0;
 			DownloadTime = 0;
 			OriginalSize = 0;
-			SourceUrl = "";
+			SourceUrl = null;
         }
 	}
 }
