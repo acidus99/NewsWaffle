@@ -1,5 +1,5 @@
 ﻿using NewsWaffle;
-using NewsWaffle.Converter;
+using NewsWaffle.Converters;
 using NewsWaffle.Models;
 using NewsWaffle.Net;
 
