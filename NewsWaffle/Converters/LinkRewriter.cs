@@ -16,6 +16,9 @@ namespace NewsWaffle
         public static string GetLinkUrl(string url)
             => ProxyLink(LinkProxy, url);
 
+        public static string GetLinkUrl(Uri url)
+            => GetLinkUrl(url.AbsoluteUri);
+
         private static string ProxyLink(string proxy, string url)
             => (proxy.Length > 0) ? $"{proxy}?{WebUtility.UrlEncode(url)}" : url;
 
