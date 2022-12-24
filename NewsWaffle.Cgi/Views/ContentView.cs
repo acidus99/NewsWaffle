@@ -17,10 +17,7 @@ namespace NewsWaffle.Cgi.Views
             Out.WriteLine();
             if (ContentPage.IsReadability)
             {
-                foreach (var item in ContentPage.Content)
-                {
-                    Out.Write(item.Content);
-                }
+                Out.WriteLine(ContentPage.Content);
             }
             else
             {

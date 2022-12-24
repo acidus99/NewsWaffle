@@ -15,10 +15,7 @@ namespace NewsWaffle.Cgi.Views
         protected override void Body()
         {
             Out.WriteLine();
-            foreach (var item in RawPage.Content)
-            {
-                Out.Write(item.Content);
-            }
+            Out.WriteLine(RawPage.Content);
         }
 
         protected override void Header()

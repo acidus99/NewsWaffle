@@ -77,21 +77,13 @@ namespace NewsWaffle.Console
             {
                 System.Console.WriteLine($"=> {articlePage.Meta.FeaturedImage} Featured Image");
             }
-
-            foreach (var item in articlePage.Content)
-            {
-                System.Console.Write(item.Content);
-            }
+            System.Console.WriteLine(articlePage.Content);
         }
 
         private static void RenderRawPage(RawPage rawPage)
         {
             System.Console.WriteLine($"## {rawPage.Meta.Title}");
-
-            foreach (var item in rawPage.Content)
-            {
-                System.Console.Write(item.Content);
-            }
+            System.Console.WriteLine(rawPage.Content);
         }
 
     }

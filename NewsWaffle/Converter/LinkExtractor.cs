@@ -4,8 +4,10 @@ using System.Collections.Generic;
 
 using AngleSharp.Dom;
 
-using NewsWaffle.Converter.Special;
-using NewsWaffle.Models;
+using HtmlToGmi;
+using HtmlToGmi.Models;
+using HtmlToGmi.Special;
+
 using NewsWaffle.Util;
 
 namespace NewsWaffle.Converter
@@ -17,8 +19,8 @@ namespace NewsWaffle.Converter
         bool UseWordLimit = false;
         const int WordLimit = 4;
 
-        public List<HyperLink> ContentLinks { get; internal set; }
-        public List<HyperLink> NavigationLinks { get; internal set; }
+        public List<Hyperlink> ContentLinks { get; internal set; }
+        public List<Hyperlink> NavigationLinks { get; internal set; }
 
         public string FeedUrl { get; internal set; }
 
@@ -31,8 +33,8 @@ namespace NewsWaffle.Converter
                 NormalizedHost = NormalizedHost.Substring(4);
             }
 
-            ContentLinks = new List<HyperLink>();
-            NavigationLinks = new List<HyperLink>();
+            ContentLinks = new List<Hyperlink>();
+            NavigationLinks = new List<Hyperlink>();
         }
 
         public void FindLinks(IElement content)
@@ -116,7 +118,7 @@ namespace NewsWaffle.Converter
         private string SanitizeLinkText(string text)
             //remove newliens inside the text, and ensure its trimmed on both sides
             //TODO: should this just use the sanitize function to handle HTML encoding?
-            => StringUtils.RemoveNewlines(text).Trim();
+            => HtmlToGmi.Special.StringUtils.RemoveNewlines(text).Trim();
 
         private Uri ResolveUrl(string href)
         {

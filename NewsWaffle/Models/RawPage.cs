@@ -1,5 +1,8 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+
+using HtmlToGmi.Models;
+
 namespace NewsWaffle.Models
 {
 	public class RawPage :AbstractPage
@@ -7,11 +10,11 @@ namespace NewsWaffle.Models
 		public RawPage(PageMetaData metaData)
 			: base(metaData) {}
 
-		public List<ContentItem> Content = new List<ContentItem>();
-		public LinkCollection Links = new LinkCollection();
+		public string Content = "";
+		public List<Hyperlink> Links = new List<Hyperlink>();
 
 		public override int Size
-			=> Content.Sum(x => x.Content.Length);
+			=> Content.Length;
 	}
 }
 

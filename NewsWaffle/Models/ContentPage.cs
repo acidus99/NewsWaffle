@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 
+using HtmlToGmi.Models;
+
 namespace NewsWaffle.Models
 {
     public class ContentPage : AbstractPage
@@ -10,9 +12,9 @@ namespace NewsWaffle.Models
         public DateTime? Published { get; internal set; }
 
         //content and images
-        public List<ContentItem> Content = new List<ContentItem>();
-        public List<MediaItem> Images = new List<MediaItem>();
-        public LinkCollection Links = new LinkCollection();
+        public string Content = "";
+        public List<Image> Images = new List<Image>();
+        public List<Hyperlink> Links = new List<Hyperlink>();
 
         public bool IsReadability { get; internal set; }
 
@@ -29,6 +31,6 @@ namespace NewsWaffle.Models
         public int WordCount { get; internal set; } = 0;
 
         public override int Size
-            => Content.Sum(x => x.Content.Length);
+            => Content.Length;
     }
 }

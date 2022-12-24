@@ -11,6 +11,7 @@ using AngleSharp.Dom;
 
 using NewsWaffle.Models;
 using NewsWaffle.Util;
+using HtmlToGmi;
 
 namespace NewsWaffle.Converter
 {
@@ -103,24 +104,22 @@ namespace NewsWaffle.Converter
 					SaveHtml("simplified.html", article.Content);
 				}
 
-				HtmlTagParser parser = new HtmlTagParser
-				{
-					ShouldRenderHyperlinks = false
-				};
-				parser.Parse(ParseToDocument(article.Content).FirstElementChild);
+				Uri uri = new Uri(Url);
 
-				var contentItems = parser.GetItems();
+
+				var converter = new HtmlToGmi.HtmlConverter();
+				var result = converter.Convert(uri, ParseToDocument(article.Content).FirstElementChild);
 
 				page = new ContentPage(MetaData)
 				{
 					IsReadability = true,
 					Byline = StringUtils.Normnalize(article.Author ?? article.Byline),
-					Content = contentItems,
-					Images = parser.Images,
-					Links = parser.BodyLinks,
+					Content = result.Gemtext,
+					Images = result.Images.ToList(),
+					Links = result.Links.ToList(),
 					Published = article.PublicationDate,
 					TimeToRead = article.TimeToRead,
-					WordCount = CountWords(contentItems[0]),
+					WordCount = CountWords(result.Gemtext),
 				};
 
 				page.Meta.Title = StringUtils.Normnalize(article.Title);
@@ -152,17 +151,13 @@ namespace NewsWaffle.Converter
 
 			TagStripper.RemoveNavigation(documentRoot);
 
-			HtmlTagParser parser = new HtmlTagParser
-			{
-				ShouldRenderHyperlinks = false
-			};
-			parser.Parse(documentRoot);
+            var converter = new HtmlToGmi.HtmlConverter();
+            var result = converter.Convert(new Uri(Url), documentRoot);
 
 			var page = new RawPage(MetaData)
 			{
-				Content = parser.GetItems(),
-				Links = parser.BodyLinks,
-
+				Content = result.Gemtext,
+				Links = result.Links.ToList(),
 			};
 			timer.Stop();
 			page.ConvertTime = (int)timer.ElapsedMilliseconds;
@@ -190,10 +185,10 @@ namespace NewsWaffle.Converter
 			}
         }
 
-		private int CountWords(ContentItem content)
-			=> content.Content.Split("\n").Where(x => !x.StartsWith("=> ")).Sum(x => CountWords(x));
+		private int CountWords(string content)
+			=> content.Split("\n").Where(x => !x.StartsWith("=> ")).Sum(x => CountWordsInLine(x));
 
-		private int CountWords(string s)
+		private int CountWordsInLine(string s)
 			=> s.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Length;
 
 
