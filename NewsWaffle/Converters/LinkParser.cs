@@ -58,13 +58,13 @@ namespace NewsWaffle.Converters
         {
             var ret = new LinkCollection();
 
-            TextExtractor textExtractor = new TextExtractor();
+            TextConverter textExtractor = new TextConverter();
 
             foreach (var link in content.QuerySelectorAll("a[href]"))
             {
 
                 var href = link.GetAttribute("href");
-                textExtractor.Extract(link);
+                textExtractor.Convert(link);
                 var linkText = SanitizeLinkText(textExtractor.Content);
 
                 //we want to skip navigation hyperlinks that are just to other sections on the page
