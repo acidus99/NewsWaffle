@@ -50,7 +50,7 @@ namespace NewsWaffle.Cgi.Views
             }
             if (ContentPage.Meta.FeaturedImage != null)
             {
-                Out.WriteLine($"=> {MediaRewriter.GetPath(ContentPage.Meta.FeaturedImage)} Featured Image");
+                Out.WriteLine($"=> {LinkRewriter.GetImageUrl(ContentPage.Meta.FeaturedImage)} Featured Image");
             }
         }
 

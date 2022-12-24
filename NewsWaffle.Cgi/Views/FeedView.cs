@@ -36,7 +36,7 @@ namespace NewsWaffle.Cgi.Views
         {
             if (FeedPage.Meta.FeaturedImage != null)
             {
-                Out.WriteLine($"=> {MediaRewriter.GetPath(FeedPage.Meta.FeaturedImage)} Featured Image");
+                Out.WriteLine($"=> {LinkRewriter.GetImageUrl(FeedPage.Meta.FeaturedImage)} Featured Image");
             }
             if (FeedPage.Meta.Description.Length > 0)
             {

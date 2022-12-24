@@ -106,9 +106,10 @@ namespace NewsWaffle.Converters
 
 				Uri uri = new Uri(Url);
 
-                var converter = new HtmlToGmi.HtmlConverter
-                {
-                    ShouldRenderHyperlinks = false
+				var converter = new HtmlToGmi.HtmlConverter
+				{
+					ShouldRenderHyperlinks = false,
+					ImageRewriteCallback = LinkRewriter.GetImageUrl				
                 };
                 var result = converter.Convert(uri, ParseToDocument(article.Content).FirstElementChild);
 
@@ -155,8 +156,9 @@ namespace NewsWaffle.Converters
 
 			var converter = new HtmlToGmi.HtmlConverter
 			{
-				ShouldRenderHyperlinks = false
-			};
+				ShouldRenderHyperlinks = false,
+				ImageRewriteCallback = LinkRewriter.GetImageUrl
+            };
             var result = converter.Convert(new Uri(Url), documentRoot);
 
 			var page = new RawPage(MetaData)

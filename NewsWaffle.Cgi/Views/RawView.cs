@@ -22,7 +22,7 @@ namespace NewsWaffle.Cgi.Views
         {
             if (RawPage.Meta.FeaturedImage != null)
             {
-                Out.WriteLine($"=> {MediaRewriter.GetPath(RawPage.Meta.FeaturedImage)} Featured Image");
+                Out.WriteLine($"=> {LinkRewriter.GetImageUrl(RawPage.Meta.FeaturedImage)} Featured Image");
             }
         }
 
