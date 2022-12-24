@@ -10,7 +10,7 @@ using HtmlToGmi.Special;
 
 using NewsWaffle.Util;
 
-namespace NewsWaffle.Converter
+namespace NewsWaffle.Converters
 {
     public class LinkExtractor
     {
