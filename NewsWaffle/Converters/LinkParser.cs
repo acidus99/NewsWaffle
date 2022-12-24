@@ -6,7 +6,7 @@ using AngleSharp.Dom;
 
 using HtmlToGmi;
 using HtmlToGmi.Models;
-using HtmlToGmi.Special;
+using HtmlToGmi.Html;
 
 using NewsWaffle.Util;
 
@@ -118,7 +118,7 @@ namespace NewsWaffle.Converters
         private string SanitizeLinkText(string text)
             //remove newliens inside the text, and ensure its trimmed on both sides
             //TODO: should this just use the sanitize function to handle HTML encoding?
-            => HtmlToGmi.Special.StringUtils.RemoveNewlines(text).Trim();
+            => HtmlToGmi.Html.StringUtils.RemoveNewlines(text).Trim();
 
         private Uri ResolveUrl(string href)
         {
