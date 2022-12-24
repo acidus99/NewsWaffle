@@ -12,7 +12,7 @@ using NewsWaffle.Util;
 
 namespace NewsWaffle.Converters
 {
-    public class LinkExtractor
+    public class LinkParser
     {
         string NormalizedHost;
         Uri BaselUrl;
@@ -24,7 +24,7 @@ namespace NewsWaffle.Converters
 
         public string FeedUrl { get; internal set; }
 
-        public LinkExtractor(string htmlUrl)
+        public LinkParser(string htmlUrl)
         {
             BaselUrl = new Uri(htmlUrl);
             NormalizedHost = BaselUrl.Host;
