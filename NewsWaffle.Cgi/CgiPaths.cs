@@ -6,7 +6,11 @@ namespace NewsWaffle.Cgi
 	{
 		public const string BasePath = "/cgi-bin/waffle.cgi";
 
-		public static string ViewArticle(string url)
+		public const string MediaProxyEndpoint = BasePath + "/media.jpg";
+
+        public const string AutoViewEndpoint = BasePath + "/view";
+
+        public static string ViewArticle(string url)
 			=> $"{BasePath}/article?{WebUtility.UrlEncode(url)}";
 
 		public static string ViewAuto(string url)
