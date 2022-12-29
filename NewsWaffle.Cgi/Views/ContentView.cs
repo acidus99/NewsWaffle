@@ -24,7 +24,12 @@ namespace NewsWaffle.Cgi.Views
                     Out.WriteLine("## Article Links");
                     foreach (var link in ContentPage.Links)
                     {
-                        Out.WriteLine($"=> {LinkRewriter.GetLinkUrl(link.Url)} {link.OrderDetected}. ({link.Url.Host}) \"{link.Text}\"");
+                        var hostText = "";
+                        if (link.Url.Scheme.StartsWith("http") && ContentPage.SourceUrl.Host != link.Url.Host)
+                        {
+                            hostText = $"({link.Url.Host}) ";
+                        }
+                        Out.WriteLine($"=> {LinkRewriter.GetLinkUrl(link.Url)} {link.OrderDetected}. {hostText}\"{link.Text}\"");
                     }
                 }
             }
