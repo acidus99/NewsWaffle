@@ -107,7 +107,6 @@ namespace NewsWaffle.Cgi
                 return;
             }
             cgi.Success();
-            cgi.Writer.WriteLine($"# 🧇 NewsWaffle");
 
             var waffles = new NewsConverter();
             var rawPage = waffles.GetRawPage(cgi.Query);
