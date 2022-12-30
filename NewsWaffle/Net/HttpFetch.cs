@@ -19,7 +19,9 @@ namespace NewsWaffle.Net
                 AllowAutoRedirect = true,
                 //AutomaticDecompression = System.Net.DecompressionMethods.All
             });
+            Client.Timeout = TimeSpan.FromSeconds(20);
             Client.DefaultRequestHeaders.UserAgent.TryParseAdd("GeminiProxy/0.1 (gemini://gemi.dev/) gemini-proxy/0.1");
+
             Cache = new DiskCache(TimeSpan.FromHours(1));
         }
 
