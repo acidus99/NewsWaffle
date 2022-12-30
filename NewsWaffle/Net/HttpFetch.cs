@@ -17,8 +17,10 @@ namespace NewsWaffle.Net
             Client = new HttpClient(new HttpClientHandler
             {
                 AllowAutoRedirect = true,
-                //AutomaticDecompression = System.Net.DecompressionMethods.All
+                CheckCertificateRevocationList = false,
+                AutomaticDecompression = System.Net.DecompressionMethods.All,
             });
+
             Client.Timeout = TimeSpan.FromSeconds(20);
             Client.DefaultRequestHeaders.UserAgent.TryParseAdd("GeminiProxy/0.1 (gemini://gemi.dev/) gemini-proxy/0.1");
 
