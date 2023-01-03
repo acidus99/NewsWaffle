@@ -5,7 +5,7 @@ NewsWaffle is a Gemini gateway to public news websites, allowing you to get list
 
 Instead of only being able to read specific "text only" or "lite" versions of news sites, NewsWaffle works with nearly any news site.
 
-NewsWaffle also proxies images from the articles, esizing and converting them to be appropriately sized for Gemini.
+NewsWaffle also proxies images from the articles, resizing and converting them to be appropriately sized for Gemini.
 
 ## Why?
 * Modern news sites are user hostile, full of pop-ups, nag-walls, and intrusive ads that profile you and sell that to the highest bidder.
