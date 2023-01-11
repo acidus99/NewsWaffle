@@ -47,10 +47,6 @@ https://www.ajc.com/atlanta-weather/mondays-weather-highs-in-the-mid-80s-for-rai
 
 - Apple insider doesn't use open grapb type for article, but it does have JSON-LD, which does have a @Type of newsarticle. Perhaps JSON-LD can be used too
 
-- Extra blank lines:
-https://www.esquire.com/uk/culture/a40351034/blade-runner-at-40/
-
-
 - Sometimes alt text is kind of meaningless. Can I use some fuzzy logic to deterimine for valid a caption is?
 gemini://localhost/cgi-bin/waffle.cgi/article?https%3A%2F%2Fwww.esquire.com%2Fnews-politics%2Fa37416285%2Fwhat-its-like-to-work-for-page-six%2F
 
@@ -63,7 +59,6 @@ odd metadata: "sailthru"?
 sailthru.tags
 
 great long form content to test with:
-
 
 Consider filtering Link view Content links for words?
 
