@@ -4,11 +4,16 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
+  
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="SmartReader" />
     <None Remove="AngleSharp" />
     <None Remove="Net\" />
-    <None Remove="OpenGraph-Net" />
     <None Remove="Cache\" />
     <None Remove="Util\" />
     <None Remove="CodeHollow.FeedReader" />
