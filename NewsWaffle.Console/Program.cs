@@ -21,7 +21,7 @@ namespace NewsWaffle.Console
                 if (url.StartsWith("http"))
                 {
                     var waffles = new NewsConverter();
-                    var page = (AbstractPage) waffles.GetRawPage(url);
+                    var page = (AbstractPage) waffles.GetPage(url);
                     if (page == null)
                     {
                         System.Console.WriteLine($"Error: '{waffles.ErrorMessage}'");
