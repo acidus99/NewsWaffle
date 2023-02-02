@@ -16,8 +16,8 @@ namespace NewsWaffle.Converters
     {
         string NormalizedHost;
         Uri BaselUrl;
-        bool UseWordLimit = false;
         const int WordLimit = 4;
+        public int LinkTextMaxLength = 120;
 
         public List<Hyperlink> ContentLinks { get; internal set; }
         public List<Hyperlink> NavigationLinks { get; internal set; }
@@ -44,9 +44,7 @@ namespace NewsWaffle.Converters
             var allLinks = GetLinks(content);
 
             TagStripper.RemoveNavigation(content);
-            UseWordLimit = true;
-            var justContent = GetLinks(content);
-            UseWordLimit = false;
+            var justContent = GetLinks(content, true, true);
             ContentLinks = justContent.GetLinks();
 
             //now remove any content links from all links, to just get the navigation links
@@ -54,7 +52,7 @@ namespace NewsWaffle.Converters
             NavigationLinks = allLinks.GetLinks();
         }
 
-        private LinkCollection GetLinks(IElement content)
+        private LinkCollection GetLinks(IElement content, bool useWordLimit = false, bool limitLinkText = false)
         {
             var ret = new LinkCollection();
 
@@ -73,7 +71,7 @@ namespace NewsWaffle.Converters
                     continue;
                 }
 
-                if (UseWordLimit &&
+                if (useWordLimit &&
                     linkText.Replace('&', ' ').Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Count() < WordLimit)
                 {
                     continue;
@@ -105,9 +103,41 @@ namespace NewsWaffle.Converters
 
                 //TODO: other validation? Protocol checking? etc
 
+                if(limitLinkText)
+                {
+                    linkText = TrimLinkText(linkText);
+                }
+
                 ret.AddLink(resolvedUrl, linkText, false);
             }
             return ret;
+        }
+
+        private string TrimLinkText(string linkText)
+        {
+            //first trim to no more than 2 sentences
+            var sentences = linkText.Split(". ", 2, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            if(sentences.Length == 2 && sentences[0].Length < LinkTextMaxLength * 0.9d)
+            {
+                linkText = $"{sentences[0]}. {sentences[1]}";
+            } else
+            {
+                linkText = sentences[0];
+            }
+            //now trim length
+            if(linkText.Length > LinkTextMaxLength)
+            {
+                //trim it
+                linkText = linkText.Substring(0, LinkTextMaxLength);
+                //now trim to the last space
+                if (linkText.Contains(' '))
+                {
+                    linkText = linkText.Substring(0, linkText.LastIndexOf(' '));
+                }
+
+                linkText += '…';
+            }
+            return linkText;
         }
 
         private bool IsInternalLink(Uri link)
