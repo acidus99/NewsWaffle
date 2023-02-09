@@ -99,7 +99,7 @@ namespace NewsWaffle.Converters
 					ShouldRenderHyperlinks = false,
 					ImageRewriteCallback = LinkRewriter.GetImageUrl				
                 };
-                var result = converter.Convert(Url, ParseToDocument(article.Content).FirstElementChild);
+                var result = converter.Convert(Url, ParseToDocument(article.Content));
 
 				page = new ContentPage(MetaData)
 				{
@@ -148,7 +148,7 @@ namespace NewsWaffle.Converters
 				ImageRewriteCallback = LinkRewriter.GetImageUrl,
 				AnchorRewriteCallback = LinkRewriter.GetLinkUrl
             };
-            var result = converter.Convert(Url, documentRoot);
+            var result = converter.Convert(Url, document);
 
 			var page = new RawPage(MetaData)
 			{
