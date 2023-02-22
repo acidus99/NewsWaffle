@@ -15,7 +15,6 @@ namespace NewsWaffle.Converters
     public class LinkParser : AbstractParser
     {
         string NormalizedHost;
-        Uri BaselUrl;
         const int WordLimit = 4;
         public int LinkTextMaxLength = 120;
 
@@ -27,7 +26,7 @@ namespace NewsWaffle.Converters
         public LinkParser(Uri htmlUrl)
             : base(htmlUrl)
         {
-            NormalizedHost = BaselUrl.Host;
+            NormalizedHost = BaseUrl.Host;
             if (NormalizedHost.StartsWith("www."))
             {
                 NormalizedHost = NormalizedHost.Substring(4);
@@ -80,7 +79,7 @@ namespace NewsWaffle.Converters
                 //TODO: maybe do some stuff to better normalize the URL
                 //reove fragments, maybe strip query string of stuff like
                 //google analytics tracking 
-                var resolvedUrl = ResolveUrl(href);
+                var resolvedUrl = CreateHttpUrl(href);
 
                 //if it doesn't resolve, its not good
                 if (resolvedUrl == null)
@@ -96,7 +95,7 @@ namespace NewsWaffle.Converters
                     continue;
                 }
                 //don't include links to self
-                if(resolvedUrl == BaselUrl)
+                if(resolvedUrl == BaseUrl)
                 {
                     continue;
                 }
@@ -148,18 +147,6 @@ namespace NewsWaffle.Converters
             //TODO: should this just use the sanitize function to handle HTML encoding?
             => CollapseWhitespace(text).Trim();
 
-        private Uri ResolveUrl(string href)
-        {
-            try
-            {
-                return new Uri(BaselUrl, href);
-            }
-            catch (Exception)
-            {
-            }
-            return null;
-        }
-
         private void FindFeeds(IElement content)
         {
             var link = content.QuerySelectorAll("link")
@@ -170,7 +157,7 @@ namespace NewsWaffle.Converters
                 .FirstOrDefault();
             if (link != null)
             {
-                FeedUrl = ResolveUrl(link.GetAttribute("href"));
+                FeedUrl = CreateHttpUrl(link.GetAttribute("href"));
             }
         }
     }
