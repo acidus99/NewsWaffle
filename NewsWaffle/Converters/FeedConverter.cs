@@ -4,50 +4,55 @@ using System.Linq;
 using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
 
+using HtmlToGmi.NewsFeeds;
+
 using NewsWaffle.Models;
 using NewsWaffle.Util;
 
 namespace NewsWaffle.Converters
 {
-	public static class FeedConverter
-	{
+    public static class FeedConverter
+    {
         const int DayLimit = 45;
         const int ItemLimit = 100;
 
-		public static FeedPage ParseFeed(Uri url, string xml)
+        public static FeedPage ParseFeed(Uri url, string xml)
         {
             try
             {
                 var timer = new Stopwatch();
                 timer.Start();
-                var feed = FeedReader.ReadFromString(xml);
+                var sourceFeed = FeedReader.ReadFromString(xml);
 
                 PageMetaData metaData = new PageMetaData
                 {
-                    Description = StringUtils.Normnalize(feed.Description),
-                    FeaturedImage = LinkForge.Create(feed.ImageUrl),
+                    Description = StringUtils.Normnalize(sourceFeed.Description),
+                    FeaturedImage = LinkForge.Create(sourceFeed.ImageUrl),
                     OriginalSize = xml.Length,
                     SourceUrl = url,
                     ProbablyType = PageType.FeedPage,
-                    Title = StringUtils.Normnalize(feed.Title),
-                    SiteName = StringUtils.Normnalize(feed.Copyright),
+                    Title = StringUtils.Normnalize(sourceFeed.Title),
+                    SiteName = StringUtils.Normnalize(sourceFeed.Copyright),
                 };
                 var ret = new FeedPage(metaData)
                 {
                     RootUrl = GetRootUrl(url)
                 };
-                ret.Links.AddRange(feed.Items.Where(x => TimeOk(x.PublishingDate)).Take(ItemLimit).Select(x => new FeedLink
-                {
-                    Url = new Uri(GetHtmlUrl(x)),
-                    Text = StringUtils.Normnalize(x.Title),
-                    Published = x.PublishingDate
-                }).OrderByDescending(x=>x.Published));
+
+                var actualConverter = new HtmlToGmi.NewsFeeds.FeedConverter();
+                HtmlToGmi.NewsFeeds.Feed parsedFeed = actualConverter.Convert(sourceFeed);
+
+                ret.Items.AddRange(parsedFeed.Items
+                    .Where(x => ShouldIncludeFeedItem(x))
+                    .Take(ItemLimit)
+                    .OrderByDescending(x => x.Published));
+
                 timer.Stop();
                 ret.ConvertTime = (int)timer.ElapsedMilliseconds;
                 return ret;
-            } catch(Exception ex)
+            }
+            catch (Exception)
             {
-                
             }
             return null;
         }
@@ -62,41 +67,17 @@ namespace NewsWaffle.Converters
                 builder.Port = url.Port;
                 builder.Path = "/";
                 return builder.Uri;
-                
-            } catch(Exception)
+            }
+            catch (Exception)
             {
             }
             return null;
         }
 
-        /// <summary>
-        /// gets the link to the HTML article for a feed item.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        private static string GetHtmlUrl(FeedItem item)
-        {
-            if(item.SpecificItem is AtomFeedItem)
-            {
-                return GetHtmlUrl(item.SpecificItem as AtomFeedItem);
-            }
-            return item.Link;
-        }
-
-        /// <summary>
-        /// atom feed can have multiple links tags, so find the appropriate one, with a fallback
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        private static string GetHtmlUrl(AtomFeedItem item)
-        {
-            var htmlLink = item.Links.Where(x => x.Relation == "alternate" && x.LinkType == "text/html").FirstOrDefault();
-            return htmlLink?.Href ?? item.Link;
-        }
-
-        private static bool TimeOk(DateTime? published)
-            => (published == null) ? true :
-                (DateTime.Now.Subtract(published.Value).TotalDays <= DayLimit);
-	}
+        private static bool ShouldIncludeFeedItem(HtmlToGmi.NewsFeeds.FeedItem feedItem)
+            => (!feedItem.Published.HasValue)
+                ? true :
+                //abs allows this to show items in the future
+                (Math.Abs(DateTime.Now.Subtract(feedItem.Published.Value).TotalDays) <= DayLimit);
+    }	
 }
-

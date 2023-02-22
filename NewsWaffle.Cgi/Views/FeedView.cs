@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
-using Gemini.Cgi;
 
+using HtmlToGmi.NewsFeeds;
 using NewsWaffle.Models;
+
 namespace NewsWaffle.Cgi.Views
 {
     internal class FeedView : ArticleView
@@ -15,15 +16,14 @@ namespace NewsWaffle.Cgi.Views
         protected override void Body()
         {
             Out.WriteLine();
-            Out.WriteLine($"### Feed Links: {FeedPage.Links.Count}");
-            if (FeedPage.Links.Count > 0)
+            Out.WriteLine($"### Feed Items: {FeedPage.Items.Count}");
+            if (FeedPage.Items.Count > 0)
             {
                 int counter = 0;
-                foreach (var link in FeedPage.Links)
+                foreach (var item in FeedPage.Items)
                 {
                     counter++;
-                    var published = link.HasPublished ? $"({link.TimeAgo})" : "";
-                    Out.WriteLine($"=> {CgiPaths.ViewArticle(link.Url)} {counter}. {link.Text} {published}");
+                    Out.WriteLine($"=> {CgiPaths.ViewArticle(item.Url)} {counter}. {item.Title} {item.GetTimeAgo(DateTime.Now)}");
                 }
             }
             else
