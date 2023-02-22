@@ -12,7 +12,7 @@ using NewsWaffle.Util;
 
 namespace NewsWaffle.Converters
 {
-    public class LinkParser
+    public class LinkParser : AbstractParser
     {
         string NormalizedHost;
         Uri BaselUrl;
@@ -25,8 +25,8 @@ namespace NewsWaffle.Converters
         public Uri FeedUrl { get; internal set; }
 
         public LinkParser(Uri htmlUrl)
+            : base(htmlUrl)
         {
-            BaselUrl = htmlUrl;
             NormalizedHost = BaselUrl.Host;
             if (NormalizedHost.StartsWith("www."))
             {
@@ -146,7 +146,7 @@ namespace NewsWaffle.Converters
         private string SanitizeLinkText(string text)
             //remove newliens inside the text, and ensure its trimmed on both sides
             //TODO: should this just use the sanitize function to handle HTML encoding?
-            => TextConverter.CollapseWhitespace(text).Trim();
+            => CollapseWhitespace(text).Trim();
 
         private Uri ResolveUrl(string href)
         {
