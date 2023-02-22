@@ -13,7 +13,7 @@ namespace NewsWaffle.Models
 
         //content and images
         public string Content = "";
-        public List<Image> Images = new List<Image>();
+        public List<ImageLink> Images = new List<ImageLink>();
         public List<Hyperlink> Links = new List<Hyperlink>();
 
         public bool IsReadability { get; internal set; }
