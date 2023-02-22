@@ -39,7 +39,7 @@ namespace NewsWaffle.Converters
                 ret.Links.AddRange(feed.Items.Where(x => TimeOk(x.PublishingDate)).Take(ItemLimit).Select(x => new FeedLink
                 {
                     Url = new Uri(GetHtmlUrl(x)),
-                    Text = x.Title,
+                    Text = StringUtils.Normnalize(x.Title),
                     Published = x.PublishingDate
                 }).OrderByDescending(x=>x.Published));
                 timer.Stop();

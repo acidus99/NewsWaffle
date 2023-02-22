@@ -20,3 +20,4 @@
 - Feature: Use HTTP compression to speed up downloads
 - Feature: Display external content links at body of news article
 - Fixed: Trim excessive link text for articles in links view. (Looking at your NY Times which your 400+ character multi-sentence headlines!)
+- Fixed: Properly HTML decode feed item titles
