@@ -173,7 +173,6 @@ namespace NewsWaffle.Converters
 			if(documentRoot == null)
             {
 				documentRoot = document.FirstElementChild;
-				TagStripper.RemoveProblemTags(documentRoot);
             }
 			if(MetaData == null)
             {
