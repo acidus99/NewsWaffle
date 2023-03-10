@@ -14,8 +14,22 @@ namespace NewsWaffle.Cgi.Views
 
         protected override void Body()
         {
-            Out.WriteLine();
-            Out.WriteLine(RawPage.Content);
+            if (RawPage.Content == "")
+            {
+                Out.WriteLine(@"
+When we converted the HTML to gemtext, there was no content left. This could be:
+* An oddly formated page
+* A page that requires JavaScript to render
+* Content which is protected in some way
+* A site that is not sending full content to certin User-Agents
+
+Unfortunately there isn't really anything more we can do.");
+            }
+            else
+            {
+                Out.WriteLine();
+                Out.WriteLine(RawPage.Content);
+            }
         }
 
         protected override void Header()
