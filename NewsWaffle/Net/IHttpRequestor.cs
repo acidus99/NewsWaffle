@@ -9,8 +9,6 @@ namespace NewsWaffle.Net
 
         string ErrorMessage { get; }
 
-        string MimeType { get; }
-
 		/// <summary>
 		/// Sends a GET to an HTTP(S) URL. If succcessful, populates BodyBytes and BodyText.
 		/// BodyText created from bytes and any charset specified in HTTP response. Otherwise UTF-8 is used.

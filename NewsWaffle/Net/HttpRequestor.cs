@@ -31,8 +31,6 @@ namespace NewsWaffle.Net
 
         public string BodyText { get; internal set; } = null;
 
-        public string MimeType { get; internal set; } = "";
-
         public bool RequestAsBytes(Uri url)
         {
             if (!url.IsAbsoluteUri || !url.Scheme.StartsWith("http"))
@@ -49,7 +47,6 @@ namespace NewsWaffle.Net
             }
 
             BodyBytes = ReadFully(Response.Content.ReadAsStream());
-            MimeType = Response.Content.Headers.ContentType?.MediaType ?? "";
             return true;
         }
 
