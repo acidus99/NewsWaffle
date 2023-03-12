@@ -34,14 +34,14 @@ namespace NewsWaffle.Net
 
         public bool RequestAsBytes(Uri url)
         {
-            var resp = SendRequest(url);
-            if (!resp.IsSuccessStatusCode)
+            Response = SendRequest(url);
+            if (!Response.IsSuccessStatusCode)
             {
-                ErrorMessage = $"Could not download content for URL. Statue code: '{resp.StatusCode}'";
+                ErrorMessage = $"Could not download content for URL. Statue code: '{Response.StatusCode}'";
                 return false;
             }
 
-            BodyBytes = ReadFully(resp.Content.ReadAsStream());
+            BodyBytes = ReadFully(Response.Content.ReadAsStream());
 
             return true;
         }
