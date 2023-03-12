@@ -34,6 +34,12 @@ namespace NewsWaffle.Net
 
         public bool RequestAsBytes(Uri url)
         {
+            if (!url.IsAbsoluteUri || !url.Scheme.StartsWith("http"))
+            {
+                ErrorMessage = "Only HTTP/HTTPS URLs are supported";
+                return false;
+            }
+
             Response = SendRequest(url);
             if (!Response.IsSuccessStatusCode)
             {

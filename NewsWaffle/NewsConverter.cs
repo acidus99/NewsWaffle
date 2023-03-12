@@ -215,13 +215,6 @@ namespace NewsWaffle
 
         private string GetContent(Uri url)
         {
-
-            if (!url.IsAbsoluteUri || !url.Scheme.StartsWith("http"))
-            {
-                ErrorMessage = "Only HTTP/HTTPS URLs are supported";
-                return null;
-            }
-
             IHttpRequestor requestor = new HttpRequestor();
             timer.Start();
             var result = requestor.Request(url);
