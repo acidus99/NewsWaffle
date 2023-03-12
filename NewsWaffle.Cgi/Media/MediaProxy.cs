@@ -50,9 +50,16 @@ namespace NewsWaffle.Cgi.Media
         private byte [] FetchFromNetwork(Uri url)
         {
             IHttpRequestor requestor = new HttpRequestor();
-            return (requestor.RequestAsBytes(url)) ?
-                requestor.BodyBytes :
-                null;
+
+            var result = requestor.RequestAsBytes(url);
+            if (result)
+            {
+                return requestor.BodyBytes;
+            }
+            else
+            {
+                return null;
+            }
         }
 
 		private static Uri ValidateUrl(string url)
