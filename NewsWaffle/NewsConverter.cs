@@ -14,8 +14,6 @@ namespace NewsWaffle
     /// </summary>
     public class NewsConverter
     {
-
-        public bool Debug { get; set; } = true;
         public string ErrorMessage { get; internal set; } = "";
 
         Stopwatch timer = new Stopwatch();
