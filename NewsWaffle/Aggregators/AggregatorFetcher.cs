@@ -10,12 +10,17 @@ namespace NewsWaffle.Aggregators
 		public static NewsSection GetSection(string sectionName, INewAggregator aggregator)
         {
 			Stopwatch stopwatch = new Stopwatch();
-			stopwatch.Start();
 			var url = aggregator.GetFeedUrl(sectionName);
-			HttpFetcher fetcher = new HttpFetcher();
-			string content = fetcher.GetAsString(url);
-			stopwatch.Stop();
 
+			IHttpRequestor requestor = new HttpRequestor();
+            stopwatch.Start();
+            var result = requestor.Request(url);
+			string content = "";
+			if(result)
+			{
+				content = requestor.BodyText;
+			}
+			stopwatch.Stop();
 			var section = aggregator.ParseSection(sectionName, content, (int) stopwatch.ElapsedMilliseconds);
 			section.SourceUrl = url;
 			return section;

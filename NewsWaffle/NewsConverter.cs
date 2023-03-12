@@ -35,20 +35,20 @@ namespace NewsWaffle
                     return null;
                 }
                 //========= Step 1: Get HTML
-                var html = GetContent(url);
-                if(string.IsNullOrEmpty(html))
+                var txt = GetContent(url);
+                if(string.IsNullOrEmpty(txt))
                 {
                     return null;
                 }
 
-                if(IsFeed(html))
+                if(IsFeed(txt))
                 {
-                    var feed = FeedConverter.ParseFeed(url, html);
+                    var feed = FeedConverter.ParseFeed(url, txt);
                     feed.DownloadTime = (int)timer.ElapsedMilliseconds;
                     return feed;
                 }
 
-                WebConverter htmlConverter = new WebConverter(url, html);
+                WebConverter htmlConverter = new WebConverter(url, txt);
 
                 //convert, autodetecting
                 var page = htmlConverter.Convert();
@@ -215,16 +215,24 @@ namespace NewsWaffle
 
         private string GetContent(Uri url)
         {
-            timer.Start();
-            var fetcher = new HttpFetcher();
-            var html = fetcher.GetAsString(url);
-            timer.Stop();
-            if (string.IsNullOrEmpty(html))
+
+            if (!url.IsAbsoluteUri || !url.Scheme.StartsWith("http"))
             {
-                ErrorMessage = $"Could not download HTML for '{url}'";
+                ErrorMessage = "Only HTTP/HTTPS URLs are supported";
                 return null;
             }
-            return html;
+
+            IHttpRequestor requestor = new HttpRequestor();
+            timer.Start();
+            var result = requestor.Request(url);
+            timer.Stop();
+
+            if (!result)
+            {
+                ErrorMessage = requestor.ErrorMessage;
+                return null;
+            }
+            return requestor.BodyText;
         }
 
         private bool IsFeed(string content)
