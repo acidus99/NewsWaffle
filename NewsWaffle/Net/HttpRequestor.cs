@@ -33,7 +33,7 @@ namespace NewsWaffle.Net
 
         public bool RequestAsBytes(Uri url)
         {
-            if (!url.IsAbsoluteUri || !url.Scheme.StartsWith("http"))
+            if (!IsValidUrl(url))
             {
                 ErrorMessage = "Only HTTP/HTTPS URLs are supported";
                 return false;
@@ -95,5 +95,9 @@ namespace NewsWaffle.Net
             => (contentType?.CharSet?.Length > 0) ?
                 contentType.CharSet :
                 "utf-8";
+
+        public static bool IsValidUrl(Uri url)
+            => url.IsAbsoluteUri && url.Scheme.StartsWith("http");
+
     }
 }
