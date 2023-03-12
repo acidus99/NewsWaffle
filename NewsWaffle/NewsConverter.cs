@@ -213,7 +213,7 @@ namespace NewsWaffle
 
         private string GetContent(Uri url)
         {
-            IHttpRequestor requestor = new HttpRequestor();
+            IHttpRequestor requestor = new CachingRequestor(TimeSpan.FromHours(2));
             timer.Start();
             var result = requestor.Request(url);
             timer.Stop();
