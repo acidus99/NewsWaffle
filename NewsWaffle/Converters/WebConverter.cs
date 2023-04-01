@@ -88,11 +88,20 @@ namespace NewsWaffle.Converters
 			}
 			EnsureParsed();
 
-			var reader = new Reader(Url.AbsoluteUri, document);
-			var article = reader.GetArticle();
+			Article article = null;
+			try
+			{
+                //handle exceptions that do happen down in the parser that aren't caught
+                //like this fix: https://github.com/Strumenta/SmartReader/commit/7053e67c0ef00047e645e12deba91d4144f0392d
+                var reader = new Reader(Url.AbsoluteUri, document);
+				article = reader.GetArticle();
+			}
+			catch (Exception ex)
+			{
+			}
 			ContentPage page = null;
 
-			if (article.IsReadable && article.Content != "")
+			if (article != null && article.IsReadable && article.Content != "")
 			{
 				var converter = new HtmlToGmi.HtmlConverter
 				{
@@ -120,7 +129,7 @@ namespace NewsWaffle.Converters
 				page = new ContentPage(MetaData)
 				{
 					IsReadability = false,
-					Excerpt = StringUtils.Normnalize(article.Excerpt)
+					Excerpt = StringUtils.Normnalize(article?.Excerpt)
 				};
 			}
 			timer.Stop();

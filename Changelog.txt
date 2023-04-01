@@ -22,3 +22,4 @@
 - Fixed: Trim excessive link text for articles in links view. (Looking at your NY Times which your 400+ character multi-sentence headlines!)
 - Fixed: Properly HTML decode feed item titles
 - Fixed: Gracefully handle non-HTTP URLs directly entered into app
+- Fixed: Handle exceptions thrown from SmartReader 
