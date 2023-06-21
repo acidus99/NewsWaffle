@@ -21,8 +21,8 @@
     <None Remove="Aggregators\Models\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="SmartReader" Version="0.9.2" />
-    <PackageReference Include="AngleSharp" Version="1.0.1" />
+    <PackageReference Include="SmartReader" Version="0.9.3" />
+    <PackageReference Include="AngleSharp" Version="1.0.3" />
     <PackageReference Include="CodeHollow.FeedReader" Version="1.2.6" />
   </ItemGroup>
   <ItemGroup>

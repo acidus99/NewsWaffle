@@ -30,7 +30,7 @@
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="12.2.2" />
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.1.3" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="static\index.gmi">
