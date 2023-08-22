@@ -1,4 +1,8 @@
-﻿For launch:
+﻿
+
+
+
+For launch:
     - Add copyright to content pages
     - handle readability fails
     - handle HTTP/DNS fails
@@ -49,6 +53,11 @@ https://www.ajc.com/atlanta-weather/mondays-weather-highs-in-the-mid-80s-for-rai
 
 - Sometimes alt text is kind of meaningless. Can I use some fuzzy logic to deterimine for valid a caption is?
 gemini://localhost/cgi-bin/waffle.cgi/article?https%3A%2F%2Fwww.esquire.com%2Fnews-politics%2Fa37416285%2Fwhat-its-like-to-work-for-page-six%2F
+
+
+- FIGURE doesn't have to be used with images, can be used with any flow content. Figcaption can have arbitrary markup!
+    https://www.wired.com/gallery/best-cloud-storage-services/
+    https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure
 
 # Musings
 
