@@ -16,6 +16,12 @@ namespace NewsWaffle.Cgi.Views
         {
             if (RawPage.Content == "")
             {
+                if (!string.IsNullOrEmpty(RawPage.Meta.Description))
+                {
+                    Out.WriteLine("Description:");
+                    Out.WriteLine($">{RawPage.Meta.Description}");
+                }
+
                 Out.WriteLine(@"
 When we converted the HTML to gemtext, there was no content left. This could be:
 * An oddly formated page
