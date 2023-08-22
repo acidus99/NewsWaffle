@@ -57,7 +57,14 @@ gemini://localhost/cgi-bin/waffle.cgi/article?https%3A%2F%2Fwww.esquire.com%2Fne
 
 - FIGURE doesn't have to be used with images, can be used with any flow content. Figcaption can have arbitrary markup!
     https://www.wired.com/gallery/best-cloud-storage-services/
+    https://www.wired.com/gallery/best-of-ces-2023/
     https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure
+
+
+- Markup inside of Blockquote:
+    https://sixcolors.com/link/2023/01/scott-mcnultys-replacement-for-dark-sky/
+    (in this case, some LIs)
+
 
 # Musings
 
