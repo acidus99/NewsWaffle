@@ -38,8 +38,16 @@ namespace NewsWaffle.Net
                 ErrorMessage = "Only HTTP/HTTPS URLs are supported";
                 return false;
             }
+            try
+            {
+                Response = SendRequest(url);
+            }
+            catch (System.Threading.Tasks.TaskCanceledException)
+            {
+                ErrorMessage = "Could not download content for URL. Connection Timeout.";
+                return false;
+            }
 
-            Response = SendRequest(url);
             if (!Response.IsSuccessStatusCode)
             {
                 ErrorMessage = $"Could not download content for URL. Statue code: '{Response.StatusCode}'";
