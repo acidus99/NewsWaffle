@@ -129,7 +129,7 @@ namespace NewsWaffle.Converters
 				page = new ContentPage(MetaData)
 				{
 					IsReadability = false,
-					Excerpt = StringUtils.Normnalize(article?.Excerpt)
+					Excerpt = FindBestExcerpt(MetaData, article)
 				};
 			}
 			timer.Stop();
@@ -172,6 +172,14 @@ namespace NewsWaffle.Converters
 		#endregion
 
 		#region private workings
+
+		private string FindBestExcerpt(PageMetaData metaData, Article? article)
+		{
+			var meta = metaData.Description ?? "";
+			var excerpt = StringUtils.Normnalize(article?.Excerpt);
+			return (meta.Length > excerpt.Length) ?
+				meta : excerpt;
+		}
 
 		private void EnsureParsed()
         {
