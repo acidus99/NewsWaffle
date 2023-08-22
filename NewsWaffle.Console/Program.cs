@@ -25,7 +25,6 @@ namespace NewsWaffle.Console
                     if (page == null)
                     {
                         System.Console.WriteLine($"Error: '{waffles.ErrorMessage}'");
-                        return;
                     }
                     if (page is LinkPage)
                     {
