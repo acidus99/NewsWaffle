@@ -91,6 +91,10 @@ https://www.cbsnews.com/video/where-elon-musks-abandoned-twitter-deal-stands/
 
 
 
+Navigation Links look odd:
+https://www.reuters.com/world/
+
+
 
 Doesn't work:
 thehindu.com
@@ -100,7 +104,3 @@ https://www.news.com.au/
 
 link view is bad:
 https://english.elpais.com/spain/
-
-
-seems to kill jetforce:
-gemini://gemi.dev/cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.usnews.com%2F
