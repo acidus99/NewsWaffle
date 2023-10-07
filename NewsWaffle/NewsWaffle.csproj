@@ -22,7 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SmartReader" Version="0.9.4" />
-    <PackageReference Include="AngleSharp" Version="1.0.4" />
+    <PackageReference Include="AngleSharp" Version="1.0.5" />
     <PackageReference Include="CodeHollow.FeedReader" Version="1.2.6" />
   </ItemGroup>
   <ItemGroup>
