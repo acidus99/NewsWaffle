@@ -22,7 +22,7 @@ namespace NewsWaffle.Net
             });
 
             Client.Timeout = TimeSpan.FromSeconds(20);
-            Client.DefaultRequestHeaders.UserAgent.TryParseAdd("GeminiProxy/0.1 (gemini://gemi.dev/) gemini-proxy/0.1");
+            EmulateBrowser(Client);
         }
 
         public string ErrorMessage { get; internal set; } = "";
@@ -50,7 +50,7 @@ namespace NewsWaffle.Net
 
             if (!Response.IsSuccessStatusCode)
             {
-                ErrorMessage = $"Could not download content for URL. Statue code: '{Response.StatusCode}'";
+                ErrorMessage = $"Could not download content for URL. Status code: '{Response.StatusCode}'";
                 return false;
             }
 
@@ -83,6 +83,17 @@ namespace NewsWaffle.Net
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             return Client.Send(request, HttpCompletionOption.ResponseContentRead);
+        }
+
+        private void EmulateBrowser(HttpClient client)
+        {
+            // Use HTTP headers sent by MacOS Safari Version 17.3.1 (19617.2.4.11.12)
+            client.DefaultRequestHeaders.UserAgent.TryParseAdd("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3.1 Safari/605.1.15");
+            client.DefaultRequestHeaders.Accept.ParseAdd("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            client.DefaultRequestHeaders.AcceptLanguage.ParseAdd("en-US,en;q=0.9");
+            client.DefaultRequestHeaders.Add("Sec-Fetch-Dest", "document");
+            client.DefaultRequestHeaders.Add("Sec-Fetch-Mode", "navigate");
+            client.DefaultRequestHeaders.Add("Sec-Fetch-Site", "none");
         }
 
         private static byte[] ReadFully(Stream input)
