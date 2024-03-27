@@ -17,7 +17,7 @@ namespace NewsWaffle.Cgi.Views
             Aggregator = aggregator;
         }
 
-        protected override IPageStats PageStats => null;
+        protected override IPageStats? PageStats => null;
 
         protected override void RenderView()
         {

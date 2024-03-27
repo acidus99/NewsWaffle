@@ -3,28 +3,28 @@ using NewsWaffle.Cache;
 using NewsWaffle.Net;
 namespace NewsWaffle.Cgi.Media
 {
-	//returns optimized image bytes for a URL
-	public class MediaProxy
-	{
+    //returns optimized image bytes for a URL
+    public class MediaProxy
+    {
         DiskCache cache = new DiskCache(TimeSpan.FromDays(3));
 
-        public byte [] ProxyMedia(string urlString)
+        public byte[]? ProxyMedia(string urlString)
         {
-            Uri url = ValidateUrl(urlString);
-            if(url == null)
+            Uri? url = ValidateUrl(urlString);
+            if (url == null)
             {
                 return null;
             }
             //check the cache
             byte[] optimizedImage = GetFromCache(url);
-            if(optimizedImage != null)
+            if (optimizedImage != null)
             {
                 return optimizedImage;
             }
 
             //nope we have to go fetch it
-            byte[] rawData = FetchFromNetwork(url);
-            if(rawData == null)
+            byte[]? rawData = FetchFromNetwork(url);
+            if (rawData == null)
             {
                 //can't do anything
                 return null;
@@ -41,13 +41,13 @@ namespace NewsWaffle.Cgi.Media
         private byte[] GetFromCache(Uri url)
             => cache.GetAsBytes(GetCacheKey(url));
 
-        private void PutInCache(Uri url, byte [] data)
+        private void PutInCache(Uri url, byte[] data)
             => cache.Set(GetCacheKey(url), data);
 
         private static string GetCacheKey(Uri url)
            => url.AbsoluteUri + "optimized";
 
-        private byte [] FetchFromNetwork(Uri url)
+        private byte[]? FetchFromNetwork(Uri url)
         {
             IHttpRequestor requestor = new HttpRequestor();
 
@@ -62,13 +62,13 @@ namespace NewsWaffle.Cgi.Media
             }
         }
 
-		private static Uri ValidateUrl(string url)
+        private static Uri? ValidateUrl(string url)
         {
-			try
+            try
             {
                 Uri ret = new Uri(url);
 
-                if(!ret.IsAbsoluteUri)
+                if (!ret.IsAbsoluteUri)
                 {
                     return null;
                 }
@@ -79,13 +79,13 @@ namespace NewsWaffle.Cgi.Media
                 //TODO more checks, private ips, etc
 
                 return ret;
-            }catch(Exception)
+            }
+            catch (Exception)
             {
-
             }
             return null;
         }
 
-	}
+    }
 }
 

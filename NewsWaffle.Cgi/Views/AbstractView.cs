@@ -9,7 +9,7 @@ namespace NewsWaffle.Cgi.Views
 
         protected StreamWriter Out;
 
-        abstract protected IPageStats PageStats { get; }
+        abstract protected IPageStats? PageStats { get; }
 
         public AbstractView(StreamWriter sw)
         {
@@ -39,7 +39,7 @@ namespace NewsWaffle.Cgi.Views
         private void RenderFooter()
         {
             Out.WriteLine();
-            if (!string.IsNullOrEmpty(PageStats?.Copyright ?? null))
+            if (PageStats != null && PageStats.Copyright.Length > 0)
             {
                 Out.WriteLine($"All content © {DateTime.Now.Year} {PageStats.Copyright}");
             }

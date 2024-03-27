@@ -40,7 +40,7 @@ namespace NewsWaffle.Console
                     }
                 }
                 System.Console.WriteLine("Entry URL");
-                url = System.Console.ReadLine().Trim();
+                url = System.Console.ReadLine()?.Trim() ?? "";
 
             } while (url != "quit");
         }

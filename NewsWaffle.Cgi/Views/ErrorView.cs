@@ -9,7 +9,7 @@ namespace NewsWaffle.Cgi.Views
     {
         string ErrorMsg;
 
-        protected override IPageStats PageStats => null;
+        protected override IPageStats? PageStats => null;
 
         public ErrorView(StreamWriter sw, string msg)
             : base(sw)

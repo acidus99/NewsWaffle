@@ -15,7 +15,7 @@ namespace NewsWaffle.Cgi
     {
         public static void View(CgiWrapper cgi)
         {
-            if(!cgi.HasQuery)
+            if (!cgi.HasQuery)
             {
                 cgi.Input("Enter URL of news site (e.g. 'https://www.wired.com'");
                 return;
@@ -25,7 +25,7 @@ namespace NewsWaffle.Cgi
             var waffles = new NewsConverter();
             var page = waffles.GetPage(cgi.Query);
 
-            AbstractView view = null;
+            AbstractView view;
             if (page == null)
             {
                 view = new ErrorView(cgi.Writer, waffles.ErrorMessage);
@@ -57,9 +57,9 @@ namespace NewsWaffle.Cgi
             var page = waffles.GetContentPage(cgi.Query);
 
             AbstractView view = (page == null) ?
-                new ErrorView(cgi.Writer, waffles.ErrorMessage) : 
+                new ErrorView(cgi.Writer, waffles.ErrorMessage) :
                 new ContentView(cgi.Writer, (ContentPage)page);
-            
+
             view.Render();
         }
 
@@ -123,7 +123,7 @@ namespace NewsWaffle.Cgi
             var yahooNews = new YahooNews();
 
             var sectionName = cgi.HasQuery ? cgi.SantiziedQuery : yahooNews.DefaultSection;
-            if(!yahooNews.IsValidSection(sectionName))
+            if (!yahooNews.IsValidSection(sectionName))
             {
                 cgi.Redirect(CgiPaths.ViewCurrentNewsSection());
                 return;
@@ -147,14 +147,14 @@ namespace NewsWaffle.Cgi
 
         public static void ProxyMedia(CgiWrapper cgi)
         {
-            if(!cgi.HasQuery)
+            if (!cgi.HasQuery)
             {
                 cgi.Redirect(CgiPaths.BasePath);
                 return;
             }
             MediaProxy proxy = new MediaProxy();
-            byte [] optimizedImage = proxy.ProxyMedia(cgi.Query);
-            if(optimizedImage == null)
+            byte[]? optimizedImage = proxy.ProxyMedia(cgi.Query);
+            if (optimizedImage == null)
             {
                 cgi.BadRequest("Couldn't fetch media");
                 return;
