@@ -17,7 +17,7 @@ public static class RouteHandler
         }
         cgi.Success();
 
-        var waffles = new NewsConverter();
+        var waffles = new LegacyNewsConverter();
         var page = waffles.GetPage(cgi.Query);
 
         AbstractView view;
@@ -48,7 +48,7 @@ public static class RouteHandler
             return;
         }
         cgi.Success();
-        var waffles = new NewsConverter();
+        var waffles = new LegacyNewsConverter();
         var page = waffles.GetContentPage(cgi.Query);
 
         AbstractView view = (page == null) ?
@@ -66,7 +66,7 @@ public static class RouteHandler
             return;
         }
         cgi.Success();
-        var waffles = new NewsConverter();
+        var waffles = new LegacyNewsConverter();
         var linksPage = waffles.GetLinkPage(cgi.Query);
 
         AbstractView view = (linksPage == null) ?
@@ -85,7 +85,7 @@ public static class RouteHandler
         }
         cgi.Success();
 
-        var waffles = new NewsConverter();
+        var waffles = new LegacyNewsConverter();
         var feedPage = waffles.GetFeedPage(cgi.Query);
         AbstractView view = (feedPage == null) ?
             new ErrorView(cgi.Writer, waffles.ErrorMessage) :
@@ -103,7 +103,7 @@ public static class RouteHandler
         }
         cgi.Success();
 
-        var waffles = new NewsConverter();
+        var waffles = new LegacyNewsConverter();
         var rawPage = waffles.GetRawPage(cgi.Query);
 
         AbstractView view = (rawPage == null) ?

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-
 using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
-
 using NewsWaffle.Aggregators.Models;
 
 namespace NewsWaffle.Aggregators;

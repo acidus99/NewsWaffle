@@ -9,7 +9,7 @@ namespace NewsWaffle;
 /// <summary>
 /// Fetches content over HTTP and converts it to different news formats
 /// </summary>
-public class NewsConverter
+public class LegacyNewsConverter
 {
     public string ErrorMessage { get; internal set; } = "";
 
