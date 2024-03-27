@@ -4,9 +4,9 @@ namespace NewsWaffle.Cgi.Views;
 
 internal class ContentView : ArticleView
 {
-    ContentPage ContentPage => (ContentPage) Page;
+    ArticlePage ContentPage => (ArticlePage) Page;
 
-    public ContentView(StreamWriter sw, ContentPage page)
+    public ContentView(StreamWriter sw, ArticlePage page)
         : base(sw, page) { }
 
     protected override void Body()

@@ -43,7 +43,7 @@ public class WebConverter
         EnsureParsed();
         switch (MetaData.ProbablyType)
         {
-            case PageType.ContentPage:
+            case PageType.ArticlePage:
                 return ConvertToContentPage();
 
             default:
@@ -65,7 +65,7 @@ public class WebConverter
         extractor.FindLinks(documentRoot);
         var homePage = new LinkPage(MetaData)
         {
-            ContentLinks = extractor.ContentLinks,
+            ArticleLinks = extractor.ContentLinks,
             NavigationLinks = extractor.NavigationLinks,
             FeedUrl = extractor.FeedUrl,
         };
@@ -78,7 +78,7 @@ public class WebConverter
     /// Convert to Content Page
     /// </summary>
     /// <returns></returns>
-    public ContentPage ConvertToContentPage()
+    public ArticlePage ConvertToContentPage()
     {
         if (!timer.IsRunning)
         {
@@ -97,7 +97,7 @@ public class WebConverter
         catch (Exception ex)
         {
         }
-        ContentPage page = null;
+        ArticlePage page = null;
 
         if (article != null && article.IsReadable && article.Content != "")
         {
@@ -108,10 +108,10 @@ public class WebConverter
             };
             var result = converter.Convert(Url, ParseToDocument(article.Content));
 
-            page = new ContentPage(MetaData)
+            page = new ArticlePage(MetaData)
             {
                 IsReadability = true,
-                Byline = StringUtils.Normnalize(article.Author ?? article.Byline),
+                Byline = article.Author ?? article.Byline,
                 Content = result.Gemtext,
                 Images = result.Images.ToList(),
                 Links = result.Links.ToList(),
@@ -124,7 +124,7 @@ public class WebConverter
         }
         else
         {
-            page = new ContentPage(MetaData)
+            page = new ArticlePage(MetaData)
             {
                 IsReadability = false,
                 Excerpt = FindBestExcerpt(MetaData, article)

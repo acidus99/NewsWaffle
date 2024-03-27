@@ -26,7 +26,7 @@ public static class FeedConverter
                 FeaturedImage = LinkForge.Create(sourceFeed.ImageUrl),
                 OriginalSize = xml.Length,
                 SourceUrl = url,
-                ProbablyType = PageType.FeedPage,
+                ProbablyType = PageType.Feed,
                 Title = StringUtils.Normnalize(sourceFeed.Title),
                 SiteName = StringUtils.Normnalize(sourceFeed.Copyright),
             };
@@ -53,22 +53,7 @@ public static class FeedConverter
         return null;
     }
 
-    private static Uri GetRootUrl(Uri url)
-    {
-        try
-        {
-            UriBuilder builder = new UriBuilder();
-            builder.Scheme = url.Scheme;
-            builder.Host = url.Host;
-            builder.Port = url.Port;
-            builder.Path = "/";
-            return builder.Uri;
-        }
-        catch (Exception)
-        {
-        }
-        return null;
-    }
+   
 
     private static bool ShouldIncludeFeedItem(HtmlToGmi.NewsFeeds.FeedItem feedItem)
         => (!feedItem.Published.HasValue)

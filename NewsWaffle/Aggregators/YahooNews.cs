@@ -53,15 +53,19 @@ public class YahooNews : INewAggregator
         {
             OriginalSize = content.Length,
             DownloadTime = downloadTime,
+            SourceUrl = GetFeedUrl(sectionName)
         };
 
         var feed = FeedReader.ReadFromString(content);
         foreach (var item in feed.Items)
         {
-            var story = ParseStory(item.SpecificItem as MediaRssFeedItem);
-            if (story != null)
+            if (item.SpecificItem is MediaRssFeedItem mediaItem)
             {
-                section.Stories.Add(story);
+                var story = ParseStory(mediaItem);
+                if (story != null)
+                {
+                    section.Stories.Add(story);
+                }
             }
         }
         stopwatch.Stop();
@@ -70,7 +74,7 @@ public class YahooNews : INewAggregator
         return section;
     }
 
-    private NewsStory ParseStory(MediaRssFeedItem item)
+    private NewsStory? ParseStory(MediaRssFeedItem item)
     {
         var storyUrl = LinkForge.Create(item.Link);
         if (storyUrl == null)

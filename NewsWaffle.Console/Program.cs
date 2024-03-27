@@ -30,9 +30,9 @@ namespace NewsWaffle.Console
                     {
                         RenderHomePage((LinkPage)page);
                     }
-                    else if (page is ContentPage)
+                    else if (page is ArticlePage)
                     {
-                        RenderArticle((ContentPage)page);
+                        RenderArticle((ArticlePage)page);
                     } else if(page is RawPage)
                     {
 
@@ -56,8 +56,8 @@ namespace NewsWaffle.Console
             {
                 System.Console.WriteLine($">{homePage.Meta.Description}");
             }
-            System.Console.WriteLine($"Content Links: {homePage.ContentLinks.Count}");
-            foreach (var link in homePage.ContentLinks)
+            System.Console.WriteLine($"Content Links: {homePage.ArticleLinks.Count}");
+            foreach (var link in homePage.ArticleLinks)
             {
                 System.Console.WriteLine($"'{link.Text}' => '{link.Url}'");
             }
@@ -69,7 +69,7 @@ namespace NewsWaffle.Console
             }
         }
 
-        private static void RenderArticle(ContentPage articlePage)
+        private static void RenderArticle(ArticlePage articlePage)
         {
             System.Console.WriteLine($"## {articlePage.Meta.Title}");
             if (articlePage.Meta.FeaturedImage != null)

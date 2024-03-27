@@ -12,11 +12,11 @@ public class CachingRequestor : IHttpRequestor
     DiskCache Cache;
     HttpRequestor Requestor;
 
-    public byte[] BodyBytes { get; internal set; }
+    public byte[] BodyBytes { get; internal set; } = null!;
 
-    public string BodyText { get; internal set; }
+    public string BodyText { get; internal set; } = null!;
 
-    public string ErrorMessage { get; internal set; }
+    public string ErrorMessage { get; internal set; } = "";
 
     public CachingRequestor(TimeSpan cacheDuration)
     {
@@ -101,7 +101,7 @@ public class CachingRequestor : IHttpRequestor
         return true;
     }
 
-    private byte[] GetFromCache(Uri url)
+    private byte[]? GetFromCache(Uri url)
       => Cache.GetAsBytes(GetCacheKey(url));
 
     private void PutInCache(Uri url, byte[] data)

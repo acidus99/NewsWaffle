@@ -134,7 +134,7 @@ public class LegacyNewsConverter
     /// </summary>
     /// <param name="url"></param>
     /// <returns></returns>
-    public ContentPage GetContentPage(string urlString)
+    public ArticlePage GetContentPage(string urlString)
     {
         try
         {

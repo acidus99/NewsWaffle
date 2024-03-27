@@ -21,7 +21,7 @@ public class NewsSection : IPageStats
 
     public int OriginalSize { get; set; }
 
-    public Uri SourceUrl { get; set; }
+    public required Uri SourceUrl { get; set; }
 
     public int Size
     => Stories.Sum(x => x.Size) + SectionName.Length + AggregatorName.Length + 20;
@@ -35,7 +35,6 @@ public class NewsSection : IPageStats
         ConvertTime = 0;
         DownloadTime = 0;
         OriginalSize = 0;
-        SourceUrl = null;
     }
 }
 

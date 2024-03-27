@@ -31,7 +31,7 @@ public class MetaDataParser
     private string GetDescription()
         => StringUtils.Normnalize(head.OGDescription);
 
-    private Uri GetFeatureImage()
+    private Uri? GetFeatureImage()
         => LinkForge.Create(head.OGImage) ?? null;
 
     private string GetSiteName(Uri url)
@@ -55,7 +55,7 @@ public class MetaDataParser
     {
         if (StringUtils.Normnalize(head.OGType) == "article" || head.HasArticleProperties)
         {
-            return PageType.ContentPage;
+            return PageType.ArticlePage;
         }
         return PageType.LinkPage;
     }
@@ -66,12 +66,12 @@ public class MetaDataParser
 
         public HtmlHead(IElement document)
         {
-            Head = document.QuerySelector("head");
+            Head = document.QuerySelector("head")!;
             foreach (var element in Head.QuerySelectorAll("meta[property]"))
             {
                 string content = element.GetAttribute("content") ?? "";
 
-                switch (element.GetAttribute("property").ToLower())
+                switch (element.GetAttribute("property")?.ToLower())
                 {
                     case "og:image":
                         OGImage = content;
@@ -92,11 +92,11 @@ public class MetaDataParser
             }
         }
 
-        public string OGTitle { get; set; }
-        public string OGType { get; set; }
-        public string OGImage { get; set; }
-        public string OGSiteName { get; set; }
-        public string OGDescription { get; set; }
+        public string? OGTitle { get; set; }
+        public string? OGType { get; set; }
+        public string? OGImage { get; set; }
+        public string? OGSiteName { get; set; }
+        public string? OGDescription { get; set; }
 
         public string Title
             => Head.QuerySelector("title")?.TextContent ?? "";

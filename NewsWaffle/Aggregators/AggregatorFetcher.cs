@@ -21,7 +21,6 @@ public static class AggregatorFetcher
         }
         stopwatch.Stop();
         var section = aggregator.ParseSection(sectionName, content, (int)stopwatch.ElapsedMilliseconds);
-        section.SourceUrl = url;
         return section;
     }
 }

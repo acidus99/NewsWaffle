@@ -2,23 +2,39 @@
 
 namespace NewsWaffle.Models;
 
+/// <summary>
+/// Statistics about the page
+/// </summary>
 public interface IPageStats
 {
-    //time to download the page, in ms
-    int DownloadTime { get; }
-
-    //time to convert the page, in ms
+    /// <summary>
+    /// The amount of time in ms to convert the page from source
+    /// </summary>
     int ConvertTime { get; }
 
-    //original size of the page
-    int OriginalSize { get; }
-
-    //copyright string
+    /// <summary>
+    /// The copyright for the site
+    /// TODO: Make this nullable?
+    /// </summary>
     string Copyright { get; }
 
-    //size of the optimized gemini page
+    /// <summary>
+    /// The amount of time in ms to download the page from source
+    /// </summary>
+    int DownloadTime { get; }
+
+    /// <summary>
+    /// The original size of the content
+    /// </summary>
+    int OriginalSize { get; }
+
+    /// <summary>
+    /// The optimized size of the content
+    /// </summary>
     int Size { get; }
 
+    /// <summary>
+    /// The URL for the original source
+    /// </summary>
     Uri SourceUrl { get; }
-
 }

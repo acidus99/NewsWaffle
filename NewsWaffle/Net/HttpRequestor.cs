@@ -9,8 +9,7 @@ namespace NewsWaffle.Net;
 public class HttpRequestor : IHttpRequestor
 {
     HttpClient Client;
-    string Charset;
-    HttpResponseMessage Response;
+    HttpResponseMessage Response = null!;
 
     public HttpRequestor()
     {
@@ -27,9 +26,9 @@ public class HttpRequestor : IHttpRequestor
 
     public string ErrorMessage { get; internal set; } = "";
 
-    public byte[] BodyBytes { get; internal set; } = null;
+    public byte[] BodyBytes { get; internal set; } = null!;
 
-    public string BodyText { get; internal set; } = null;
+    public string BodyText { get; internal set; } = null!;
 
     public bool RequestAsBytes(Uri url)
     {

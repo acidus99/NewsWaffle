@@ -34,11 +34,11 @@ internal class LinksView : ArticleView
     {
         Out.WriteLine();
         int counter = 0;
-        if (LinkPage.ContentLinks.Count > 0)
+        if (LinkPage.ArticleLinks.Count > 0)
         {
-            Out.WriteLine($"### Content Links: {LinkPage.ContentLinks.Count}");
+            Out.WriteLine($"### Content Links: {LinkPage.ArticleLinks.Count}");
 
-            foreach (var link in LinkPage.ContentLinks)
+            foreach (var link in LinkPage.ArticleLinks)
             {
                 counter++;
                 Out.WriteLine($"=> {CgiPaths.ViewArticle(link.Url)} {counter}. {link.Text}");

@@ -33,13 +33,11 @@ public class DiskCache
         }
         catch (Exception)
         {
-
         }
     }
 
-    public string GetAsString(string identifier)
+    public string? GetAsString(string identifier)
     {
-
         //get the key
         var cacheKey = GetCacheKey(identifier);
         var filepath = GetPath(cacheKey);
@@ -52,12 +50,11 @@ public class DiskCache
         }
         catch (Exception)
         {
-
         }
         return null;
     }
 
-    public byte[] GetAsBytes(string identifier)
+    public byte[]? GetAsBytes(string identifier)
     {
 
         //get the key
@@ -72,7 +69,6 @@ public class DiskCache
         }
         catch (Exception)
         {
-
         }
         return null;
     }
@@ -88,7 +84,6 @@ public class DiskCache
         }
         catch (Exception)
         {
-
         }
         return false;
     }
@@ -104,7 +99,6 @@ public class DiskCache
         }
         catch (Exception)
         {
-
         }
         return false;
     }
@@ -119,11 +113,11 @@ public class DiskCache
             return (File.GetLastWriteTime(filepath) >= DateTime.Now.Subtract(Lifespan));
         }
         catch (Exception)
-        { }
+        {
+        }
         return false;
     }
 
     private string GetCacheKey(string identifier)
         => Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes(identifier)));
 }
-

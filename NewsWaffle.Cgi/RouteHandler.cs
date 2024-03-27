@@ -29,9 +29,9 @@ public static class RouteHandler
         {
             view = new LinksView(cgi.Writer, (LinkPage)page);
         }
-        else if (page is ContentPage)
+        else if (page is ArticlePage)
         {
-            view = new ContentView(cgi.Writer, (ContentPage)page);
+            view = new ContentView(cgi.Writer, (ArticlePage)page);
         }
         else
         {
@@ -53,7 +53,7 @@ public static class RouteHandler
 
         AbstractView view = (page == null) ?
             new ErrorView(cgi.Writer, waffles.ErrorMessage) :
-            new ContentView(cgi.Writer, (ContentPage)page);
+            new ContentView(cgi.Writer, (ArticlePage)page);
 
         view.Render();
     }

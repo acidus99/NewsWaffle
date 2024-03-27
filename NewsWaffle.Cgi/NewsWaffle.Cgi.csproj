@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Gemini.Cgi\Gemini.Cgi.csproj" />
-    <ProjectReference Include="..\NewsWaffle\NewsWaffle.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Media\" />

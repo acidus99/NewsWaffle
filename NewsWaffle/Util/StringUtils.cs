@@ -59,7 +59,7 @@ public static class StringUtils
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static string Normnalize(string s)
+    public static string Normnalize(string? s)
     {
         if (s == null)
         {
