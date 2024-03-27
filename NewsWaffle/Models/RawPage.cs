@@ -1,20 +1,16 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
 using HtmlToGmi.Models;
 
-namespace NewsWaffle.Models
+namespace NewsWaffle.Models;
+
+public class RawPage : AbstractPage
 {
-	public class RawPage :AbstractPage
-	{
-		public RawPage(PageMetaData metaData)
-			: base(metaData) {}
+    public RawPage(PageMetaData metaData)
+        : base(metaData) { }
 
-		public string Content = "";
-		public List<Hyperlink> Links = new List<Hyperlink>();
+    public string Content = "";
+    public List<Hyperlink> Links = new List<Hyperlink>();
 
-		public override int Size
-			=> Content.Length;
-	}
+    public override int Size
+        => Content.Length;
 }
-

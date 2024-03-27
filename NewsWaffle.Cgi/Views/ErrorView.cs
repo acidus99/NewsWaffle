@@ -1,27 +1,23 @@
-﻿using System;
-using System.IO;
-using Gemini.Cgi;
+﻿using NewsWaffle.Models;
 
-using NewsWaffle.Models;
-namespace NewsWaffle.Cgi.Views
+namespace NewsWaffle.Cgi.Views;
+
+internal class ErrorView : AbstractView
 {
-    internal class ErrorView : AbstractView
+    string ErrorMsg;
+
+    protected override IPageStats? PageStats => null;
+
+    public ErrorView(StreamWriter sw, string msg)
+        : base(sw)
     {
-        string ErrorMsg;
+        ErrorMsg = msg;
+    }
 
-        protected override IPageStats? PageStats => null;
-
-        public ErrorView(StreamWriter sw, string msg)
-            : base(sw)
-        {
-            ErrorMsg = msg;
-        }
-
-        protected override void RenderView()
-        {
-            RenderTitle();
-            Out.WriteLine("Bummer dude! Error Wafflizing that page.");
-            Out.WriteLine(ErrorMsg);
-        }
+    protected override void RenderView()
+    {
+        RenderTitle();
+        Out.WriteLine("Bummer dude! Error Wafflizing that page.");
+        Out.WriteLine(ErrorMsg);
     }
 }

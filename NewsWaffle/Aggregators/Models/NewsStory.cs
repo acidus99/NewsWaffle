@@ -1,24 +1,22 @@
 ﻿using System;
-
 using NewsWaffle.Util;
 
-namespace NewsWaffle.Aggregators.Models
+namespace NewsWaffle.Aggregators.Models;
+
+public class NewsStory
 {
-	public class NewsStory
-	{
-		public string Title { get; set; }
+    public string Title { get; set; }
 
-		public Uri Url { get; set; }
+    public Uri Url { get; set; }
 
-		public string Source { get; set; }
+    public string Source { get; set; }
 
-		public DateTime Updated { get; set; }
+    public DateTime Updated { get; set; }
 
-		public string TimeAgo
-			=> StringUtils.FormatTimeAgo(Updated);
+    public string TimeAgo
+        => StringUtils.FormatTimeAgo(Updated);
 
-		//20 is roughly the overhead per link
-		public int Size => Title.Length + Url.AbsoluteUri.Length + Source.Length + 20;
-	}
+    //20 is roughly the overhead per link
+    public int Size => Title.Length + Url.AbsoluteUri.Length + Source.Length + 20;
 }
 
