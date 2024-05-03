@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
 using System.Linq;
 using HtmlToGmi.Models;
@@ -15,6 +16,7 @@ public class LinkPage : AbstractPage
     /// <summary>
     /// Does this page have a feed?
     /// </summary>
+    [MemberNotNullWhen(true, nameof(FeedUrl))]
     public bool HasFeed => (FeedUrl != null);
 
     /// <summary>

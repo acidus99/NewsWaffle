@@ -15,7 +15,7 @@ internal class LinksView : ArticleView
         {
             Out.WriteLine($"=> {LinkRewriter.GetImageUrl(LinkPage.Meta.FeaturedImage)} Featured Image");
         }
-        if (LinkPage.Meta.Description.Length > 0)
+        if (LinkPage.Meta.Description?.Length > 0)
         {
             Out.WriteLine($">{LinkPage.Meta.Description}");
         }

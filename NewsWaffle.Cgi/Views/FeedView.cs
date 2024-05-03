@@ -34,7 +34,7 @@ internal class FeedView : ArticleView
         {
             Out.WriteLine($"=> {LinkRewriter.GetImageUrl(FeedPage.Meta.FeaturedImage)} Featured Image");
         }
-        if (FeedPage.Meta.Description.Length > 0)
+        if (FeedPage.Meta.Description?.Length > 0)
         {
             Out.WriteLine($">{FeedPage.Meta.Description}");
         }

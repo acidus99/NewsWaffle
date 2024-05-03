@@ -52,7 +52,7 @@ namespace NewsWaffle.Console
             {
                 System.Console.WriteLine($"=> {homePage.Meta.FeaturedImage} Featured Image");
             }
-            if (homePage.Meta.Description.Length > 0)
+            if (homePage.Meta.Description?.Length > 0)
             {
                 System.Console.WriteLine($">{homePage.Meta.Description}");
             }

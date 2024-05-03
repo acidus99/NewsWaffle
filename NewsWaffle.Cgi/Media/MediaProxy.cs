@@ -16,7 +16,7 @@ public class MediaProxy
             return null;
         }
         //check the cache
-        byte[] optimizedImage = GetFromCache(url);
+        byte[]? optimizedImage = GetFromCache(url);
         if (optimizedImage != null)
         {
             return optimizedImage;
@@ -38,7 +38,7 @@ public class MediaProxy
         return optimizedImage;
     }
 
-    private byte[] GetFromCache(Uri url)
+    private byte[]? GetFromCache(Uri url)
         => cache.GetAsBytes(GetCacheKey(url));
 
     private void PutInCache(Uri url, byte[] data)
