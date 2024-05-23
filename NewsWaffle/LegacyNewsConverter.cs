@@ -220,12 +220,6 @@ public class LegacyNewsConverter
             return null;
         }
 
-        if(!Requestor.IsTextResponse)
-        {
-            ErrorMessage = "Did not receive a text response";
-            return null;
-        }
-
         return Requestor.BodyText;
     }
 

@@ -14,7 +14,7 @@ public static class AggregatorFetcher
 
         var result = requestor.GetAsString(url);
         string content = "";
-        if (result && requestor.IsTextResponse)
+        if (result)
         {
             content = requestor.BodyText;
         }
