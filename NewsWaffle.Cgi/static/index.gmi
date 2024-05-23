@@ -34,7 +34,7 @@ News stories from multiple sources, aggregated together, sorted into sections
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.hollywoodreporter.com%2F The Hollywood Reporter
 
 ## Degrowth
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.lowtechmagazine.com%2Fsite-map.html Low Tech Magazine
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fsolar.lowtechmagazine.com%2Farchives%2F Low Tech Magazine
 
 ## Around the World 🌍🌏🌎
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Ftorontosun.com%2F The Toronto Sun (Canada)
