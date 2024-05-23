@@ -1,7 +1,4 @@
-﻿using NewsWaffle;
-using NewsWaffle.Converters;
-using NewsWaffle.Models;
-using NewsWaffle.Net;
+﻿using NewsWaffle.Models;
 
 namespace NewsWaffle.Console
 {

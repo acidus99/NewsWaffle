@@ -1,12 +1,11 @@
-﻿using NewsWaffle.Cache;
-using NewsWaffle.Net;
+﻿using CacheComms;
 
 namespace NewsWaffle.Cgi.Media;
 
 //returns optimized image bytes for a URL
 public class MediaProxy
 {
-    DiskCache cache = new DiskCache(TimeSpan.FromDays(3));
+    DiskCache cache = new DiskCache("opti-img", TimeSpan.FromDays(3));
 
     public byte[]? ProxyMedia(string urlString)
     {
@@ -49,9 +48,10 @@ public class MediaProxy
 
     private byte[]? FetchFromNetwork(Uri url)
     {
-        IHttpRequestor requestor = new HttpRequestor();
+        HttpRequestor requestor = new HttpRequestor();
 
-        var result = requestor.RequestAsBytes(url);
+        //request without a cache, since we will caching the optimzied bytes
+        var result = requestor.GetAsBytes(url);
         if (result)
         {
             return requestor.BodyBytes;
@@ -85,6 +85,4 @@ public class MediaProxy
         }
         return null;
     }
-
 }
-

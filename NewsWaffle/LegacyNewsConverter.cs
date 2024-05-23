@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using NewsWaffle.Converters;
 using NewsWaffle.Models;
-using NewsWaffle.Net;
+using CacheComms;
 
 namespace NewsWaffle;
 
@@ -13,7 +13,8 @@ public class LegacyNewsConverter
 {
     public string ErrorMessage { get; internal set; } = "";
 
-    Stopwatch timer = new Stopwatch();
+    //use an explicit cache
+    HttpRequestor Requestor = new HttpRequestor();
 
     /// <summary>
     /// Gets a page, auto-detect page type, and return it
@@ -39,7 +40,7 @@ public class LegacyNewsConverter
             if (IsFeed(txt))
             {
                 var feed = FeedConverter.ParseFeed(url, txt);
-                feed.DownloadTime = (int)timer.ElapsedMilliseconds;
+                feed.DownloadTime = (int)Requestor.DownloadTimeMs;
                 return feed;
             }
 
@@ -53,7 +54,7 @@ public class LegacyNewsConverter
                 ErrorMessage = $"Could not parse HTML from '{url}'";
                 return null;
             }
-            page.DownloadTime = (int)timer.ElapsedMilliseconds;
+            page.DownloadTime = (int)Requestor.DownloadTimeMs;
             return page;
 
         }
@@ -83,7 +84,7 @@ public class LegacyNewsConverter
             ErrorMessage = $"Could not parse RSS/Atom feed from '{url}'";
             return null;
         }
-        page.DownloadTime = (int)timer.ElapsedMilliseconds;
+        page.DownloadTime = (int)Requestor.DownloadTimeMs;
         return page;
 
     }
@@ -118,7 +119,7 @@ public class LegacyNewsConverter
                 ErrorMessage = $"Could not parse HTML from '{url}'";
                 return null;
             }
-            page.DownloadTime = (int)timer.ElapsedMilliseconds;
+            page.DownloadTime = (int)Requestor.DownloadTimeMs;
             return page;
 
         }
@@ -159,7 +160,7 @@ public class LegacyNewsConverter
                 ErrorMessage = $"Could not parse HTML from '{url}'";
                 return null;
             }
-            page.DownloadTime = (int)timer.ElapsedMilliseconds;
+            page.DownloadTime = (int)Requestor.DownloadTimeMs;
             return page;
 
         }
@@ -199,7 +200,7 @@ public class LegacyNewsConverter
                 ErrorMessage = $"Could not parse HTML from '{url}'";
                 return null;
             }
-            page.DownloadTime = (int)timer.ElapsedMilliseconds;
+            page.DownloadTime = (int)Requestor.DownloadTimeMs;
             return page;
         }
         catch (Exception ex)
@@ -211,17 +212,21 @@ public class LegacyNewsConverter
 
     private string GetContent(Uri url)
     {
-        IHttpRequestor requestor = new CachingRequestor(TimeSpan.FromHours(2));
-        timer.Start();
-        var result = requestor.Request(url);
-        timer.Stop();
+        var result = Requestor.GetAsString(url);
 
         if (!result)
         {
-            ErrorMessage = requestor.ErrorMessage;
+            ErrorMessage = Requestor.ErrorMessage;
             return null;
         }
-        return requestor.BodyText;
+
+        if(!Requestor.IsTextResponse)
+        {
+            ErrorMessage = "Did not receive a text response";
+            return null;
+        }
+
+        return Requestor.BodyText;
     }
 
     private bool IsFeed(string content)

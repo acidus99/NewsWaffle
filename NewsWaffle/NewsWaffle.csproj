@@ -14,8 +14,6 @@
   <ItemGroup>
     <None Remove="SmartReader" />
     <None Remove="AngleSharp" />
-    <None Remove="Net\" />
-    <None Remove="Cache\" />
     <None Remove="Util\" />
     <None Remove="CodeHollow.FeedReader" />
     <None Remove="Aggregators\" />
@@ -27,13 +25,12 @@
     <PackageReference Include="CodeHollow.FeedReader" Version="1.2.6" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Net\" />
-    <Folder Include="Cache\" />
     <Folder Include="Util\" />
     <Folder Include="Aggregators\" />
     <Folder Include="Aggregators\Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\HtmlToGmi\HtmlToGmi.csproj" />
+    <ProjectReference Include="..\..\CacheComms\CacheComms.csproj" />
   </ItemGroup>
 </Project>

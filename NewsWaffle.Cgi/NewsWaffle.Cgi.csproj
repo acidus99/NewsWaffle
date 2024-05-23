@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Gemini.Cgi\Gemini.Cgi.csproj" />
     <ProjectReference Include="..\NewsWaffle\NewsWaffle.csproj" />
+    <ProjectReference Include="..\..\CacheComms\CacheComms.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Media\" />
