@@ -5,7 +5,13 @@ namespace NewsWaffle.Cgi.Media;
 //returns optimized image bytes for a URL
 public class MediaProxy
 {
-    DiskCache cache = new DiskCache("opti-img", TimeSpan.FromDays(3));
+    DiskCache OptimizedImageCache;
+
+    public MediaProxy()
+    {
+        OptimizedImageCache = new DiskCache("opti-img");
+        OptimizedImageCache.EntryLifespan = TimeSpan.FromDays(3);
+    }
 
     public byte[]? ProxyMedia(string urlString)
     {
@@ -38,10 +44,10 @@ public class MediaProxy
     }
 
     private byte[]? GetFromCache(Uri url)
-        => cache.GetAsBytes(GetCacheKey(url));
+        => OptimizedImageCache.GetAsBytes(GetCacheKey(url));
 
     private void PutInCache(Uri url, byte[] data)
-        => cache.Set(GetCacheKey(url), data);
+        => OptimizedImageCache.Set(GetCacheKey(url), data);
 
     private static string GetCacheKey(Uri url)
        => url.AbsoluteUri + "optimized";
