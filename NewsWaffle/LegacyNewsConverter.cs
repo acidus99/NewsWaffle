@@ -32,33 +32,33 @@ public class LegacyNewsConverter
     {
         try
         {
-            Uri url = LinkForge.Create(urlString);
-            if (url == null)
+            Uri originalUrl = LinkForge.Create(urlString);
+            if (originalUrl == null)
             {
                 return null;
             }
             //========= Step 1: Get HTML
-            var txt = GetContent(url);
-            if (string.IsNullOrEmpty(txt))
+            var response = GetContent(originalUrl);
+            if (string.IsNullOrEmpty(response.Content))
             {
                 return null;
             }
 
-            if (IsFeed(txt))
+            if (IsFeed(response.Content))
             {
-                var feed = FeedConverter.ParseFeed(url, txt);
+                var feed = FeedConverter.ParseFeed(response.RequestUrl, response.Content);
                 feed.DownloadTime = (int)Requestor.DownloadTimeMs;
                 return feed;
             }
 
-            WebConverter htmlConverter = new WebConverter(url, txt);
+            WebConverter htmlConverter = new WebConverter(response.RequestUrl, response.Content);
 
             //convert, autodetecting
             var page = htmlConverter.Convert();
 
             if (page == null)
             {
-                ErrorMessage = $"Could not parse HTML from '{url}'";
+                ErrorMessage = $"Could not parse HTML from '{response.RequestUrl}'";
                 return null;
             }
             page.DownloadTime = (int)Requestor.DownloadTimeMs;
@@ -74,21 +74,21 @@ public class LegacyNewsConverter
 
     public FeedPage GetFeedPage(string urlString)
     {
-        Uri url = LinkForge.Create(urlString);
-        if (url == null)
+        Uri originalUrl = LinkForge.Create(urlString);
+        if (originalUrl == null)
         {
             return null;
         }
-        var xml = GetContent(url);
-        if (string.IsNullOrEmpty(xml))
+        var response = GetContent(originalUrl);
+        if (string.IsNullOrEmpty(response.Content))
         {
             return null;
         }
 
-        var page = FeedConverter.ParseFeed(url, xml);
+        var page = FeedConverter.ParseFeed(response.RequestUrl, response.Content);
         if (page == null)
         {
-            ErrorMessage = $"Could not parse RSS/Atom feed from '{url}'";
+            ErrorMessage = $"Could not parse RSS/Atom feed from '{response.RequestUrl}'";
             return null;
         }
         page.DownloadTime = (int)Requestor.DownloadTimeMs;
@@ -105,25 +105,25 @@ public class LegacyNewsConverter
     {
         try
         {
-            Uri url = LinkForge.Create(urlString);
-            if (url == null)
+            Uri originalUrl = LinkForge.Create(urlString);
+            if (originalUrl == null)
             {
                 return null;
             }
-            var html = GetContent(url);
-            if (string.IsNullOrEmpty(html))
+            var response = GetContent(originalUrl);
+            if (string.IsNullOrEmpty(response.Content))
             {
                 return null;
             }
 
-            WebConverter htmlConverter = new WebConverter(url, html);
+            WebConverter htmlConverter = new WebConverter(response.RequestUrl, response.Content);
 
             //convert, autodetecting
             var page = htmlConverter.ConvertToLinkPage();
 
             if (page == null)
             {
-                ErrorMessage = $"Could not parse HTML from '{url}'";
+                ErrorMessage = $"Could not parse HTML from '{response.RequestUrl}'";
                 return null;
             }
             page.DownloadTime = (int)Requestor.DownloadTimeMs;
@@ -146,25 +146,25 @@ public class LegacyNewsConverter
     {
         try
         {
-            Uri url = LinkForge.Create(urlString);
-            if (url == null)
+            Uri originalUrl = LinkForge.Create(urlString);
+            if (originalUrl == null)
             {
                 return null;
             }
-            var html = GetContent(url);
-            if (string.IsNullOrEmpty(html))
+            var response = GetContent(originalUrl);
+            if (string.IsNullOrEmpty(response.Content))
             {
                 return null;
             }
 
-            WebConverter htmlConverter = new WebConverter(url, html);
+            WebConverter htmlConverter = new WebConverter(response.RequestUrl, response.Content);
 
             //convert, autodetecting
             var page = htmlConverter.ConvertToContentPage();
 
             if (page == null)
             {
-                ErrorMessage = $"Could not parse HTML from '{url}'";
+                ErrorMessage = $"Could not parse HTML from '{response.RequestUrl}'";
                 return null;
             }
             page.DownloadTime = (int)Requestor.DownloadTimeMs;
@@ -187,24 +187,24 @@ public class LegacyNewsConverter
     {
         try
         {
-            Uri url = LinkForge.Create(urlString);
-            if (url == null)
+            Uri originalUrl = LinkForge.Create(urlString);
+            if (originalUrl == null)
             {
                 return null;
             }
             //========= Step 1: Get HTML
-            var html = GetContent(url);
-            if (string.IsNullOrEmpty(html))
+            var response = GetContent(originalUrl);
+            if (string.IsNullOrEmpty(response.Content))
             {
                 return null;
             }
 
-            var htmlConverter = new WebConverter(url, html);
+            var htmlConverter = new WebConverter(response.RequestUrl, response.Content);
             var page = htmlConverter.ConvertToRawPage();
 
             if (page == null)
             {
-                ErrorMessage = $"Could not parse HTML from '{url}'";
+                ErrorMessage = $"Could not parse HTML from '{response.RequestUrl}'";
                 return null;
             }
             page.DownloadTime = (int)Requestor.DownloadTimeMs;
@@ -217,17 +217,17 @@ public class LegacyNewsConverter
         }
     }
 
-    private string GetContent(Uri url)
+    private (Uri RequestUrl, string? Content) GetContent(Uri originalUrl)
     {
-        var result = Requestor.GetAsString(url, UseCache);
+        var result = Requestor.GetAsString(originalUrl, UseCache);
 
         if (!result)
         {
             ErrorMessage = Requestor.ErrorMessage;
-            return null;
+            return (Requestor.RequestUri!, null);
         }
 
-        return Requestor.BodyText;
+        return (Requestor.RequestUri!, Requestor.BodyText);
     }
 
     private bool IsFeed(string content)
@@ -236,4 +236,3 @@ public class LegacyNewsConverter
         return prefix.Contains("<rss") || prefix.Contains("<feed");
     }
 }
-
