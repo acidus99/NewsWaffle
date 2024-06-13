@@ -54,13 +54,16 @@ public class LinkParser : AbstractParser
 
         foreach (var link in content.QuerySelectorAll("a[href]"))
         {
-
             var href = link.GetAttribute("href");
+            //we want to skip navigation hyperlinks that are just to other sections on the page
+            if (href.StartsWith('#'))
+            {
+                continue;
+            }
             var linkText = SanitizeLinkText(textExtractor.Convert(link));
 
-            //we want to skip navigation hyperlinks that are just to other sections on the page
             //we want to skip links without any text
-            if (href.StartsWith('#') || linkText.Length == 0)
+            if (linkText.Length == 0)
             {
                 continue;
             }
