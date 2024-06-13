@@ -29,7 +29,7 @@ News stories from multiple sources, aggregated together, sorted into sections
 => /cgi-bin/waffle.cgi/feed?https%3A%2F%2Fnews.ycombinator.com%2Frss Hacker News
 => /cgi-bin/waffle.cgi/feed?http%3A%2F%2Ffeedpress.me%2Fsixcolors Six Colors
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.ajc.com The Atlanta Journal-Constitution
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thedrive.com%2Fthe-war-zone The War Zone
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.twz.com%2F The War Zone
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.rollingstone.com%2F Rolling Stone
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.hollywoodreporter.com%2F The Hollywood Reporter
 
