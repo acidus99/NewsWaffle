@@ -17,7 +17,7 @@ namespace NewsWaffle.Console
             {
                 if (url.StartsWith("http"))
                 {
-                    var waffles = new LegacyNewsConverter();
+                    var waffles = new LegacyNewsConverter(false);
                     var page = (AbstractPage) waffles.GetPage(url);
                     if (page == null)
                     {

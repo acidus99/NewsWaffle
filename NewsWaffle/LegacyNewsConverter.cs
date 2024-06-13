@@ -14,7 +14,14 @@ public class LegacyNewsConverter
     public string ErrorMessage { get; internal set; } = "";
 
     //use an explicit cache
-    HttpRequestor Requestor = new HttpRequestor();
+    HttpRequestor Requestor;
+    bool UseCache;
+
+    public LegacyNewsConverter(bool useCache =true)
+    {
+        Requestor = new HttpRequestor();
+        UseCache = useCache;
+    }
 
     /// <summary>
     /// Gets a page, auto-detect page type, and return it
@@ -212,7 +219,7 @@ public class LegacyNewsConverter
 
     private string GetContent(Uri url)
     {
-        var result = Requestor.GetAsString(url);
+        var result = Requestor.GetAsString(url, UseCache);
 
         if (!result)
         {
