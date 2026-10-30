@@ -19,7 +19,7 @@ internal class FeedView : ArticleView
             foreach (var item in FeedPage.Items)
             {
                 counter++;
-                Out.WriteLine($"=> {CgiPaths.ViewArticle(item.Url)} {counter}. {item.Title} {item.GetTimeAgo(DateTime.Now)}");
+                Out.WriteLine($"=> {CgiPaths.ViewArticle(item.Url)} {counter}. {item.Title} • {item.GetTimeAgo(DateTime.Now)}");
             }
         }
         else
