@@ -6,10 +6,10 @@ NewsWaffle isn't perfect. Here are some common issues you might see, and why:
 Content can be missing for a variety of reasons:
 * Site requires JavaScript (e.g. Kotaku).
 * Site doesn't let you read articles for free (e.g. The Wall Street Journal).
-* Sites requires an account to read certain "pro" articles (e.g. CNBC).
+* Sites require an account to read certain "pro" articles (e.g. CNBC).
 
 ## Wrong Viewing Mode is used
-NewsWaffle uses meta data, and OpenGraph data to try and figure out if a page is a "List of news articles" page (like a home page or category page), or an article page. Some sites have incorrect meta data, which makes NewsWaffle display the wrong mode, such as using "Link View" on an article page. There are links at the top of NewsWaffle allowing your to switch modes.
+NewsWaffle uses metadata and OpenGraph data to try to figure out if a page is a "List of news articles" page (like a home page or category page) or an article page. Some sites have incorrect metadata, which makes NewsWaffle display the wrong mode, such as using "Link View" on an article page. There are links at the top of NewsWaffle allowing you to switch modes.
 
 ## Navigation Links appearing in Content Links
 NewsWaffle uses different tricks to try and figure out which links are to news articles, and which links are for navigation. Sometimes this is wrong. Let me know.
@@ -18,10 +18,10 @@ NewsWaffle uses different tricks to try and figure out which links are to news a
 Many sites don't have an RSS or Atom feed.
 
 ## RSS Feed has only a few articles
-RSS feeds can often have less articles than using the Link View on the main page (e.g. The Verge). Try using Link View.
+RSS feeds can often have fewer articles than using the Link View on the main page (e.g. The Verge). Try using Link View.
 
 ## Have a bug?
-=> mailto:acidus@gemi.dev Report a bug to me bug
+=> mailto:acidus@gemi.dev Report a bug to me
 
 ---
 => mailto:acidus@gemi.dev Made with 🧇 and ❤️ by Acidus

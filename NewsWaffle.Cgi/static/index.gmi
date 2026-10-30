@@ -1,7 +1,7 @@
 # 🧇 NewsWaffle
 Read any news website, all via Gemini
 => /cgi-bin/waffle.cgi/about.gmi About 🧇 NewsWaffle
-=> /cgi-bin/waffle.cgi/help.gmi 🛟 Help 
+=> /cgi-bin/waffle.cgi/help.gmi 🛟 Help
 
 => /cgi-bin/waffle.cgi/view 💜 Enter your own favorite news site
 
@@ -21,7 +21,7 @@ News stories from multiple sources, aggregated together, sorted into sections
 ## Tech 💻
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.wired.com%2F Wired
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.anandtech.com AnandTech
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fappleinsider.com%2F Apple Insider
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fappleinsider.com%2F AppleInsider
 => /cgi-bin/waffle.cgi/feed?http%3A%2F%2Ffeeds.arstechnica.com%2Farstechnica%2Findex%2F Ars Technica
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.engadget.com%2F Engadget
 
@@ -63,8 +63,8 @@ News stories from multiple sources, aggregated together, sorted into sections
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.cnbc.com%2F CNBC
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.chron.com%2F Houston Chronicle
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fnypost.com%2F New York Post
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.usnews.com%2F U.S.News
-=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.cbsnews.com%2F CBS NEWS
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.usnews.com%2F U.S. News
+=> /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.cbsnews.com%2F CBS News
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Ftime.com%2F TIME
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.thedailybeast.com%2F Daily Beast
 => /cgi-bin/waffle.cgi/links?https%3A%2F%2Fwww.newsweek.com%2F Newsweek

@@ -12,10 +12,10 @@ NewsWaffle also proxies images from the articles, resizing and converting them t
 * Modern news sites are BLOATED, wasting time and data. Even the HTML itself is bloated, being hundreds of kilobytes in size when the actual article content is only a few kilobytes.
 * Modern news sites are slow. Who has time for that nonsense?
 
-NewsWaffle helps with all of this. JavaScript, cookies, and tracking pixels are all excluded, so you aren't being tracked. NewsWaffle optimizes the HTML much smaller gemtext. You can look at the bottom of NewsWaffle to see how much smaller the content is. Saving of 95% or more is common.
+NewsWaffle helps with all of this. JavaScript, cookies, and tracking pixels are all excluded, so you aren't being tracked. NewsWaffle optimizes the HTML into much smaller Gemtext. You can look at the bottom of NewsWaffle to see how much smaller the content is. Savings of 95% or more are common.
 
 ## How?
-NewsWaffle uses meta data in the HTML, like OpenGraph, to determine the type of page you are looking at, and uses different modes to parse and display content from news sites. 
+NewsWaffle uses metadata in the HTML, like OpenGraph, to determine the type of page you are looking at and uses different modes to parse and display content from news sites.
 
 * Link View: Shows a list of articles. Works best on the home pages and category pages of news sites. Separates out content links from navigational links.
 * Article View: Optimized view showing just the article content, author, publish date, and feature image.
@@ -23,10 +23,10 @@ NewsWaffle uses meta data in the HTML, like OpenGraph, to determine the type of 
 * Raw View: NewsWaffle can always fall back to a raw HTML-to-Gemtext view, for some content that isn't displaying properly.
 
 ## Really, how do you do this?
-NewWaffle uses different standards, semantics, and web technologies to allow better navigation and reading of news websites. Specifically:
+NewsWaffle uses different standards, semantics, and web technologies to allow better navigation and reading of news websites. Specifically:
 
-* Semantic HTML5 Tags: Using tags like <header>, <footer>, and <nav> NewsWaffle determines which hyperlinks are navigational and which ones are likely links to news articles.
-* OpenGraph: NewsWaffle uses OpenGraph meta data to determine the type of page.
+* Semantic HTML5 Tags: Using tags like <header>, <footer>, and <nav>, NewsWaffle determines which hyperlinks are navigational and which ones are likely links to news articles.
+* OpenGraph: NewsWaffle uses OpenGraph metadata to determine the type of page.
 * RSS/Atom feeds: Better than trying to determine which links go to news articles, some sites provide an RSS or Atom feed, which explicitly tells you the list of articles.
 * Readability: Readability is a library that powers many "Reader View" features in browsers and apps. It extracts out just the text of an article.
 
