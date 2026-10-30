@@ -10,7 +10,7 @@ public class YahooNews : INewAggregator
 {
     public string Name => "Yahoo News";
 
-    public string DefaultSection => "World";
+    public string DefaultSection => "Headlines";
 
     public string[] AvailableSections => new string[]
     {
